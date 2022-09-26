@@ -8,7 +8,7 @@ class Review{
     std::string userId;
     double productId;
     float rating;
-    double timestamp;
+    std::string timestamp;
 
     public:
 
@@ -16,10 +16,10 @@ class Review{
     ~Review();
 
     //Getters
-    std::string getUserId();
-    double getProductId();
-    float getRating();
-    std::string getTime();
+    std::string getUserId(){return userId;};
+    double getProductId(){return productId;};
+    float getRating(){return rating;};
+    std::string getTime(){return timestamp;};
 
     //Setters
     void setUserId(std::string id);
@@ -27,4 +27,4 @@ class Review{
     void setRating(float rating);
     void setTime(double time);
 
-}
+};

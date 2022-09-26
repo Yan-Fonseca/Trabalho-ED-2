@@ -15,5 +15,5 @@ class ProductReview{
     void print();
     void createBinary(std::string& path);
     void getReview(int i);
-    ProductReview* import(int n)
-}
+    ProductReview* import(int n);
+};
