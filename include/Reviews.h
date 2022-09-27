@@ -5,12 +5,12 @@ class Reviews{
 
     private:
 
-    ProductReview* start;
+    std::vector<ProductReview*> reviews;
     double nReviews;
 
     public:
 
-   Reviews(char** argv,int nReviews);
+   Reviews(std::string path,int nReviews);
     ~Reviews();
     
     

@@ -9,7 +9,7 @@ ProductReview::ProductReview(std::string info)
     setRating(std::stof(inf[2]));
     setTime(inf[3]);
 
-    print();
+    //print();
 }
 
 std::vector<std::string> ProductReview::splitString(std::string str){
