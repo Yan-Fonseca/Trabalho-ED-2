@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include <string.h>
 
 class Review{
@@ -11,6 +12,8 @@ class Review{
     std::string timestamp;
 
     Review* next;
+
+    std::vector<std::string> splitString(std::string str);
 
     public:
 
