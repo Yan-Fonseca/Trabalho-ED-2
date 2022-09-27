@@ -16,7 +16,7 @@ Reviews::Reviews(char** argv, int nReviews){
         start= new ProductReview(line);
         address=start;
     }
-    for(int i=1;i<nReviews-1&&file.good();i++)
+    for(int i=1;i<nReviews&&file.good();i++)
     {
         getline(file,line);
         next= new ProductReview(line);

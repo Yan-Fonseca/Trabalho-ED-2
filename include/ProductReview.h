@@ -7,7 +7,7 @@ class ProductReview{
     private:
 
     std::string userId;
-    double productId;
+    std::string productId;
     float rating;
     std::string timestamp;
 
@@ -22,18 +22,19 @@ class ProductReview{
 
     //Getters
     std::string getUserId(){return userId;};
-    double getProductId(){return productId;};
+    std::string getProductId(){return productId;};
     float getRating(){return rating;};
     std::string getTime(){return timestamp;};
     ProductReview* getNext(){return next;};
+    void print();
 
     //Setters
     void setUserId(std::string id){userId=id;};
-    void setProductId(double id){productId=id;};
+    void setProductId(std::string id){productId=id;};
     void setRating(float rating){this->rating=rating;};
-    void setTime(double time){timestamp=time;};
+    void setTime(std::string time){timestamp=time;};
     void setNext(ProductReview* next){this->next=next;};
 
-    void print();
+    
 
 };
