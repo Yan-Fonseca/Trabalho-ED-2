@@ -12,6 +12,11 @@ ProductReview::ProductReview(std::string info)
     //print();
 }
 
+ProductReview::~ProductReview()
+{
+    delete(this);
+}
+
 std::vector<std::string> ProductReview::splitString(std::string str){
     std::vector<std::string> result;
     std::string current = ""; 
