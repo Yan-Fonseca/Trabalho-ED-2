@@ -1,28 +1,29 @@
 #include "../include/ProductReview.h"
-#include <iostream>
 
-ProductReview::ProductReview(char** argv, int nReviews){
+ProductReview::ProductReview(std::string info)
+{
+    std::vector<std::string> inf = splitString(info);
 
-    std::string path(argv[1]); 
-    std::ifstream file;
-    file.open(path);
-    Review* address;
-    Review* next;
-    std::string line;
+    setUserId(inf[0]);
+    setProductId(std::stod(inf[1]));
+    setRating(std::stof(inf[2]));
+    setTime(std::stod(inf[3]));
+}
 
-    if(file.good())
-    {
-        getline(file,line);
-        start= new Review(line);
-        address=start;
+std::vector<std::string> ProductReview::splitString(std::string str){
+    std::vector<std::string> result;
+    std::string current = ""; 
+    for(int i = 0; i < str.size(); i++){
+        if(str[i] == ','){
+            if(current != ""){
+                result.push_back(current);
+                current = "";
+            } 
+            continue;
+        }
+        current += str[i];
     }
-    for(int i=1;i<nReviews-1&&file.good();i++)
-    {
-        getline(file,line);
-        next= new Review(line);
-        address->setNext(next);
-        address=next;
-    }
-    
-
+    if(current.size() != 0)
+        result.push_back(current);
+    return result;
 }

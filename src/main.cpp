@@ -1,4 +1,4 @@
-#include "../include/ProductReview.h"
+#include "../include/Reviews.h"
 
 int main(int argc, char **argv)
 {
@@ -9,7 +9,7 @@ int main(int argc, char **argv)
     std::cout<<"\n"<<"Quantas reviews devem ser analizadas?"<<"\n";
     std::cin>>n;
   
-    ProductReview* a = new ProductReview(argv,n);
+    Reviews* a = new Reviews(argv,n);
 
     return 0;
 }
