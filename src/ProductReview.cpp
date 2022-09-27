@@ -3,8 +3,7 @@
 
 ProductReview::ProductReview(char** argv, int nReviews){
 
-    std::string path(argv[1]); //dando ruim?
-    //path="../input.csv"; //provisorio
+    std::string path(argv[1]); 
     std::ifstream file;
     file.open(path);
     Review* address;
@@ -17,7 +16,7 @@ ProductReview::ProductReview(char** argv, int nReviews){
         start= new Review(line);
         address=start;
     }
-    for(int i=0;i<nReviews-1&&file.good();i++)
+    for(int i=1;i<nReviews-1&&file.good();i++)
     {
         getline(file,line);
         next= new Review(line);

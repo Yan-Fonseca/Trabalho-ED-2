@@ -25,7 +25,7 @@ class Review{
     double getProductId(){return productId;};
     float getRating(){return rating;};
     std::string getTime(){return timestamp;};
-    Review* getNext();
+    Review* getNext(){return next;};
 
     //Setters
     void setUserId(std::string id){userId=id;};
