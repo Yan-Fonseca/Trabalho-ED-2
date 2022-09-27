@@ -1,16 +1,28 @@
 #include "../include/ProductReview.h"
+#include <iostream>
 
-ProductReview::ProductReview(char *argv){
+ProductReview::ProductReview(char** argv, int nReviews){
 
-    std::string path(argv);
-    std::fstream file;
-    file.open(path,ios::in);
+    std::string path(argv[1]); //dando ruim?
+    //path="../input.csv"; //provisorio
+    std::ifstream file;
+    file.open(path);
+    Review* address;
+    Review* next;
+    std::string line;
 
-    while (file.good())
+    if(file.good())
     {
-        std::string line;
         getline(file,line);
-        Review(line);
+        start= new Review(line);
+        address=start;
+    }
+    for(int i=0;i<nReviews-1&&file.good();i++)
+    {
+        getline(file,line);
+        next= new Review(line);
+        address->setNext(next);
+        address=next;
     }
     
 
