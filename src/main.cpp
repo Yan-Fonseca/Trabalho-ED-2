@@ -22,7 +22,7 @@ std::vector<ProductReview*> loadReviews(std::string path, int nReviews){
             getline(loader,line);
             a= new ProductReview(line);
             reviews.push_back(a);
-            reviews.back()->print();
+            //reviews.back()->print();
         }
     
     return reviews;
@@ -35,11 +35,21 @@ void createBinary(std::string path, int n)
     std::string line;
     std::ofstream eraser("ratings_Electronics.bin"); eraser.close(); //apaga o conteudo do arquivo
     std::ofstream binaryfile("ratings_Electronics.bin",std::ios::app|std::ios::binary);
-
-    for(int i=0;i<n;i++) //100 é provisorio
+    if(n<0)
     {
-        binaryfile.write((char*)&reviews[i],sizeof(ProductReview));
+        for(int i=0;i<reviews.size();i++) //100 é provisorio
+        {
+            binaryfile.write((char*)&reviews[i],sizeof(ProductReview));
+        }
     }
+    else
+    {
+        for(int i=0;i<n;i++) //100 é provisorio
+        {
+            binaryfile.write((char*)&reviews[i],sizeof(ProductReview));
+        }
+    }
+        
 
 
 }
@@ -55,8 +65,8 @@ void goToBinaryReview(std::ifstream& file, unsigned int num)
 
 void getReview(int i)
 {
-    std::ifstream binaryRead("ratings_Electronics.bin",std::ios::in|std::ios::binary);
-    std::ofstream printer("ratings_Electronics.bin");
+    std::ifstream binaryRead("../ratings_Electronics.bin",std::ios::in|std::ios::binary);
+    std::ofstream printer("../ratings_Electronics.bin");
     goToBinaryReview(binaryRead,i);
     
 }
