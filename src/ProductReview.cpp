@@ -8,8 +8,6 @@ ProductReview::ProductReview(std::string info)
     setProductId(inf[1]);
     setRating(std::stof(inf[2]));
     setTime(inf[3]);
-
-    //print();
 }
 
 ProductReview::~ProductReview()

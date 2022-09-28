@@ -11,8 +11,6 @@ class ProductReview{
     float rating;
     std::string timestamp;
 
-    ProductReview* next;
-
     std::vector<std::string> splitString(std::string str);
 
     public:
@@ -25,7 +23,6 @@ class ProductReview{
     std::string getProductId(){return productId;};
     float getRating(){return rating;};
     std::string getTime(){return timestamp;};
-    ProductReview* getNext(){return next;};
     void print();
 
     //Setters
@@ -33,7 +30,6 @@ class ProductReview{
     void setProductId(std::string id){productId=id;};
     void setRating(float rating){this->rating=rating;};
     void setTime(std::string time){timestamp=time;};
-    void setNext(ProductReview* next){this->next=next;};
 
     
 
