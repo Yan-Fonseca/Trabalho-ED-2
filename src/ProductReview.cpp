@@ -6,7 +6,7 @@ ProductReview::ProductReview(std::string info)
 
     setUserId(inf[0]);
     setProductId(inf[1]);
-    setRating(std::stof(inf[2]));
+    setRating(inf[2]);
     setTime(inf[3]);
 }
 
