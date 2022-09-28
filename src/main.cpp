@@ -43,26 +43,35 @@ void loading(double i, double n)
 
 void getReview(int i)
 {
-    int size = 15+11+3+11;
+    int size = 15+4+3+4;
     std::ifstream bin("ratings_Electronics.bin",std::ios::in|std::ios::binary);
     if(bin.is_open())
     {
         char str[4][16];
-        int s[4]={15,11,3,11}; //são o numero de bits de cada uma das variaveis
-                                //daria pra fazer isso como var globais
+        int s[4]={15,sizeof(int),3,sizeof(int)}; //são o numero de bits de cada uma das variaveis
+                                                  //daria pra fazer isso como var globais
         bin.seekg(0, bin.beg);
         bin.ignore((size*i),EOF);
         //std::cout<<"posicao:"<<bin.tellg()<<"\n";
         
-        for(int j=0;j<4;j++)
+        /*for(int j=0;j<4;j++)
         {
-            bin.read(str[j],s[j]);
-        }
+            bin.read(str[j],s[j]);  
+        }*/
+        int product;
+        int time;
+
+        bin.read(str[0],s[0]);
+        bin.read(reinterpret_cast<char*>(&product), sizeof(int));
+        bin.read(str[2],s[2]);
+        bin.read(reinterpret_cast<char*>(&time), sizeof(int));
         
         std::string user(str[0]);
-        std::string product(str[1]);
+        //std::string product(str[1]);
         std::string rate(str[2]);
-        std::string time(str[3]);
+        //std::string time(str[3]);
+
+        
 
         std::cout<<"-------------\nReview "<<i<<":\n";
 
@@ -110,6 +119,7 @@ void createBinary(std::string path, double n)
     std::string line;
 
     std::string user,product,rate,time;
+    int p,t;
 
     std::ofstream eraser("ratings_Electronics.bin"); eraser.close(); //apaga o conteudo do arquivo
     std::ofstream binaryfile("ratings_Electronics.bin",std::ios::app|std::ios::binary);
@@ -130,10 +140,15 @@ void createBinary(std::string path, double n)
             rate=reviews[i]->getRating();
             time=reviews[i]->getTime();
 
+            p=stoi(product);
+            t=stoi(time);
+
             binaryfile.write(reinterpret_cast<const char*>(user.c_str()),15);  //15 é o numero de caracteres maximo +1
-            binaryfile.write(reinterpret_cast<const char*>(product.c_str()),11);
+            binaryfile.write(reinterpret_cast<const char*>(&p),sizeof(int));
+            //binaryfile.write(reinterpret_cast<const char*>(product.c_str()),11);
             binaryfile.write(reinterpret_cast<const char*>(rate.c_str()),3);
-            binaryfile.write(reinterpret_cast<const char*>(time.c_str()),11);
+            binaryfile.write(reinterpret_cast<const char*>(&t),sizeof(int));
+            //binaryfile.write(reinterpret_cast<const char*>(time.c_str()),11);
             
         }
     }
