@@ -34,9 +34,8 @@ std::vector<std::string> ProductReview::splitString(std::string str){
 }
 
 void ProductReview::print(){
-    std::cout<<"\n";
-    std::cout<<getUserId()<<"\n";
-    std::cout<<getProductId()<<"\n";
-    std::cout<<getRating()<<"\n";
-    std::cout<<getTime()<<"\n";
+
+    std::cout<<"-------------\nReview"<<":\n";
+
+        std::cout<<"\n UserId: "<<getUserId()<<"\n ProductId: "<<getProductId()<<"\n Rating: "<<getRating()<<"\n Timestamp: "<<getTime()<<"\n-------------";
 }
