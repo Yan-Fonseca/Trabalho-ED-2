@@ -7,21 +7,7 @@
 
 int nReviews=0;
 
-void leArquivoBinario()
-{
-    std::fstream arq("ratings_Electronics.bin", std::ios::in | std::ios::binary);
-
-        if(arq.is_open())
-        {
-            char str[10];
-
-            arq.read(str, 5);
-            str[5] = '\0';
-        }
-        else
-            std::cerr << "ERRO: O arquivo nao pode ser aberto!" << std::endl;
-}
-
+int userId_size=15,ProductId_size=11,rating_size=4,timestamp_size=11;
 
 void loading(double i, double n)
 {
@@ -48,13 +34,13 @@ void loading(double i, double n)
 
 void getReview(int i)
 {
-    int size = 15+11+3+11;
+    int size = userId_size+ProductId_size+rating_size+timestamp_size;
     std::ifstream bin("ratings_Electronics.bin",std::ios::in|std::ios::binary);
     if(bin.is_open())
     {
         char str[4][16];
-        int s[4]={15,11,3,11}; //são o numero de bits de cada uma das variaveis
-                                                  //daria pra fazer isso como var globais
+        int s[4]={userId_size,ProductId_size,rating_size,timestamp_size}; 
+
         bin.seekg(0, bin.beg);
         bin.ignore((size*i),EOF);
 
@@ -71,7 +57,9 @@ void getReview(int i)
 
         std::cout<<"-------------\nReview "<<i<<":\n";
 
-        std::cout<<"\n UserId: "<<user<<"\n ProductId: "<<product<<"\n Rating: "<<rate<<"\n Timestamp: "<<time<<"\n-------------";
+        std::cout<<"\n UserId: "<<user<<"\n ProductId: "<<product<<"\n Rating: "<<rate<<"\n Timestamp: "<<time;
+
+        std::cout<<"\n-------------\n";
     }
     
 }   
@@ -79,13 +67,13 @@ void getReview(int i)
 std::string getreviewString(int i)
 {
     std::string input;
-    int size = 15+11+3+11;
+    int size = userId_size+ProductId_size+rating_size+timestamp_size;
     std::ifstream bin("ratings_Electronics.bin",std::ios::in|std::ios::binary);
     if(bin.is_open())
     {
         char str[4][16];
-        int s[4]={15,11,3,11}; //são o numero de bits de cada uma das variaveis
-                                                  //daria pra fazer isso como var globais
+        int s[4]={userId_size,ProductId_size,rating_size,timestamp_size};
+
         bin.seekg(0, bin.beg);
         bin.ignore((size*i),EOF);
 
@@ -101,8 +89,9 @@ std::string getreviewString(int i)
 
         std::stringstream stream;
 
-        stream<<user<<","<<product<<","<<rate<<","<<time;
-        input = stream.str();
+        /* stream<<user<<","<<product<<","<<rate<<","<<time;
+        input = stream.str(); */
+        input=user+","+product+","+rate+","+time;
     }
     return input;
 }   
@@ -150,12 +139,20 @@ void createBinary(std::string path, double n)
 
     std::ofstream eraser("ratings_Electronics.bin"); eraser.close(); //apaga o conteudo do arquivo
     std::ofstream binaryfile("ratings_Electronics.bin",std::ios::app|std::ios::binary);
-    //std::cout<<"\nn de reviews:"<<reviews.size()<<"\n";
+
     if(n<0)
     {
         for(double i=0;i<reviews.size();i++)
         {
-            binaryfile.write((char*)reviews[i],sizeof(ProductReview));
+            user=reviews[i]->getUserId();
+            product=reviews[i]->getProductId();
+            rate=reviews[i]->getRating();
+            time=reviews[i]->getTime();
+
+            binaryfile.write(reinterpret_cast<const char*>(user.c_str()),userId_size);
+            binaryfile.write(reinterpret_cast<const char*>(product.c_str()),ProductId_size);
+            binaryfile.write(reinterpret_cast<const char*>(rate.c_str()),rating_size);
+            binaryfile.write(reinterpret_cast<const char*>(time.c_str()),timestamp_size);
         }
     }
     else
@@ -167,13 +164,10 @@ void createBinary(std::string path, double n)
             rate=reviews[i]->getRating();
             time=reviews[i]->getTime();
 
-            //std::cout<<"\nproduct:"<<product<<"time:"<<time;
-
-
-            binaryfile.write(reinterpret_cast<const char*>(user.c_str()),15);  //15 é o numero de caracteres maximo +1
-            binaryfile.write(reinterpret_cast<const char*>(product.c_str()),11);
-            binaryfile.write(reinterpret_cast<const char*>(rate.c_str()),3);
-            binaryfile.write(reinterpret_cast<const char*>(time.c_str()),11);
+            binaryfile.write(reinterpret_cast<const char*>(user.c_str()),userId_size);
+            binaryfile.write(reinterpret_cast<const char*>(product.c_str()),ProductId_size);
+            binaryfile.write(reinterpret_cast<const char*>(rate.c_str()),rating_size);
+            binaryfile.write(reinterpret_cast<const char*>(time.c_str()),timestamp_size);
             
         }
     }
@@ -181,17 +175,16 @@ void createBinary(std::string path, double n)
 
 ProductReview* import(int n)
 {
-    std::vector<ProductReview*> reviews;
-    ProductReview* b;
+
+    ProductReview *b = new ProductReview[n];
+    
     for(int i=0;i<n;i++)
     {
         srand(i*time(0));
         std::string info = getreviewString(rand()% nReviews);
-        std::cout<<"Info:"<<info<<"\n";
-        b=new ProductReview(info);
-        reviews[i] = b;
+        //std::cout<<"\n\nInfo:"<<info<<"\n";
+        b[i].setData(info);
+        //b->print();
     }
-    
-    ProductReview *pr = reviews[0];
-    return pr;
+    return b;
 }

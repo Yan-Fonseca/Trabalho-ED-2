@@ -16,6 +16,7 @@ class ProductReview{
     public:
 
     ProductReview(std::string info);
+    ProductReview(){};
     ~ProductReview();
 
     //Getters
@@ -30,6 +31,8 @@ class ProductReview{
     void setProductId(std::string id){productId=id;};
     void setRating(std::string rate){rating=rate;};
     void setTime(std::string time){timestamp=time;};
+
+    void setData(std::string info);
 
     
 

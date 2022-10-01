@@ -18,7 +18,7 @@ ProductReview::~ProductReview()
 std::vector<std::string> ProductReview::splitString(std::string str){
     std::vector<std::string> result;
     std::string current = ""; 
-    for(int i = 0; i < str.size(); i++){
+    for(unsigned int i = 0; i < str.size(); i++){
         if(str[i] == ','){
             if(current != ""){
                 result.push_back(current);
@@ -35,7 +35,19 @@ std::vector<std::string> ProductReview::splitString(std::string str){
 
 void ProductReview::print(){
 
-    std::cout<<"-------------\nReview"<<":\n";
+    std::cout<<"-------------\nReview:\n";
 
-        std::cout<<"\n UserId: "<<getUserId()<<"\n ProductId: "<<getProductId()<<"\n Rating: "<<getRating()<<"\n Timestamp: "<<getTime()<<"\n-------------";
+    std::cout<<"\n UserId: "<<getUserId()<<"\n ProductId: "<<getProductId()<<"\n Rating: "<<getRating()<<"\n Timestamp: "<<getTime();
+
+    std::cout<<"\n-------------\n";
+}
+
+void ProductReview::setData(std::string info)
+{
+    std::vector<std::string> inf = splitString(info);
+
+    setUserId(inf[0]);
+    setProductId(inf[1]);
+    setRating(inf[2]);
+    setTime(inf[3]);
 }

@@ -25,18 +25,26 @@ int main(int argc, char **argv)
 
     std::cout<<"\n"<<"Binario Carregado!"<<"\n";
 
-        std::cout<<"\n"<<"Insira o indice da review desejada:"<<"\n";
-        std::cin>>i;
+
+    //GET REVIEW
+    /* std::cout<<"\n"<<"Insira o indice da review desejada:"<<"\n";
+    std::cin>>i;
     while(i>=0)
     {
         if(i>=nReviews){std::cout<<"Nao existem reviews com esse indice\n";std::cin>>i;continue;}
         getReview(i);
         std::cout<<"\n"<<"Insira o indice da review desejada:"<<"\n";
         std::cin>>i;
-    }
+    } */
+    
+    
+    //IMPORT
     std::cout<<"\n\nPegador de reviews aleatorias\nQuantas reviews voce quer pegar?\n";
     std::cin>>n;
+    std::cout<<"n: "<<n<<"\n";
     rreviews=import(n);
+
+    std::cout<<"\n Resultados:\n";
     for(int j=0;j<n;j++)
     {
         rreviews[j].print();
