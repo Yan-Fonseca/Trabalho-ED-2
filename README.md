@@ -11,3 +11,8 @@ Etapa 2: Criar os algoritmos de ordenação
 - [ ] Quicksort
 - [ ] Mergesort
 - [ ] Indefinido
+
+Etapa 3: Ler N registros aleatórios e contar quantas vezes um mesmo produto se repete
+- [ ] Armazenar os produtos em um hash
+- [ ] Imprimir os produtos mais avaliados
+- [ ] ProductReview* createTable(int n): gera e retorna uma tabela hash contendo n registros aleatórios, utilizando o método de tratamento de colisão escolhido para a Etapa 3. A tabela retornada por esta função não deve estar ordenada.
