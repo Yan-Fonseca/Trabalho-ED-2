@@ -6,12 +6,12 @@ int userId_size=15,productId_size=11,rating_size=4,timestamp_size=11;
 
 int nTotal = 7824482;
 
-//No meio do arquivo temos pouquissimas instancias de userIds contendo =- 21 chars
+//No meio do arquivo temos pouquissimas instancias de userIds contendo +- 21 chars
 //Essa struck é para não ser necessário armazenar 21 bytes para todos userIds em binário
 typedef struct 
 {
-    int index;
-    int extraSize;
+    int index=0;
+    int extraSize=0;
 } Irregular;
 
 std::vector<Irregular> IrregUser;
@@ -53,31 +53,33 @@ void getReview(int i)
 
         bin.seekg(0, bin.beg);
 
-        for(int q=0;q<IrregUser.size()&&q<IrregProduct.size();q++){ //Algoritmo para lidar com inputs nao usuais
-
-            if(i>IrregUser[q].index)
-                extra+=IrregUser[q].extraSize;
-            else if(i==IrregUser[q].index)
-                s[0]+=IrregUser[q].extraSize;
-                
-            if(i>IrregProduct[q].index)
-                extra+=IrregProduct[q].extraSize;
-            else if(i==IrregProduct[q].index)
-                s[1]+=IrregProduct[q].extraSize;
+        for(int q=0;q<IrregUser.size()||q<IrregProduct.size();q++){ //Algoritmo para lidar com inputs nao usuais
+            if(q<IrregUser.size()){
+                if(i>IrregUser[q].index)
+                    extra+=IrregUser[q].extraSize;
+                else if(i==IrregUser[q].index)
+                    s[0]+=IrregUser[q].extraSize;
+            }
+            if(q<IrregProduct.size()){
+                if(i>IrregProduct[q].index)
+                    extra+=IrregProduct[q].extraSize;
+                else if(i==IrregProduct[q].index)
+                    s[1]+=IrregProduct[q].extraSize;
+            }
         }
 
         bin.ignore((size*i + extra),EOF);
 
-        for(int j=0;j<4;j++)
-        {
-            bin.read(str[j],s[j]);
-        }
         
+        bin.read(str[0],s[0]);
         std::string user(str[0]);
+        bin.read(str[1],s[1]);
         std::string product(str[1]);
+        bin.read(str[2],s[2]);
         std::string rate(str[2]);
+        bin.read(str[3],s[3]);     
         std::string time(str[3]);
-        
+
 
         std::cout<<"-------------\nReview "<<i<<":\n";
 
@@ -88,7 +90,7 @@ void getReview(int i)
     
 }   
 
-std::string getReviewString(int i)
+std::string getReviewString(int i) //igual a funçao superior em todos os sentidos, menos o retorno
 {
     std::string input;
     int size = userId_size+productId_size+rating_size+timestamp_size;
@@ -101,29 +103,30 @@ std::string getReviewString(int i)
 
         bin.seekg(0, bin.beg);
 
-        for(int q=0;q<IrregUser.size()&&q<IrregProduct.size();q++){ //Algoritmo para lidar com inputs nao usuais
-
-            if(i>IrregUser[q].index)
-                extra+=IrregUser[q].extraSize;
-            else if(i==IrregUser[q].index)
-                s[0]+=IrregUser[q].extraSize;
-
-            if(i>IrregProduct[q].index)
-                extra+=IrregProduct[q].extraSize;
-            else if(i==IrregProduct[q].index)
-                s[1]+=IrregProduct[q].extraSize;
+        for(int q=0;q<IrregUser.size()||q<IrregProduct.size();q++){
+            if(q<IrregUser.size()){
+                if(i>IrregUser[q].index)
+                    extra+=IrregUser[q].extraSize;
+                else if(i==IrregUser[q].index)
+                    s[0]+=IrregUser[q].extraSize;
+            }
+            if(q<IrregProduct.size()){
+                if(i>IrregProduct[q].index)
+                    extra+=IrregProduct[q].extraSize;
+                else if(i==IrregProduct[q].index)
+                    s[1]+=IrregProduct[q].extraSize;
+            }
         }
 
         bin.ignore((size*i + extra),EOF);
 
-        for(int j=0;j<4;j++)
-        {
-            bin.read(str[j],s[j]);
-        }
-        
+        bin.read(str[0],s[0]);
         std::string user(str[0]);
+        bin.read(str[1],s[1]);
         std::string product(str[1]);
+        bin.read(str[2],s[2]);
         std::string rate(str[2]);
+        bin.read(str[3],s[3]);     
         std::string time(str[3]);
 
         std::stringstream stream;
@@ -148,7 +151,6 @@ std::vector<ProductReview*> loadReviews(std::string path, double nReviews){
             getline(loader,line);
             a= new ProductReview(line);
             reviews.push_back(a);
-            //reviews.back()->print();
             counter++;
             loading(counter,7824483);
         }
@@ -158,7 +160,6 @@ std::vector<ProductReview*> loadReviews(std::string path, double nReviews){
             getline(loader,line);
             a= new ProductReview(line);
             reviews.push_back(a);
-            //reviews.back()->print();
             loading(i,nReviews);
         }
     std::cout<<"[&&&&&&&&&&] 100%\n";
@@ -193,15 +194,15 @@ void createBinary(std::string path, double n)
 
         if(user.length()>userId_size-1){ //-1 e para sempre ter 1 byte extra
             irreg.index = i;
-            irreg.extraSize = UidSize-userId_size-1;
-            IrregUser.push_back(irreg);
             UidSize=user.length()+1;
+            irreg.extraSize = UidSize-userId_size;
+            IrregUser.push_back(irreg);
         }
         if(product.length()>productId_size-1){
             irreg.index = i;
-            irreg.extraSize = PidSize-productId_size-1;
-            IrregProduct.push_back(irreg);
             PidSize=product.length()+1;
+            irreg.extraSize = PidSize-productId_size;
+            IrregProduct.push_back(irreg);
         }
 
 
@@ -222,9 +223,7 @@ ProductReview* import(int n)
     {
         srand(i*time(0));
         std::string info = getReviewString(rand()% nReviews);
-        //std::cout<<"\n\nInfo:"<<info<<"\n";
         b[i].setData(info);
-        //b->print();
     }
     return b;
 }

@@ -1,5 +1,4 @@
 build
-ratings_Electronics.csv
-#*.csv
+*.csv
 *.bin
 .vscode
