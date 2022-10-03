@@ -1,4 +1,32 @@
 #include "../include/func.h"
+#include "../include/sort.h"
+
+void menu()
+{
+    int input=-1;
+
+    std::cout<<"OPTIONS:\n";
+    std::cout<<"1 - Sorting \n";
+    std::cout<<"\n2 - Hash \n";
+    std::cout<<"\n\nPress 0 to quit\n";
+    while (input != 1 && input != 2 && input != 0)
+        std::cin>>input;
+  switch (input)
+  {
+  case 1:
+    std::cout<<"Work in Progress\n";
+    preSort();
+    break;
+  case 2:
+    std::cout<<"Work in Progress\n";
+    //preHash();
+    break;
+  case 0:
+    return;
+  }
+
+  menu();
+}
 
 int main(int argc, char **argv)
 {

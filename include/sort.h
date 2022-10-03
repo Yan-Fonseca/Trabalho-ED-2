@@ -1,4 +1,7 @@
-#include "hash.h"
+#ifndef SORT_H
+#define SORT_H
+
+#include "func.h"
 
 int nSorts = 4;
 
@@ -158,7 +161,9 @@ void preSort()
         {
             for(int j=0;j<M;j++) //roda M vezes
             {
+                
                 reviews = import(N[k]);
+
                 sort(reviews,N[k],l+1);       
             }
         }
@@ -166,3 +171,5 @@ void preSort()
         
     
 }
+
+#endif
