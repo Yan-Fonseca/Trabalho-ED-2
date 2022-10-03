@@ -12,6 +12,8 @@ int main(int argc, char **argv)
 
     std::cout << "Caminho do arquivo especificado:"<<path<<"\n";
 
+    std::cout<<"\nSTARTING PRE PROCESSING\n";
+
     std::cout<<"\n"<<"Quantas reviews devem ser analizadas?"<<"\n";
     std::cin>>nReviews;
     
@@ -21,7 +23,7 @@ int main(int argc, char **argv)
     createBinary(path,nReviews);
     nReviews = getSize();
 
-    std::cout<<"\n"<<"Binario Carregado!"<<"\n";
+    std::cout<<"\nPRE PROCESSING FINISHED\n";
 
     //GET REVIEW
     /* 
@@ -54,6 +56,8 @@ int main(int argc, char **argv)
         rreviews[j].print();
     }
     */
+
+    menu();
 
     return 0;
 }

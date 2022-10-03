@@ -1,8 +1,8 @@
-#include "sort.h"
+#include "hash.h"
 
 int nReviews=0;
 
-int userId_size=15,productId_size=11,rating_size=4,timestamp_size=11;
+unsigned int userId_size=15,productId_size=11,rating_size=4,timestamp_size=11;
 
 int nTotal = 7824482;
 
@@ -17,6 +17,33 @@ typedef struct
 std::vector<Irregular> IrregUser;
 std::vector<Irregular> IrregProduct; //Talvez tenham ProductIds irregulares??
 
+
+void menu()
+{
+    int input=-1;
+
+    std::cout<<"OPTIONS:\n";
+    std::cout<<"1 - Sorting \n";
+    std::cout<<"\n2 - Hash \n";
+    std::cout<<"\n\nPress 0 to quit\n";
+    while (input != '1' && input != '2' && input != '0')
+        std::cin>>input;
+  switch (input)
+  {
+  case '1':
+    std::cout<<"Work in Progress\n";
+    //preSort();
+    break;
+  case '2':
+    std::cout<<"Work in Progress\n";
+    //preHash();
+    break;
+  case '0':
+    return;
+  }
+
+  menu();
+}
 
 void loading(double i, double n)
 {
@@ -47,13 +74,13 @@ void getReview(int i)
     std::ifstream bin("../files/ratings_Electronics.bin",std::ios::in|std::ios::binary);
     if(bin.is_open())
     {
-        char str[4][16];
-        int s[4]={userId_size,productId_size,rating_size,timestamp_size}; 
+        char str[4][30];
+        unsigned int s[4]={userId_size,productId_size,rating_size,timestamp_size}; 
         int extra=0;
 
         bin.seekg(0, bin.beg);
 
-        for(int q=0;q<IrregUser.size()||q<IrregProduct.size();q++){ //Algoritmo para lidar com inputs nao usuais
+        for(unsigned int q=0;q<IrregUser.size()||q<IrregProduct.size();q++){ //Algoritmo para lidar com inputs nao usuais
             if(q<IrregUser.size()){
                 if(i>IrregUser[q].index)
                     extra+=IrregUser[q].extraSize;
@@ -70,14 +97,15 @@ void getReview(int i)
 
         bin.ignore((size*i + extra),EOF);
 
-        
-        bin.read(str[0],s[0]);
+        for(int j=0;j<4;j++)
+        {
+            bin.read(str[j],s[j]);
+            std::cout<<str[0]<<" ";
+        }
+
         std::string user(str[0]);
-        bin.read(str[1],s[1]);
         std::string product(str[1]);
-        bin.read(str[2],s[2]);
-        std::string rate(str[2]);
-        bin.read(str[3],s[3]);     
+        std::string rate(str[2]);   
         std::string time(str[3]);
 
 
@@ -97,13 +125,13 @@ std::string getReviewString(int i) //igual a funçao superior em todos os sentid
     std::ifstream bin("../files/ratings_Electronics.bin",std::ios::in|std::ios::binary);
     if(bin.is_open())
     {
-        char str[4][16];
-        int s[4]={userId_size,productId_size,rating_size,timestamp_size};
+        char str[4][30];
+        unsigned int s[4]={userId_size,productId_size,rating_size,timestamp_size};
         int extra=0;
 
         bin.seekg(0, bin.beg);
 
-        for(int q=0;q<IrregUser.size()||q<IrregProduct.size();q++){
+        for(unsigned int q=0;q<IrregUser.size()||q<IrregProduct.size();q++){
             if(q<IrregUser.size()){
                 if(i>IrregUser[q].index)
                     extra+=IrregUser[q].extraSize;
@@ -120,13 +148,15 @@ std::string getReviewString(int i) //igual a funçao superior em todos os sentid
 
         bin.ignore((size*i + extra),EOF);
 
-        bin.read(str[0],s[0]);
+        for(int j=0;j<4;j++)
+        {
+            bin.read(str[j],s[j]);
+            std::cout<<str[0]<<" ";
+        }
+
         std::string user(str[0]);
-        bin.read(str[1],s[1]);
         std::string product(str[1]);
-        bin.read(str[2],s[2]);
-        std::string rate(str[2]);
-        bin.read(str[3],s[3]);     
+        std::string rate(str[2]);   
         std::string time(str[3]);
 
         std::stringstream stream;
