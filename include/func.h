@@ -1,4 +1,10 @@
-#include "hash.h"
+#include "../include/ProductReview.h"
+#include <fstream>
+#include <math.h>
+#include <time.h>
+#include <sstream>
+#include <iomanip>
+#include <chrono>
 
 int nReviews=0;
 
