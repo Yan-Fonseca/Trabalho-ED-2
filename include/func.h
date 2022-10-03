@@ -1,13 +1,22 @@
-#include "../include/ProductReview.h"
-#include <fstream>
-#include <math.h>
-#include <time.h>
-#include <sstream>
-#include <iomanip>
+#include "sort.h"
 
 int nReviews=0;
 
-int userId_size=15,ProductId_size=11,rating_size=4,timestamp_size=11;
+int userId_size=15,productId_size=11,rating_size=4,timestamp_size=11;
+
+int nTotal = 7824482;
+
+//No meio do arquivo temos pouquissimas instancias de userIds contendo =- 21 chars
+//Essa struck é para não ser necessário armazenar 21 bytes para todos userIds em binário
+typedef struct 
+{
+    int index;
+    int extraSize;
+} Irregular;
+
+std::vector<Irregular> IrregUser;
+std::vector<Irregular> IrregProduct; //Talvez tenham ProductIds irregulares??
+
 
 void loading(double i, double n)
 {
@@ -34,15 +43,30 @@ void loading(double i, double n)
 
 void getReview(int i)
 {
-    int size = userId_size+ProductId_size+rating_size+timestamp_size;
-    std::ifstream bin("ratings_Electronics.bin",std::ios::in|std::ios::binary);
+    int size = userId_size+productId_size+rating_size+timestamp_size;
+    std::ifstream bin("../files/ratings_Electronics.bin",std::ios::in|std::ios::binary);
     if(bin.is_open())
     {
         char str[4][16];
-        int s[4]={userId_size,ProductId_size,rating_size,timestamp_size}; 
+        int s[4]={userId_size,productId_size,rating_size,timestamp_size}; 
+        int extra=0;
 
         bin.seekg(0, bin.beg);
-        bin.ignore((size*i),EOF);
+
+        for(int q=0;q<IrregUser.size()&&q<IrregProduct.size();q++){ //Algoritmo para lidar com inputs nao usuais
+
+            if(i>IrregUser[q].index)
+                extra+=IrregUser[q].extraSize;
+            else if(i==IrregUser[q].index)
+                s[0]+=IrregUser[q].extraSize;
+                
+            if(i>IrregProduct[q].index)
+                extra+=IrregProduct[q].extraSize;
+            else if(i==IrregProduct[q].index)
+                s[1]+=IrregProduct[q].extraSize;
+        }
+
+        bin.ignore((size*i + extra),EOF);
 
         for(int j=0;j<4;j++)
         {
@@ -64,18 +88,33 @@ void getReview(int i)
     
 }   
 
-std::string getreviewString(int i)
+std::string getReviewString(int i)
 {
     std::string input;
-    int size = userId_size+ProductId_size+rating_size+timestamp_size;
-    std::ifstream bin("ratings_Electronics.bin",std::ios::in|std::ios::binary);
+    int size = userId_size+productId_size+rating_size+timestamp_size;
+    std::ifstream bin("../files/ratings_Electronics.bin",std::ios::in|std::ios::binary);
     if(bin.is_open())
     {
         char str[4][16];
-        int s[4]={userId_size,ProductId_size,rating_size,timestamp_size};
+        int s[4]={userId_size,productId_size,rating_size,timestamp_size};
+        int extra=0;
 
         bin.seekg(0, bin.beg);
-        bin.ignore((size*i),EOF);
+
+        for(int q=0;q<IrregUser.size()&&q<IrregProduct.size();q++){ //Algoritmo para lidar com inputs nao usuais
+
+            if(i>IrregUser[q].index)
+                extra+=IrregUser[q].extraSize;
+            else if(i==IrregUser[q].index)
+                s[0]+=IrregUser[q].extraSize;
+
+            if(i>IrregProduct[q].index)
+                extra+=IrregProduct[q].extraSize;
+            else if(i==IrregProduct[q].index)
+                s[1]+=IrregProduct[q].extraSize;
+        }
+
+        bin.ignore((size*i + extra),EOF);
 
         for(int j=0;j<4;j++)
         {
@@ -89,8 +128,6 @@ std::string getreviewString(int i)
 
         std::stringstream stream;
 
-        /* stream<<user<<","<<product<<","<<rate<<","<<time;
-        input = stream.str(); */
         input=user+","+product+","+rate+","+time;
     }
     return input;
@@ -101,7 +138,7 @@ std::vector<ProductReview*> loadReviews(std::string path, double nReviews){
     std::ifstream loader(path);
     std::string line;
     std::vector<ProductReview*> reviews;
-    //reviews.reserve(8000000 /** sizeof(ProductReview)*/); //8 milhoes
+    reviews.reserve(nTotal);
     ProductReview *a;
     double counter=0;
 
@@ -113,7 +150,7 @@ std::vector<ProductReview*> loadReviews(std::string path, double nReviews){
             reviews.push_back(a);
             //reviews.back()->print();
             counter++;
-            loading(counter,7900000);
+            loading(counter,7824483);
         }
     else
         for(double i=0;i<nReviews&&loader.good();i++)
@@ -124,7 +161,7 @@ std::vector<ProductReview*> loadReviews(std::string path, double nReviews){
             //reviews.back()->print();
             loading(i,nReviews);
         }
-    
+    std::cout<<"[&&&&&&&&&&] 100%\n";
     return reviews;
 }
 
@@ -132,44 +169,47 @@ void createBinary(std::string path, double n)
 {
     nReviews=n;
     std::vector<ProductReview*> reviews;
-    reviews = loadReviews(path,n);
+    reviews = loadReviews(path,nReviews);
     std::string line;
 
     std::string user,product,rate,time;
 
-    std::ofstream eraser("ratings_Electronics.bin"); eraser.close(); //apaga o conteudo do arquivo
-    std::ofstream binaryfile("ratings_Electronics.bin",std::ios::app|std::ios::binary);
+    std::ofstream eraser("../files/ratings_Electronics.bin"); eraser.close(); //apaga o conteudo do arquivo
+    std::ofstream binaryfile("../files/ratings_Electronics.bin",std::ios::app|std::ios::binary);
 
-    if(n<0)
+    if(n<0)nReviews=reviews.size();
+
+    for(int i=0;i<nReviews;i++)
     {
-        for(double i=0;i<reviews.size();i++)
-        {
-            user=reviews[i]->getUserId();
-            product=reviews[i]->getProductId();
-            rate=reviews[i]->getRating();
-            time=reviews[i]->getTime();
+        user=reviews[i]->getUserId();
+        product=reviews[i]->getProductId();
+        rate=reviews[i]->getRating();
+        time=reviews[i]->getTime();
 
-            binaryfile.write(reinterpret_cast<const char*>(user.c_str()),userId_size);
-            binaryfile.write(reinterpret_cast<const char*>(product.c_str()),ProductId_size);
-            binaryfile.write(reinterpret_cast<const char*>(rate.c_str()),rating_size);
-            binaryfile.write(reinterpret_cast<const char*>(time.c_str()),timestamp_size);
-        }
-    }
-    else
-    {
-        for(int i=0;i<n;i++)
-        {
-            user=reviews[i]->getUserId();
-            product=reviews[i]->getProductId();
-            rate=reviews[i]->getRating();
-            time=reviews[i]->getTime();
+        int UidSize = userId_size;
+        int PidSize = productId_size;
 
-            binaryfile.write(reinterpret_cast<const char*>(user.c_str()),userId_size);
-            binaryfile.write(reinterpret_cast<const char*>(product.c_str()),ProductId_size);
-            binaryfile.write(reinterpret_cast<const char*>(rate.c_str()),rating_size);
-            binaryfile.write(reinterpret_cast<const char*>(time.c_str()),timestamp_size);
-            
+        Irregular irreg;
+
+        if(user.length()>userId_size-1){ //-1 e para sempre ter 1 byte extra
+            irreg.index = i;
+            irreg.extraSize = UidSize-userId_size-1;
+            IrregUser.push_back(irreg);
+            UidSize=user.length()+1;
         }
+        if(product.length()>productId_size-1){
+            irreg.index = i;
+            irreg.extraSize = PidSize-productId_size-1;
+            IrregProduct.push_back(irreg);
+            PidSize=product.length()+1;
+        }
+
+
+        binaryfile.write(reinterpret_cast<const char*>(user.c_str()),UidSize);
+        binaryfile.write(reinterpret_cast<const char*>(product.c_str()),PidSize);
+        binaryfile.write(reinterpret_cast<const char*>(rate.c_str()),rating_size);
+        binaryfile.write(reinterpret_cast<const char*>(time.c_str()),timestamp_size);
+        
     }
 }
 
@@ -181,10 +221,15 @@ ProductReview* import(int n)
     for(int i=0;i<n;i++)
     {
         srand(i*time(0));
-        std::string info = getreviewString(rand()% nReviews);
+        std::string info = getReviewString(rand()% nReviews);
         //std::cout<<"\n\nInfo:"<<info<<"\n";
         b[i].setData(info);
         //b->print();
     }
     return b;
+}
+
+double getSize()
+{
+    return nReviews;
 }
