@@ -1,6 +1,6 @@
 #include "hash.h"
 
-int nSorts = 3;
+int nSorts = 4;
 
 void saveData(int methodId,int n,double comparizons,double movimentations,double time) 
 {
@@ -16,7 +16,10 @@ void saveData(int methodId,int n,double comparizons,double movimentations,double
         method = "mergesort";
         break;
     case 3:
-        method = "rsort";
+        method = "timsort";
+        break;
+    case 4:
+        method = "radixsort";
         break;
     default:
         method = "method "+ methodId;
@@ -65,7 +68,26 @@ void mergesort(ProductReview *vet, int n)
     saveData(1,n,comparizons,movement,time);
 }
 
-void Rsort(ProductReview *vet, int n)
+void timsort(ProductReview *vet, int n)
+{
+    double comparizons,movement,time;
+    std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
+    
+    //Coloque o algoritmo abaixo
+    //--------------------------
+
+
+
+
+
+    //--------------------------
+
+    std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
+    time=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
+    saveData(1,n,comparizons,movement,time);
+}
+
+void radixsort(ProductReview *vet, int n)
 {
     double comparizons,movement,time;
     std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
@@ -90,7 +112,8 @@ void sort(ProductReview *vet, int n, int methodId)
     //methodId:
     //1- Quicksort 
     //2- Mergesort 
-    //3- ???
+    //3- Timsort
+    //4- Radixsort
 
     switch (methodId)
     {
@@ -101,7 +124,10 @@ void sort(ProductReview *vet, int n, int methodId)
         mergesort(vet,n);
         break;
     case 3:
-        Rsort(vet,n); //ainda nao esta definido
+        timsort(vet,n);
+        break;
+    case 4:
+        radixsort(vet,n);
         break;
     default:
         std::cout<<"Sorting algorithm ID not valid\n";
