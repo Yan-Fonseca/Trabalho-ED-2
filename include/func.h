@@ -153,46 +153,7 @@ std::vector<ProductReview*> loadReviews(std::string path, double nReviews){
     std::vector<ProductReview*> reviews;
     reviews.reserve(nTotal);
     ProductReview *a;
-    double counter=0;
-    
-    /* std::vector<char> buffer(10000,'0');
-    char c='0';
-    int index=0;
-    int empty=1;
-    std::stringstream s;
-
-    //while (loader.good())
-    for(double i=0;i<nReviews&&loader.good();i++)
-    {
-        if(empty==1)
-        {
-            loader.read(buffer.data(),buffer.size());
-            if(buffer.back()!='\n')
-                loader.getline(buffer.data(),100,'\n');
-            empty=0;
-        }
-        while(c!='\n')
-        {
-            c=buffer[index];
-            s<<c;
-            index++;
-        }
-
-        if(index==10000)
-            empty==1;
-        line=s.str();
-        s.clear();
-
-        //std::cout<<line;
-
-        std::fill(buffer.begin(), buffer.end(), 0);
-        a= new ProductReview(line);
-        //a->print();
-        reviews.push_back(a);
-        counter++;
-        loading(counter,nReviews);
-    } */
-    
+    double counter=0;    
 
     if(nReviews<0)
         while(loader.good())
