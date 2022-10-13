@@ -140,21 +140,59 @@ std::string getReviewString(int i) //igual a funçao superior em todos os sentid
         std::string rate(str[2]);   
         std::string time(str[3]);
 
-        std::stringstream stream;
-
         input=user+","+product+","+rate+","+time;
     }
     return input;
 }   
 
 std::vector<ProductReview*> loadReviews(std::string path, double nReviews){
- 
+    //std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
+
     std::ifstream loader(path);
     std::string line;
     std::vector<ProductReview*> reviews;
     reviews.reserve(nTotal);
     ProductReview *a;
     double counter=0;
+    
+    /* std::vector<char> buffer(10000,'0');
+    char c='0';
+    int index=0;
+    int empty=1;
+    std::stringstream s;
+
+    //while (loader.good())
+    for(double i=0;i<nReviews&&loader.good();i++)
+    {
+        if(empty==1)
+        {
+            loader.read(buffer.data(),buffer.size());
+            if(buffer.back()!='\n')
+                loader.getline(buffer.data(),100,'\n');
+            empty=0;
+        }
+        while(c!='\n')
+        {
+            c=buffer[index];
+            s<<c;
+            index++;
+        }
+
+        if(index==10000)
+            empty==1;
+        line=s.str();
+        s.clear();
+
+        //std::cout<<line;
+
+        std::fill(buffer.begin(), buffer.end(), 0);
+        a= new ProductReview(line);
+        //a->print();
+        reviews.push_back(a);
+        counter++;
+        loading(counter,nReviews);
+    } */
+    
 
     if(nReviews<0)
         while(loader.good())
@@ -163,7 +201,7 @@ std::vector<ProductReview*> loadReviews(std::string path, double nReviews){
             a= new ProductReview(line);
             reviews.push_back(a);
             counter++;
-            loading(counter,7824483);
+            //loading(counter,7824483);
         }
     else
         for(double i=0;i<nReviews&&loader.good();i++)
@@ -171,8 +209,12 @@ std::vector<ProductReview*> loadReviews(std::string path, double nReviews){
             getline(loader,line);
             a= new ProductReview(line);
             reviews.push_back(a);
-            loading(i,nReviews);
+            //loading(i,nReviews);
         }
+    /* std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
+    double time=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
+    std::cout<<time; */
+
     std::cout<<"[&&&&&&&&&&] 100%\n";
     return reviews;
 }

@@ -29,7 +29,7 @@ void saveData(int methodId,int n,double comparizons,double movimentations,double
         break;
     }
 
-    saida<<method<<" com "<<n<<" items:"<<comparizons<<","<<movimentations<<","<<time<<"\n";
+    saida<<method<<" com "<<n<<" items:\ncomps "<<comparizons<<", moves"<<movimentations<<", tempo:"<<time<<"\n";
 
 } 
 

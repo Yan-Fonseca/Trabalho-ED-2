@@ -2,6 +2,8 @@
 
 ProductReview::ProductReview(std::string info)
 {
+    if(info=="")
+        return;
     std::vector<std::string> inf = splitString(info);
 
     setUserId(inf[0]);
