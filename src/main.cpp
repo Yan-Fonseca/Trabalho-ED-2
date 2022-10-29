@@ -36,7 +36,7 @@ int main(int argc, char **argv)
         std::string pa(argv[1]);
         path = pa;
     }
-    else path="../files/ratings_Electronics.csv";
+    else path="../files/";
 
     std::cout << "Caminho do arquivo especificado:"<<path<<"\n";
 
@@ -54,7 +54,7 @@ int main(int argc, char **argv)
     std::cout<<"\nPRE PROCESSING FINISHED\n";
 
     //GET REVIEW
-    /* 
+    
     double i=0;
 
     std::cout<<"\n"<<"Insira o indice da review desejada:"<<"\n";
@@ -65,7 +65,7 @@ int main(int argc, char **argv)
         getReview(i);
         std::cout<<"\n"<<"Insira o indice da review desejada:"<<"\n";
         std::cin>>i;
-    } */
+    }
     
     
     //IMPORT
