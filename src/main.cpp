@@ -1,5 +1,6 @@
 #include "../include/func.h"
 #include "../include/sort.h"
+#include "../include/hash.h"
 
 void menu()
 {
@@ -19,7 +20,7 @@ void menu()
     break;
   case 2:
     std::cout<<"Work in Progress\n";
-    //preHash();
+    preHash();
     break;
   case 0:
     return;
@@ -54,7 +55,7 @@ int main(int argc, char **argv)
     std::cout<<"\nPRE PROCESSING FINISHED\n";
 
     //GET REVIEW
-    
+    /* 
     double i=0;
 
     std::cout<<"\n"<<"Insira o indice da review desejada:"<<"\n";
@@ -65,7 +66,7 @@ int main(int argc, char **argv)
         getReview(i);
         std::cout<<"\n"<<"Insira o indice da review desejada:"<<"\n";
         std::cin>>i;
-    }
+    } */
     
     
     //IMPORT
