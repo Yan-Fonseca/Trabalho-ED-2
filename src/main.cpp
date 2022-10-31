@@ -19,7 +19,7 @@ void menu()
     preSort();
     break;
   case 2:
-    std::cout<<"Work in Progress\n";
+    //std::cout<<"Work in Progress\n";
     preHash();
     break;
   case 0:

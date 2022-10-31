@@ -134,7 +134,7 @@ std::string getReviewString(int i) //igual a funçao superior em todos os sentid
         for(int j=0;j<4;j++)
         {
             bin.read(str[j],s[j]);
-            std::cout<<str[0]<<" ";
+            //std::cout<<str[0]<<" ";
         }
 
         std::string user(str[0]);
