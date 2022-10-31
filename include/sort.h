@@ -71,6 +71,21 @@ void mergesort(ProductReview *vet, int n)
     saveData(1,n,comparizons,movement,time);
 }
 
+// insertionSort para o uso do TimSort.
+void insertionSort(ProductReview *vet, int init, int end) {
+    int j;
+    ProductReview chave;
+    for(int i=init+1; i<end; i++) {
+        chave = vet[i];
+        j = i - 1;
+        while(j>init && vet[j].getUserId().compare(chave.getUserId())>0) {
+            vet[j+1] = vet[j];
+            j--;
+        }
+        vet[i+1] = chave;
+    }
+}
+
 void timsort(ProductReview *vet, int n)
 {
     double comparizons,movement,time;
