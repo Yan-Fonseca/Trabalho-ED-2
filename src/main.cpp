@@ -16,7 +16,7 @@ void menu()
   {
   case 1:
     std::cout<<"Work in Progress\n";
-    preSort();
+    //preSort();
     break;
   case 2:
     //std::cout<<"Work in Progress\n";
@@ -86,7 +86,8 @@ int main(int argc, char **argv)
     }
     */
 
-    menu();
+    //menu();
+    preHash();
 
     return 0;
 }

@@ -1,4 +1,4 @@
-#ifndef SORT_H
+/* #ifndef SORT_H
 #define SORT_H
 
 #include "func.h"
@@ -130,7 +130,7 @@ void mergesort(ProductReview *vet, int n)
             runsize++;
         else if(runsize>=minrun&&array[i-1]<)
     }
-} */
+} 
 
 void timsort(ProductReview *vet, int n)
 {
@@ -233,4 +233,4 @@ void preSort()
     
 }
 
-#endif
+#endif */
