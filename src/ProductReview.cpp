@@ -53,3 +53,11 @@ void ProductReview::setData(std::string info)
     setRating(inf[2]);
     setTime(inf[3]);
 }
+
+void ProductReview::setNull()
+{
+    setUserId("-1");
+    setProductId("-1");
+    setRating("-1");
+    setTime("-1");
+}
