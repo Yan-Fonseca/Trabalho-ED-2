@@ -104,7 +104,7 @@ void merge(ProductReview *vet, int inicio, int meio, int fim, double *comparizon
     ProductReview aux[fim-meio+1];
     
     while(i<meio && j<fim) {
-        if(v[i].getUserId().compare(v[j].getUserId)<0) {
+        if(vet[i].getUserId().compare(vet[j].getUserId())<0) {
             aux[k] = vet[i];
             i++;
         } else {
@@ -116,21 +116,21 @@ void merge(ProductReview *vet, int inicio, int meio, int fim, double *comparizon
     }
 
     while (i<meio) {
-        aux[k] = v[i];
+        aux[k] = vet[i];
         i++;
         k++;
         movements++;
     }
     while (j<fim)
     {
-        aux[k] = v[j];
+        aux[k] = vet[j];
         j++;
         k++;
         movements;
     }
     
     for(i = inicio; i<fim; i++) {
-        v[i] = aux[i-inicio];
+        vet[i] = aux[i-inicio];
         movements++;
     }
 }
@@ -154,15 +154,15 @@ void timsort(ProductReview *vet, int n)
     int MINRUN = minrun(n);
 
     for(int i=0; i<n; i+=MINRUN) {
-        insertionSort(vet,i,menor(i+RUN-1,n-1), &comparizons, &movement);
+        insertionSort(vet,i,menor(i+MINRUN-1,n-1), &comparizons, &movement);
     }
 
     for(int size = MINRUN; size < n; size = 2*size) {
         for(int left = 0; left<n; left += 2*size) {
-            int meio = left + size -1;
+            int mid = left + size -1;
             int right = menor(left + 2*size - 1, n-1);
-            if(meio < right) {
-                merge(vet, left, mid, right);
+            if(mid < right) {
+                merge(vet, left, mid, right, &comparizons, &movement);
             }
         }
     }
@@ -171,6 +171,7 @@ void timsort(ProductReview *vet, int n)
     std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
     time=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
     saveData(1,n,comparizons,movement,time);
+    std::cout << "Tempo de execução para n=10: " << time << "\n";
 }
 
 void radixsort(ProductReview *vet, int n)
@@ -251,8 +252,6 @@ void preSort()
             }
         }
     } 
-        
-    
 }
 
 #endif
