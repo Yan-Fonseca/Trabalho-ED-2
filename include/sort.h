@@ -153,7 +153,15 @@ void timsort(ProductReview *vet, int n)
         insertionSort(vet,i,menor(i+RUN-1,n-1), &comparizons, &movement);
     }
 
-
+    for(int size = MINRUN; size < n; size = 2*size) {
+        for(int left = 0; left<n; left += 2*size) {
+            int meio = left + size -1;
+            int right = menor(left + 2*size - 1, n-1);
+            if(meio < right) {
+                merge(vet, left, mid, right);
+            }
+        }
+    }
     //--------------------------
 
     std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
