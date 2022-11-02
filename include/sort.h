@@ -72,7 +72,7 @@ void mergesort(ProductReview *vet, int n)
 }
 
 // insertionSort para o uso do TimSort.
-void insertionSort(ProductReview *vet, int init, int end) {
+void insertionSort(ProductReview *vet, int init, int end, double *comparizons, double *movement) {
     int j;
     ProductReview chave;
     for(int i=init+1; i<end; i++) {
@@ -81,8 +81,11 @@ void insertionSort(ProductReview *vet, int init, int end) {
         while(j>init && vet[j].getUserId().compare(chave.getUserId())>0) {
             vet[j+1] = vet[j];
             j--;
+            movement++;
+            comparizons++;
         }
         vet[i+1] = chave;
+        movement++;
     }
 }
 
@@ -95,7 +98,7 @@ int menor(int val1, int val2) {
 
 void timsort(ProductReview *vet, int n)
 {
-    double comparizons,movement,time;
+    double comparizons=0,movement=0,time;
     std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
     
     //Coloque o algoritmo abaixo
@@ -103,7 +106,7 @@ void timsort(ProductReview *vet, int n)
     int RUN = 32;
 
     for(int i=0; i<n; i+=RUN) {
-        insertionSort(vet,i,menor(i+RUN-1,n-1));
+        insertionSort(vet,i,menor(i+RUN-1,n-1), &comparizons, &movement);
     }
 
 
