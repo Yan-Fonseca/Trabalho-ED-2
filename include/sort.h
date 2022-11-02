@@ -131,6 +131,15 @@ void merge(ProductReview *vet, int inicio, int meio, int fim) {
     }
 }
 
+int minrun(int n) {
+    int r=0;
+    while(n>=64) {
+        r |= n & 1;
+        n>>=1;
+    }
+    return n + r;
+}
+
 void timsort(ProductReview *vet, int n)
 {
     double comparizons=0,movement=0,time;
@@ -138,9 +147,9 @@ void timsort(ProductReview *vet, int n)
     
     //Coloque o algoritmo abaixo
     //--------------------------
-    int RUN = 32;
+    int MINRUN = minrun(n);
 
-    for(int i=0; i<n; i+=RUN) {
+    for(int i=0; i<n; i+=MINRUN) {
         insertionSort(vet,i,menor(i+RUN-1,n-1), &comparizons, &movement);
     }
 
