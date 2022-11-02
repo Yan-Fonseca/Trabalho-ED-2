@@ -96,6 +96,41 @@ int menor(int val1, int val2) {
     return val1;
 }
 
+void merge(ProductReview *vet, int inicio, int meio, int fim) {
+    int i = inicio;
+    int j = meio;
+    int k = 0;
+
+    ProductReview aux[fim-meio+1];
+    
+    while(i<meio && j<fim) {
+        if(v[i].getUserId().compare(v[j].getUserId)<0) {
+            aux[k] = vet[i];
+            i++;
+        } else {
+            aux[k] = vet[j];
+            j++;
+        }
+        k++;
+    }
+
+    while (i<meio) {
+        aux[k] = v[i];
+        i++;
+        k++;
+    }
+    while (j<fim)
+    {
+        aux[k] = v[j];
+        j++;
+        k++;
+    }
+    
+    for(i = inicio; i<fim; i++) {
+        v[i] = aux[i-inicio];
+    }
+}
+
 void timsort(ProductReview *vet, int n)
 {
     double comparizons=0,movement=0,time;
