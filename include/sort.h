@@ -171,7 +171,6 @@ void timsort(ProductReview *vet, int n)
     std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
     time=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
     saveData(1,n,comparizons,movement,time);
-    std::cout << "Tempo de execução para n=10: " << time << "\n";
 }
 
 void radixsort(ProductReview *vet, int n)
