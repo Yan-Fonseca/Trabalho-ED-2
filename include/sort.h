@@ -96,7 +96,7 @@ int menor(int val1, int val2) {
     return val1;
 }
 
-void merge(ProductReview *vet, int inicio, int meio, int fim) {
+void merge(ProductReview *vet, int inicio, int meio, int fim, double *comparizons, double *movements) {
     int i = inicio;
     int j = meio;
     int k = 0;
@@ -111,6 +111,7 @@ void merge(ProductReview *vet, int inicio, int meio, int fim) {
             aux[k] = vet[j];
             j++;
         }
+        comparizons++;
         k++;
     }
 
@@ -118,16 +119,19 @@ void merge(ProductReview *vet, int inicio, int meio, int fim) {
         aux[k] = v[i];
         i++;
         k++;
+        movements++;
     }
     while (j<fim)
     {
         aux[k] = v[j];
         j++;
         k++;
+        movements;
     }
     
     for(i = inicio; i<fim; i++) {
         v[i] = aux[i-inicio];
+        movements++;
     }
 }
 
