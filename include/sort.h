@@ -86,6 +86,13 @@ void insertionSort(ProductReview *vet, int init, int end) {
     }
 }
 
+// Função que compara 2 valores e retorna o menor.
+int menor(int val1, int val2) {
+    if(val1>val2)
+        return val2;
+    return val1;
+}
+
 void timsort(ProductReview *vet, int n)
 {
     double comparizons,movement,time;
@@ -93,9 +100,11 @@ void timsort(ProductReview *vet, int n)
     
     //Coloque o algoritmo abaixo
     //--------------------------
+    int RUN = 32;
 
-
-
+    for(int i=0; i<n; i+=RUN) {
+        insertionSort(vet,i,menor(i+RUN-1,n-1));
+    }
 
 
     //--------------------------
