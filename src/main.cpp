@@ -19,7 +19,6 @@ void menu()
     //preSort();
     break;
   case 2:
-    //std::cout<<"Work in Progress\n";
     preHash();
     break;
   case 0:
@@ -70,7 +69,7 @@ int main(int argc, char **argv)
     
     
     //IMPORT
-    /*
+    
     double n=0;
     ProductReview* rreviews;
 
@@ -84,10 +83,9 @@ int main(int argc, char **argv)
     {
         rreviews[j].print();
     }
-    */
+   
 
-    //menu();
-    preHash();
+    menu();
 
     return 0;
 }
