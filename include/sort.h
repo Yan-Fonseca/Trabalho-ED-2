@@ -1,4 +1,4 @@
-#ifndef SORT_H
+/* #ifndef SORT_H
 #define SORT_H
 
 #include "func.h"
@@ -29,7 +29,7 @@ void saveData(int methodId,int n,double comparizons,double movimentations,double
         break;
     }
 
-    saida<<method<<" com "<<n<<" items:"<<comparizons<<","<<movimentations<<","<<time<<"\n";
+    saida<<method<<" com "<<n<<" items:\ncomps "<<comparizons<<", moves"<<movimentations<<", tempo:"<<time<<"\n";
 
 } 
 
@@ -52,6 +52,54 @@ void quicksort(ProductReview *vet, int n)
     saveData(1,n,comparizons,movement,time);
 }
 
+void merge(ProductReview *array,int const left, int const mid, int const right)
+{
+    int const arrayA= mid-left+1;
+    int const arrayB= right-mid;
+
+    ProductReview* A = new ProductReview[arrayA];
+    ProductReview* B = new ProductReview[arrayB];
+
+    for(int i=left;i<=mid;i++)
+        A[i-left]=array[i];
+    for(int i=mid+1;i<right;i++)
+        B[i-mid+1]=array[i];
+    
+    int indexA=0,indexB=0;
+    int index=left;
+
+    while(indexA<arrayA&&indexB<arrayB)
+    {
+        if(A[indexA].getUserId() <= B[indexB].getUserId())
+        {   
+            array[index]=A[indexA];
+            indexA++;
+        }
+        else
+        {
+           array[index]=B[indexB];
+            indexB++; 
+        }
+        index++;
+    }
+
+    while(indexA<arrayA)
+    {
+        array[index]=A[indexA];
+        indexA++;
+        index++;
+    }
+    while(indexB<arrayB)
+    {
+        array[index]=B[indexB];
+        indexB++;
+        index++;
+    }
+
+    delete[] A;
+    delete[] B; 
+}
+
 void mergesort(ProductReview *vet, int n)
 {
     double comparizons,movement,time;
@@ -71,6 +119,18 @@ void mergesort(ProductReview *vet, int n)
     saveData(1,n,comparizons,movement,time);
 }
 
+/* int* runDivider(ProductReview *array,int size)
+{
+    int const minrun = 64;
+    int runsize=0;
+    std::vector<int> divisions={0};
+    for(int i=0;i<size;i++)
+    {
+        if(runsize<minrun)
+            runsize++;
+        else if(runsize>=minrun&&array[i-1]<)
+    }
+} 
 // insertionSort para o uso do TimSort.
 void insertionSort(ProductReview *vet, int init, int end, double *comparizons, double *movement) {
     int j;
@@ -253,4 +313,4 @@ void preSort()
     } 
 }
 
-#endif
+#endif */

@@ -33,6 +33,7 @@ class ProductReview{
     void setTime(std::string time){timestamp=time;};
 
     void setData(std::string info);
+    void setNull();
 
     
 

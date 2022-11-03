@@ -1,5 +1,6 @@
 #include "../include/func.h"
 #include "../include/sort.h"
+#include "../include/hash.h"
 
 void menu()
 {
@@ -15,11 +16,10 @@ void menu()
   {
   case 1:
     std::cout<<"Work in Progress\n";
-    preSort();
+    //preSort();
     break;
   case 2:
-    std::cout<<"Work in Progress\n";
-    //preHash();
+    preHash();
     break;
   case 0:
     return;
@@ -36,11 +36,11 @@ int main(int argc, char **argv)
         std::string pa(argv[1]);
         path = pa;
     }
-    else path="../files/ratings_Electronics.csv";
+    else path="../files/";
 
     std::cout << "Caminho do arquivo especificado:"<<path<<"\n";
 
-    std::cout<<"\nSTARTING PRE PROCESSING\n";
+    std::cout<<"\n|====== STARTING PRE PROCESSING ======|\n\n";
 
     std::cout<<"\n"<<"Quantas reviews devem ser analizadas?"<<"\n";
     std::cin>>nReviews;
@@ -51,7 +51,7 @@ int main(int argc, char **argv)
     createBinary(path,nReviews);
     nReviews = getSize();
 
-    std::cout<<"\nPRE PROCESSING FINISHED\n";
+    std::cout<<"\n|====== PRE PROCESSING FINISHED ======|\n\n";
 
     //GET REVIEW
     /* 
@@ -69,7 +69,7 @@ int main(int argc, char **argv)
     
     
     //IMPORT
-    /*
+    
     double n=0;
     ProductReview* rreviews;
 
@@ -83,7 +83,7 @@ int main(int argc, char **argv)
     {
         rreviews[j].print();
     }
-    */
+   
 
     menu();
 

@@ -2,6 +2,8 @@
 
 ProductReview::ProductReview(std::string info)
 {
+    if(info=="")
+        return;
     std::vector<std::string> inf = splitString(info);
 
     setUserId(inf[0]);
@@ -50,4 +52,12 @@ void ProductReview::setData(std::string info)
     setProductId(inf[1]);
     setRating(inf[2]);
     setTime(inf[3]);
+}
+
+void ProductReview::setNull()
+{
+    setUserId("-1");
+    setProductId("-1");
+    setRating("-1");
+    setTime("-1");
 }
