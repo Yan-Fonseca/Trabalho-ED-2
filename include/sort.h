@@ -67,7 +67,7 @@ void mergesort(ProductReview *vet, int n)
 
     std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
     time=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
-    saveData(1,n,comparizons,movement,time);
+    saveData(2,n,comparizons,movement,time);
 }
 
 // insertionSort para o uso do TimSort.
@@ -148,8 +148,7 @@ void timsort(ProductReview *vet, int n)
     double comparizons=0,movement=0,time;
     std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
     
-    //Coloque o algoritmo abaixo
-    //--------------------------
+
     int MINRUN = minrun(n);
 
     for(int i=0; i<n; i+=MINRUN) {
@@ -165,11 +164,10 @@ void timsort(ProductReview *vet, int n)
             }
         }
     }
-    //--------------------------
 
     std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
     time=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
-    saveData(1,n,comparizons,movement,time);
+    saveData(3,n,comparizons,movement,time);
 }
 
 void radixsort(ProductReview *vet, int n)
@@ -188,7 +186,7 @@ void radixsort(ProductReview *vet, int n)
 
     std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
     time=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
-    saveData(1,n,comparizons,movement,time);
+    saveData(4,n,comparizons,movement,time);
 }
 
 
@@ -237,8 +235,8 @@ void preSort()
         N.push_back(stoi(value));
     }
 
-    for(int l=0;l<nSorts;l++) //itera entre os sorts
-    {
+    //for(int l=0;l<nSorts;l++) //itera entre os sorts
+    //{
         for(int k=0;k<i-1;k++)  //itera entre os valores de N
         {
             for(int j=0;j<M;j++) //roda M vezes
@@ -246,10 +244,10 @@ void preSort()
 
                 reviews = import(N[k]);
 
-                sort(reviews,N[k],l+1);     
+                sort(reviews,N[k],3);     
             }
         }
-    } 
+    //} 
 }
 
 #endif

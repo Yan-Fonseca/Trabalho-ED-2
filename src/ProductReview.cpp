@@ -14,7 +14,7 @@ ProductReview::ProductReview(std::string info)
 
 ProductReview::~ProductReview()
 {
-    delete(this);
+    //delete(this);
 }
 
 std::vector<std::string> ProductReview::splitString(std::string str){
