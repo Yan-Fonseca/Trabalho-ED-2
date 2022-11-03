@@ -1,6 +1,7 @@
 #include "sort.h"
 #include <cmath>
 
+//Counts the number of repetitions of each product ID
 int* counter;
 
 void startcounter(int n)
@@ -14,9 +15,10 @@ void deletecounter(){delete counter;}
 
 void countUp(int index){counter[index]++;}
 
+//finds the smallest prime number larger than num
 int erastotenes(int num)
 {
-    int n = num +100;
+    int n = num*2;
     std::vector<int> nat;
     for(int i=0;i<n+100;i++){
         nat.push_back(i);
@@ -62,7 +64,7 @@ int erastotenes(int num)
     return -1;
 }
 
-int twopowers(int n)
+/* int twopowers(int n)
 {
     int numero=2;
     std::vector<int> array;
@@ -71,8 +73,9 @@ int twopowers(int n)
         numero=numero*2;
     }
     return numero;
-}
+} */
 
+//Assigns a numerical value to a string
  double valueString(std::string s)
 {
     const char* c = s.c_str();
@@ -85,6 +88,7 @@ int twopowers(int n)
     return value;
 } 
 
+//Hash function
 int hash(std::string d, int colisions,int h1,int h2)
 {
     double a=valueString(d);
@@ -174,7 +178,7 @@ ProductReview* createTable(int n)
     std::cout<<"Number of Products: "<<nproducts<<"\n";
     std::cout<<"\n=========================|\n\n";
 
-    delete counter;
+    //delete counter;
 
     return table;
 }
@@ -182,9 +186,15 @@ ProductReview* createTable(int n)
 void preHash()
 {
     int n;
-    std::cout<<"Quantas reviews devem ter no hash?\n";
+    int P;
+    std::cout<<"Quantas reviews devem ter no hash?";
     std::cin>>n;
     ProductReview* table = createTable(n);
+    //sorttable(table,counter);
+    std::cout<<"\n\n====== Produtos mais recorrentes ======\n";
+    std::cout<<"\nQuantas posições devem ser visualizadas?";
+    std::cin>>P;
+    
 }
 
 
