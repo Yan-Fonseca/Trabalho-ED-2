@@ -244,10 +244,10 @@ void preSort()
         {
             for(int j=0;j<M;j++) //roda M vezes
             {
-                
+
                 reviews = import(N[k]);
 
-                sort(reviews,N[k],l+1);       
+                sort(reviews,N[k],l+1);     
             }
         }
     } 
