@@ -1,4 +1,4 @@
-/* #ifndef SORT_H
+ #ifndef SORT_H
 #define SORT_H
 
 #include "func.h"
@@ -52,7 +52,7 @@ void quicksort(ProductReview *vet, int n)
     saveData(1,n,comparizons,movement,time);
 }
 
-void merge(ProductReview *array,int const left, int const mid, int const right)
+void merge(ProductReview *array,int const left, int const mid, int const right, double *comparizons, double *movements)
 {
     int const arrayA= mid-left+1;
     int const arrayB= right-mid;
@@ -116,7 +116,7 @@ void mergesort(ProductReview *vet, int n)
 
     std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
     time=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
-    saveData(1,n,comparizons,movement,time);
+    saveData(2,n,comparizons,movement,time);
 }
 
 /* int* runDivider(ProductReview *array,int size)
@@ -130,23 +130,26 @@ void mergesort(ProductReview *vet, int n)
             runsize++;
         else if(runsize>=minrun&&array[i-1]<)
     }
-} 
+} */
+
 // insertionSort para o uso do TimSort.
 void insertionSort(ProductReview *vet, int init, int end, double *comparizons, double *movement) {
     int j;
     ProductReview chave;
-    for(int i=init+1; i<end; i++) {
+    for(int i=init+1; i<=end; i++) {
+        std::cout << "Valor de i: " << i << "\n";
         chave = vet[i];
         j = i - 1;
-        while(j>init && vet[j].getUserId().compare(chave.getUserId())>0) {
+        while(j>=init && vet[j].getUserId().compare(chave.getUserId())>0) {
             vet[j+1] = vet[j];
-            j--;
+            --j;
             movement++;
             comparizons++;
         }
-        vet[i+1] = chave;
+        vet[j+1] = chave;
         movement++;
     }
+    std::cout << "Dentro do insertion\n\n";
 }
 
 // Função que compara 2 valores e retorna o menor.
@@ -156,7 +159,7 @@ int menor(int val1, int val2) {
     return val1;
 }
 
-void merge(ProductReview *vet, int inicio, int meio, int fim, double *comparizons, double *movements) {
+/*void merge(ProductReview *vet, int inicio, int meio, int fim, double *comparizons, double *movements) {
     int i = inicio;
     int j = meio;
     int k = 0;
@@ -193,7 +196,7 @@ void merge(ProductReview *vet, int inicio, int meio, int fim, double *comparizon
         vet[i] = aux[i-inicio];
         movements++;
     }
-}
+}*/
 
 int minrun(int n) {
     int r=0;
@@ -213,13 +216,18 @@ void timsort(ProductReview *vet, int n)
     //--------------------------
     int MINRUN = minrun(n);
 
+    std::cout << "Teste\n\n";
+    std::cout << MINRUN << "\n\n";
     for(int i=0; i<n; i+=MINRUN) {
+        std::cout << "Testing insertion\n";
         insertionSort(vet,i,menor(i+MINRUN-1,n-1), &comparizons, &movement);
     }
 
+    std::cout << "Teste 2\n\n";
+    std::cout << MINRUN << "\n\n";
     for(int size = MINRUN; size < n; size = 2*size) {
         for(int left = 0; left<n; left += 2*size) {
-            int mid = left + size -1;
+            int mid = left + size - 1;
             int right = menor(left + 2*size - 1, n-1);
             if(mid < right) {
                 merge(vet, left, mid, right, &comparizons, &movement);
@@ -230,7 +238,7 @@ void timsort(ProductReview *vet, int n)
 
     std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
     time=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
-    saveData(1,n,comparizons,movement,time);
+    saveData(3,n,comparizons,movement,time);
 }
 
 void radixsort(ProductReview *vet, int n)
@@ -249,7 +257,7 @@ void radixsort(ProductReview *vet, int n)
 
     std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
     time=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
-    saveData(1,n,comparizons,movement,time);
+    saveData(4,n,comparizons,movement,time);
 }
 
 
@@ -264,10 +272,10 @@ void sort(ProductReview *vet, int n, int methodId)
     switch (methodId)
     {
     case 1:
-        quicksort(vet,n);
+        //quicksort(vet,n);
         break;
     case 2:
-        mergesort(vet,n);
+        //mergesort(vet,n);
         break;
     case 3:
         timsort(vet,n);
@@ -313,4 +321,4 @@ void preSort()
     } 
 }
 
-#endif */
+#endif

@@ -16,7 +16,7 @@ void menu()
   {
   case 1:
     std::cout<<"Work in Progress\n";
-    //preSort();
+    preSort();
     break;
   case 2:
     preHash();
