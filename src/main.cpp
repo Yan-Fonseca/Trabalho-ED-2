@@ -15,8 +15,7 @@ void menu()
   switch (input)
   {
   case 1:
-    std::cout<<"Work in Progress\n";
-    //preSort();
+    preSort();
     break;
   case 2:
     preHash();
@@ -69,7 +68,7 @@ int main(int argc, char **argv)
     
     
     //IMPORT
-    
+    /* 
     double n=0;
     ProductReview* rreviews;
 
@@ -82,8 +81,8 @@ int main(int argc, char **argv)
     for(int j=0;j<n;j++)
     {
         rreviews[j].print();
-    }
-   
+    } 
+   */
 
     menu();
 
