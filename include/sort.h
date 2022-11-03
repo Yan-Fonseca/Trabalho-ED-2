@@ -131,19 +131,101 @@ void mergesort(ProductReview *vet, int n)
         else if(runsize>=minrun&&array[i-1]<)
     }
 } 
+// insertionSort para o uso do TimSort.
+void insertionSort(ProductReview *vet, int init, int end, double *comparizons, double *movement) {
+    int j;
+    ProductReview chave;
+    for(int i=init+1; i<end; i++) {
+        chave = vet[i];
+        j = i - 1;
+        while(j>init && vet[j].getUserId().compare(chave.getUserId())>0) {
+            vet[j+1] = vet[j];
+            j--;
+            movement++;
+            comparizons++;
+        }
+        vet[i+1] = chave;
+        movement++;
+    }
+}
+
+// Função que compara 2 valores e retorna o menor.
+int menor(int val1, int val2) {
+    if(val1>val2)
+        return val2;
+    return val1;
+}
+
+void merge(ProductReview *vet, int inicio, int meio, int fim, double *comparizons, double *movements) {
+    int i = inicio;
+    int j = meio;
+    int k = 0;
+
+    ProductReview aux[fim-meio+1];
+    
+    while(i<meio && j<fim) {
+        if(vet[i].getUserId().compare(vet[j].getUserId())<0) {
+            aux[k] = vet[i];
+            i++;
+        } else {
+            aux[k] = vet[j];
+            j++;
+        }
+        comparizons++;
+        k++;
+    }
+
+    while (i<meio) {
+        aux[k] = vet[i];
+        i++;
+        k++;
+        movements++;
+    }
+    while (j<fim)
+    {
+        aux[k] = vet[j];
+        j++;
+        k++;
+        movements;
+    }
+    
+    for(i = inicio; i<fim; i++) {
+        vet[i] = aux[i-inicio];
+        movements++;
+    }
+}
+
+int minrun(int n) {
+    int r=0;
+    while(n>=64) {
+        r |= n & 1;
+        n>>=1;
+    }
+    return n + r;
+}
 
 void timsort(ProductReview *vet, int n)
 {
-    double comparizons,movement,time;
+    double comparizons=0,movement=0,time;
     std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
     
     //Coloque o algoritmo abaixo
     //--------------------------
+    int MINRUN = minrun(n);
 
+    for(int i=0; i<n; i+=MINRUN) {
+        insertionSort(vet,i,menor(i+MINRUN-1,n-1), &comparizons, &movement);
+    }
 
-
-
-
+    for(int size = MINRUN; size < n; size = 2*size) {
+        for(int left = 0; left<n; left += 2*size) {
+            int mid = left + size -1;
+            int right = menor(left + 2*size - 1, n-1);
+            if(mid < right) {
+                merge(vet, left, mid, right, &comparizons, &movement);
+            }
+        }
+    }
     //--------------------------
 
     std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
@@ -222,15 +304,13 @@ void preSort()
         {
             for(int j=0;j<M;j++) //roda M vezes
             {
-                
+
                 reviews = import(N[k]);
 
-                sort(reviews,N[k],l+1);       
+                sort(reviews,N[k],l+1);     
             }
         }
     } 
-        
-    
 }
 
 #endif */
