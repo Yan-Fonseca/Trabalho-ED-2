@@ -1,0 +1,2 @@
+timsort com 10 items:
+comps 0, moves0, tempo:15.4578

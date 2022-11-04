@@ -133,7 +133,7 @@ void mergesort(ProductReview *vet, int n)
 } */
 
 // insertionSort para o uso do TimSort.
-void insertionSort(ProductReview *vet, int init, int end, double *comparizons, double *movement) {
+ProductReview* insertionSort(ProductReview *vet, int init, int end, double *comparizons, double *movement) {
     int j;
     ProductReview chave;
     for(int i=init+1; i<=end; i++) {
@@ -143,13 +143,14 @@ void insertionSort(ProductReview *vet, int init, int end, double *comparizons, d
         while(j>=init && vet[j].getUserId().compare(chave.getUserId())>0) {
             vet[j+1] = vet[j];
             --j;
-            movement++;
-            comparizons++;
+            //movement++;
+            //comparizons++;
         }
         vet[j+1] = chave;
-        movement++;
+        //movement++;
     }
     std::cout << "Dentro do insertion\n\n";
+    return vet;
 }
 
 // Função que compara 2 valores e retorna o menor.
@@ -220,7 +221,8 @@ void timsort(ProductReview *vet, int n)
     std::cout << MINRUN << "\n\n";
     for(int i=0; i<n; i+=MINRUN) {
         std::cout << "Testing insertion\n";
-        insertionSort(vet,i,menor(i+MINRUN-1,n-1), &comparizons, &movement);
+        vet = insertionSort(vet,i,menor(i+MINRUN-1,n-1), &comparizons, &movement);
+        std::cout << "Pós insertion\n";
     }
 
     std::cout << "Teste 2\n\n";
