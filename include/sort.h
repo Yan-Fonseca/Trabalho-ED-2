@@ -54,11 +54,8 @@ void quicksort(ProductReview *vet, int n)
 
 ProductReview* merge(ProductReview array[],int left, int mid, int right, double *comparizons, double *movements)
 {
-    //std::cout << "Dentro do merge\n";
     int arrayA= mid-left+1;
     int arrayB= right-mid;
-
-    //std::cout << "Após definição de ArrayA e ArrayB\n";
 
     ProductReview* A = new ProductReview[arrayA];
     ProductReview* B = new ProductReview[arrayB];
@@ -142,7 +139,6 @@ ProductReview* insertionSort(ProductReview *vet, int init, int end, double *comp
     int j;
     ProductReview chave;
     for(int i=init+1; i<=end; i++) {
-        std::cout << "Valor de i: " << i << "\n";
         chave = vet[i];
         j = i - 1;
         while(j>=init && vet[j].getUserId().compare(chave.getUserId())>0) {
@@ -285,7 +281,7 @@ void sort(ProductReview *vet, int n, int methodId)
         timsort(vet,n);
         break;
     case 4:
-        radixsort(vet,n);
+        //radixsort(vet,n);
         break;
     default:
         std::cout<<"Sorting algorithm ID not valid\n";
