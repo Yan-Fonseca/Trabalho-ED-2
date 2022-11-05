@@ -29,7 +29,7 @@ void saveData(int methodId,int n,double comparizons,double movimentations,double
         break;
     }
 
-    saida<<method<<" com "<<n<<" items:\ncomps "<<comparizons<<", moves"<<movimentations<<", tempo:"<<time<<"\n";
+    saida<<method<<" com "<<n<<" items:\ncomps "<<comparizons<<", moves "<<movimentations<<", tempo: "<<time<<"\n";
 
 } 
 
@@ -79,9 +79,7 @@ ProductReview* merge(ProductReview array[],int left, int mid, int right, double 
         (*comparizons)++; 
         index++;
     }
-
     // só vai executar um dos dois while abaixo 
-
     //copia qualquer entrada restante da primeira metade do array
     while(indexA<arrayA){
         array[index]=A[indexA];
@@ -96,10 +94,10 @@ ProductReview* merge(ProductReview array[],int left, int mid, int right, double 
         index++;
         (*movements)++;
     }
-    //deleta e retorna o array 
+    //deleta arrays temporarios
     delete[] A;
     delete[] B; 
-
+    //retorna o array principal
     return array;
 }
 
@@ -121,7 +119,9 @@ void mergesort(ProductReview *vet, int n)
     
     //Coloque o algoritmo abaixo
     //--------------------------
+    
     StartmergeSort( vet , 0, n, &comparizons, &movement);
+
     //--------------------------
 
     std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
