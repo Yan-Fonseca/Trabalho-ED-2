@@ -54,12 +54,15 @@ void quicksort(ProductReview *vet, int n)
 
 ProductReview* merge(ProductReview array[],int left, int mid, int right, double *comparizons, double *movements)
 {
-    // tamanho do intervalo do merge
+    int arrayA= mid-left+1; // tamanho do intervalo do merge
     // merg das duas metades em um array temporário b
     // pegar o próximo elemento a ser considerado no primeiro intervalo
     // pegar próximo elemento a ser considerado no segundo intervalo
     // próxima posição vaga do vetor b
     // while enquanto o i nem j passem do final e mova o menor para b
+
+
+    // só vai executar um dos dois while abaixo e copia qualquer entrada restante da primeira metade
 }
 
 void mergesort(ProductReview *vet, int n)
