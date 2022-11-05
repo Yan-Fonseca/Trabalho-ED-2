@@ -52,6 +52,15 @@ void quicksort(ProductReview *vet, int n)
     saveData(1,n,comparizons,movement,time);
 }
 
+ProductReview* merge(ProductReview array[],int left, int mid, int right, double *comparizons, double *movements)
+{
+    // tamanho do intervalo do merge
+    // merg das duas metades em um array temporário b
+    // pegar o próximo elemento a ser considerado no primeiro intervalo
+    // pegar próximo elemento a ser considerado no segundo intervalo
+    // próxima posição vaga do vetor b
+    // while enquanto o i nem j passem do final e mova o menor para b
+}
 
 void mergesort(ProductReview *vet, int n)
 {
@@ -111,6 +120,7 @@ int menor(int val1, int val2) {
         return val2;
     return val1;
 }
+
 
 int minrun(int n) {
     int r=0;
