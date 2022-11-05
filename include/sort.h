@@ -54,7 +54,7 @@ void quicksort(ProductReview *vet, int n)
 
 ProductReview* merge(ProductReview array[],int left, int mid, int right, double *comparizons, double *movements)
 {
-    int arrayA= mid-left+1; // cria o array temporario A com tamanho do intervalo do merge
+    int arrayA= mid-left+1; //cria o array temporario A com tamanho do intervalo do merge
     int arrayB= right-mid; //cria o array temporario B com tamanho do intervalo do merge
 
     ProductReview* A = new ProductReview[arrayA]; 
@@ -102,6 +102,17 @@ ProductReview* merge(ProductReview array[],int left, int mid, int right, double 
     delete[] B; 
 
     return array;
+}
+
+void StartmergeSort(ProductReview array[], int left, int right, double *comparizons, double *movements) {
+    if (left == right) {
+        return;
+    }
+    int mid = (left + right) / 2;
+    // pega a primeira e a segunda metade
+    StartmergeSort (array, left, mid, comparizons,movements);
+    StartmergeSort(array, mid + 1, right, comparizons, movements);
+    merge(array , left, mid, right,comparizons, movements);
 }   
 
 void mergesort(ProductReview *vet, int n)
@@ -111,7 +122,7 @@ void mergesort(ProductReview *vet, int n)
     
     //Coloque o algoritmo abaixo
     //--------------------------
-
+    StartmergeSort( vet , 0, n,&comparizons,&movement);
 
 
 
