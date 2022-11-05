@@ -73,13 +73,10 @@ ProductReview* merge(ProductReview array[],int left, int mid, int right, double 
         if(A[indexA].getUserId().compare(B[indexB].getUserId()) < 0){   
             array[index]=A[indexA];
             indexA++;
-        }else if(A[indexA].getUserId().compare(B[indexB].getUserId()) == 0) { //verificar se as Strings são iguais
-            array[index]=A[indexA];
-            indexA++;
-        //aumeta o contado de strings iguais
         }else{array[index]=B[indexB];
-            indexB++; 
+            indexB++;
         }
+        (*comparizons)++; 
         index++;
     }
 
@@ -90,12 +87,14 @@ ProductReview* merge(ProductReview array[],int left, int mid, int right, double 
         array[index]=A[indexA];
         indexA++;
         index++;
+        (*movements)++;
     }
     //copia qualquer entrada restante da segunda metade do array
     while(indexB<arrayB){
         array[index]=B[indexB];
         indexB++;
         index++;
+        (*movements)++;
     }
     //deleta e retorna o array 
     delete[] A;
@@ -122,11 +121,7 @@ void mergesort(ProductReview *vet, int n)
     
     //Coloque o algoritmo abaixo
     //--------------------------
-    StartmergeSort( vet , 0, n,&comparizons,&movement);
-
-
-
-
+    StartmergeSort( vet , 0, n, &comparizons, &movement);
     //--------------------------
 
     std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
