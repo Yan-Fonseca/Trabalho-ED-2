@@ -62,8 +62,21 @@ ProductReview* merge(ProductReview array[],int left, int mid, int right, double 
     // while enquanto o i nem j passem do final e mova o menor para b
 
 
-    // só vai executar um dos dois while abaixo e copia qualquer entrada restante da primeira metade
-}
+    // só vai executar um dos dois while abaixo 
+
+    //copia qualquer entrada restante da primeira metade do array
+    while(indexA<arrayA){
+        array[index]=A[indexA];
+        indexA++;
+        index++;
+    }
+    //copia qualquer entrada restante da segunda metade do array
+    while(indexB<arrayB){
+        array[index]=B[indexB];
+        indexB++;
+        index++;
+    }
+}   
 
 void mergesort(ProductReview *vet, int n)
 {
