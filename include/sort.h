@@ -52,10 +52,13 @@ void quicksort(ProductReview *vet, int n)
     saveData(1,n,comparizons,movement,time);
 }
 
-void merge(ProductReview *array,int const left, int const mid, int const right, double *comparizons, double *movements)
+ProductReview* merge(ProductReview array[],int left, int mid, int right, double *comparizons, double *movements)
 {
-    int const arrayA= mid-left+1;
-    int const arrayB= right-mid;
+    //std::cout << "Dentro do merge\n";
+    int arrayA= mid-left+1;
+    int arrayB= right-mid;
+
+    //std::cout << "Após definição de ArrayA e ArrayB\n";
 
     ProductReview* A = new ProductReview[arrayA];
     ProductReview* B = new ProductReview[arrayB];
@@ -63,14 +66,14 @@ void merge(ProductReview *array,int const left, int const mid, int const right, 
     for(int i=left;i<=mid;i++)
         A[i-left]=array[i];
     for(int i=mid+1;i<right;i++)
-        B[i-mid+1]=array[i];
+        B[i-mid]=array[i]; // Foi retirado o +1 de B[i-mid+1], pois acessa memória indevida
     
     int indexA=0,indexB=0;
     int index=left;
 
     while(indexA<arrayA&&indexB<arrayB)
     {
-        if(A[indexA].getUserId() <= B[indexB].getUserId())
+        if(A[indexA].getUserId().compare(B[indexB].getUserId()) < 0)
         {   
             array[index]=A[indexA];
             indexA++;
@@ -98,6 +101,8 @@ void merge(ProductReview *array,int const left, int const mid, int const right, 
 
     delete[] A;
     delete[] B; 
+
+    return array;
 }
 
 void mergesort(ProductReview *vet, int n)
@@ -143,11 +148,11 @@ ProductReview* insertionSort(ProductReview *vet, int init, int end, double *comp
         while(j>=init && vet[j].getUserId().compare(chave.getUserId())>0) {
             vet[j+1] = vet[j];
             --j;
-            //movement++;
-            //comparizons++;
+            (*movement)++;
+            (*comparizons)++;
         }
         vet[j+1] = chave;
-        //movement++;
+        (*movement)++;
     }
     std::cout << "Dentro do insertion\n\n";
     return vet;
@@ -160,7 +165,7 @@ int menor(int val1, int val2) {
     return val1;
 }
 
-/*void merge(ProductReview *vet, int inicio, int meio, int fim, double *comparizons, double *movements) {
+/*ProductReview* merge(ProductReview *vet, int inicio, int meio, int fim, double *comparizons, double *movements) {
     int i = inicio;
     int j = meio;
     int k = 0;
@@ -175,7 +180,7 @@ int menor(int val1, int val2) {
             aux[k] = vet[j];
             j++;
         }
-        comparizons++;
+        (*comparizons)++;
         k++;
     }
 
@@ -183,20 +188,22 @@ int menor(int val1, int val2) {
         aux[k] = vet[i];
         i++;
         k++;
-        movements++;
+        (*movements)++;
     }
     while (j<fim)
     {
         aux[k] = vet[j];
         j++;
         k++;
-        movements;
+        (*movements);
     }
     
     for(i = inicio; i<fim; i++) {
         vet[i] = aux[i-inicio];
-        movements++;
+        (*movements)++;
     }
+
+    return vet;
 }*/
 
 int minrun(int n) {
@@ -217,22 +224,17 @@ void timsort(ProductReview *vet, int n)
     //--------------------------
     int MINRUN = minrun(n);
 
-    std::cout << "Teste\n\n";
-    std::cout << MINRUN << "\n\n";
     for(int i=0; i<n; i+=MINRUN) {
-        std::cout << "Testing insertion\n";
         vet = insertionSort(vet,i,menor(i+MINRUN-1,n-1), &comparizons, &movement);
-        std::cout << "Pós insertion\n";
     }
 
-    std::cout << "Teste 2\n\n";
-    std::cout << MINRUN << "\n\n";
+    std::cout << "minrun: " << MINRUN << "\n";
     for(int size = MINRUN; size < n; size = 2*size) {
         for(int left = 0; left<n; left += 2*size) {
             int mid = left + size - 1;
             int right = menor(left + 2*size - 1, n-1);
             if(mid < right) {
-                merge(vet, left, mid, right, &comparizons, &movement);
+                vet = merge(vet, left, mid, right, &comparizons, &movement);
             }
         }
     }
