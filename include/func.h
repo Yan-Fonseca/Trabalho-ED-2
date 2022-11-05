@@ -231,15 +231,56 @@ void createBinary(std::string p, double n)
     }
 }
 
+int anti_duplicate(int arr[],int num,int filled,int max)
+{
+
+    //Binary Search
+    int lo = 0, hi = filled;
+    int mid;
+    // This below check covers all cases , so need to check
+    // for mid=lo-(hi-lo)/2
+    while (hi - lo > 1) {
+        int mid = (hi + lo) / 2;
+        if (v[mid] < num) {
+            lo = mid + 1;
+        }
+        else {
+            hi = mid;
+        }
+    }
+    if (v[lo] == num) {
+        cout << "Found"
+             << " At Index " << lo << endl;
+    }
+    else if (v[hi] == To_Find) {
+        cout << "Found"
+             << " At Index " << hi << endl;
+    }
+    else {
+        cout << "Not Found" << endl;
+    }
+}
+
+
+
 ProductReview* import(int n)
 {
+    int *arr = new int[n];
+    int j=0;
+    int rnd=0;
 
     ProductReview *b = new ProductReview[n];
     
     for(int i=0;i<n;i++)
     {
         srand(i*time(0));
-        std::string info = getReviewString(rand()% nReviews);
+        rnd=rand()% nReviews;
+        
+
+        rnd=anti_duplicate(arr,rnd,j,nReviews);
+        j++;
+
+        std::string info = getReviewString(rnd);
         b[i].setData(info);
     }
     return b;
