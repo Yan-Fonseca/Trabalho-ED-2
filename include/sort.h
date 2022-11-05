@@ -59,8 +59,20 @@ ProductReview* merge(ProductReview array[],int left, int mid, int right, double 
     // pegar o próximo elemento a ser considerado no primeiro intervalo
     // pegar próximo elemento a ser considerado no segundo intervalo
     // próxima posição vaga do vetor b
-    // while enquanto o i nem j passem do final e mova o menor para b
 
+
+    //adiciona a menor string no array e aumenta o contador
+    while(indexA<arrayA&&indexB<arrayB){
+        if(A[indexA].getUserId().compare(B[indexB].getUserId()) < 0){   
+            array[index]=A[indexA];
+            indexA++;
+        }
+        else{
+           array[index]=B[indexB];
+            indexB++; 
+        }
+        index++;
+    }
 
     // só vai executar um dos dois while abaixo 
 
@@ -76,6 +88,11 @@ ProductReview* merge(ProductReview array[],int left, int mid, int right, double 
         indexB++;
         index++;
     }
+    //deleta e retorna o array 
+    delete[] A;
+    delete[] B; 
+
+    return array;
 }   
 
 void mergesort(ProductReview *vet, int n)
