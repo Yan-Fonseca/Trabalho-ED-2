@@ -52,55 +52,6 @@ void quicksort(ProductReview *vet, int n)
     saveData(1,n,comparizons,movement,time);
 }
 
-ProductReview* merge(ProductReview array[],int left, int mid, int right, double *comparizons, double *movements)
-{
-    int arrayA= mid-left+1;
-    int arrayB= right-mid;
-
-    ProductReview* A = new ProductReview[arrayA];
-    ProductReview* B = new ProductReview[arrayB];
-
-    for(int i=left;i<=mid;i++)
-        A[i-left]=array[i];
-    for(int i=mid+1;i<right;i++)
-        B[i-mid]=array[i]; // Foi retirado o +1 de B[i-mid+1], pois acessa memória indevida
-    
-    int indexA=0,indexB=0;
-    int index=left;
-
-    while(indexA<arrayA&&indexB<arrayB)
-    {
-        if(A[indexA].getUserId().compare(B[indexB].getUserId()) < 0)
-        {   
-            array[index]=A[indexA];
-            indexA++;
-        }
-        else
-        {
-           array[index]=B[indexB];
-            indexB++; 
-        }
-        index++;
-    }
-
-    while(indexA<arrayA)
-    {
-        array[index]=A[indexA];
-        indexA++;
-        index++;
-    }
-    while(indexB<arrayB)
-    {
-        array[index]=B[indexB];
-        indexB++;
-        index++;
-    }
-
-    delete[] A;
-    delete[] B; 
-
-    return array;
-}
 
 void mergesort(ProductReview *vet, int n)
 {
@@ -160,47 +111,6 @@ int menor(int val1, int val2) {
         return val2;
     return val1;
 }
-
-/*ProductReview* merge(ProductReview *vet, int inicio, int meio, int fim, double *comparizons, double *movements) {
-    int i = inicio;
-    int j = meio;
-    int k = 0;
-
-    ProductReview aux[fim-meio+1];
-    
-    while(i<meio && j<fim) {
-        if(vet[i].getUserId().compare(vet[j].getUserId())<0) {
-            aux[k] = vet[i];
-            i++;
-        } else {
-            aux[k] = vet[j];
-            j++;
-        }
-        (*comparizons)++;
-        k++;
-    }
-
-    while (i<meio) {
-        aux[k] = vet[i];
-        i++;
-        k++;
-        (*movements)++;
-    }
-    while (j<fim)
-    {
-        aux[k] = vet[j];
-        j++;
-        k++;
-        (*movements);
-    }
-    
-    for(i = inicio; i<fim; i++) {
-        vet[i] = aux[i-inicio];
-        (*movements)++;
-    }
-
-    return vet;
-}*/
 
 int minrun(int n) {
     int r=0;
