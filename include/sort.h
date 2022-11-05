@@ -35,7 +35,7 @@ void saveData(int methodId,int n,double comparizons,double movimentations,double
 
 void quicksort(ProductReview *vet, int n)
 {
-    double comparizons,movement,time;
+    double comparizons=0,movement=0,time;
     std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
     
     //Coloque o algoritmo abaixo
@@ -116,7 +116,7 @@ void StartmergeSort(ProductReview array[], int left, int right, double *compariz
 
 void mergesort(ProductReview *vet, int n)
 {
-    double comparizons,movement,time;
+    double comparizons=0,movement=0,time;
     std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
     
     //Coloque o algoritmo abaixo
@@ -211,7 +211,7 @@ void timsort(ProductReview *vet, int n)
 
 void radixsort(ProductReview *vet, int n)
 {
-    double comparizons,movement,time;
+    double comparizons=0,movement=0,time;
     std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
     
     //Coloque o algoritmo abaixo
