@@ -73,9 +73,11 @@ ProductReview* merge(ProductReview array[],int left, int mid, int right, double 
         if(A[indexA].getUserId().compare(B[indexB].getUserId()) < 0){   
             array[index]=A[indexA];
             indexA++;
-        }
-        else{
-           array[index]=B[indexB];
+        }else if(A[indexA].getUserId().compare(B[indexB].getUserId()) == 0) { //verificar se as Strings são iguais
+            array[index]=A[indexA];
+            indexA++;
+        //aumeta o contado de strings iguais
+        }else{array[index]=B[indexB];
             indexB++; 
         }
         index++;
