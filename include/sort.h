@@ -54,12 +54,17 @@ void quicksort(ProductReview *vet, int n)
 
 ProductReview* merge(ProductReview array[],int left, int mid, int right, double *comparizons, double *movements)
 {
-    int arrayA= mid-left+1; // tamanho do intervalo do merge
-    // merg das duas metades em um array temporário b
-    // pegar o próximo elemento a ser considerado no primeiro intervalo
-    // pegar próximo elemento a ser considerado no segundo intervalo
-    // próxima posição vaga do vetor b
+    int arrayA= mid-left+1; // cria o array temporario A com tamanho do intervalo do merge
+    int arrayB= right-mid; //cria o array temporario B com tamanho do intervalo do merge
 
+    ProductReview* A = new ProductReview[arrayA]; 
+    ProductReview* B = new ProductReview[arrayB];
+
+    for(int i=left;i<=mid;i++)
+        A[i-left]=array[i]; //próximo elemento a considerar no primeiro intervalo
+    for(int i=mid+1;i<right;i++) //próximo elemento a considerar no segundo intervalo
+        B[i-mid]=array[i]; // Foi retirado o +1 de B[i-mid+1], pois acessa memória indevida
+    
 
     //adiciona a menor string no array e aumenta o contador
     while(indexA<arrayA&&indexB<arrayB){
