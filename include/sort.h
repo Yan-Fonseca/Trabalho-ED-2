@@ -65,6 +65,8 @@ ProductReview* merge(ProductReview array[],int left, int mid, int right, double 
     for(int i=mid+1;i<right;i++) //próximo elemento a considerar no segundo intervalo
         B[i-mid]=array[i]; // Foi retirado o +1 de B[i-mid+1], pois acessa memória indevida
     
+    int indexA=0,indexB=0; //declara os contadores do Array A,B 
+    int index=left;
 
     //adiciona a menor string no array e aumenta o contador
     while(indexA<arrayA&&indexB<arrayB){
