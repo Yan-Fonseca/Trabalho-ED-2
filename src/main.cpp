@@ -69,7 +69,7 @@ int main(int argc, char **argv)
     
     
     //IMPORT
-    
+    /* 
     double n=0;
     ProductReview* rreviews;
 
@@ -83,7 +83,7 @@ int main(int argc, char **argv)
     {
         rreviews[j].print();
     }
-   
+    */
 
     menu();
 

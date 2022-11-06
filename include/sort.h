@@ -273,14 +273,19 @@ void preSort()
         getline(file,value);
         N.push_back(stoi(value));
     }
+
     for(int l=0;l<nSorts;l++) //itera entre os sorts
     { 
+        
         for(int k=0;k<i-1;k++)  //itera entre os valores de N
         {
+
             for(int j=0;j<M;j++) //roda M vezes
             {
+
                 reviews = import(N[0]);
                 sort(reviews,N[0],l+1);     
+                
             }
         }  
     }
