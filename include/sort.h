@@ -1,4 +1,4 @@
- #ifndef SORT_H
+#ifndef SORT_H
 #define SORT_H
 
 #include "func.h"
@@ -52,7 +52,7 @@ void quicksort(ProductReview *vet, int n)
     saveData(1,n,comparizons,movement,time);
 }
 
-ProductReview* merge(ProductReview array[],int left, int mid, int right, double *comparizons, double *movements)
+void merge(ProductReview array[],int left, int mid, int right, double *comparizons, double *movements)
 {
     int arrayA= mid-left+1; //cria o array temporario A com tamanho do intervalo do merge
     int arrayB= right-mid; //cria o array temporario B com tamanho do intervalo do merge
@@ -98,7 +98,7 @@ ProductReview* merge(ProductReview array[],int left, int mid, int right, double 
     delete[] A;
     delete[] B; 
     //retorna o array principal
-    return array;
+    //return array;
 }
 
 void StartmergeSort(ProductReview array[], int left, int right, double *comparizons, double *movements) {
@@ -120,7 +120,7 @@ void mergesort(ProductReview *vet, int n)
     //Coloque o algoritmo abaixo
     //--------------------------
     
-    StartmergeSort( vet , 0, n, &comparizons, &movement);
+    StartmergeSort( vet , 0, n-1, &comparizons, &movement);
 
     //--------------------------
 
@@ -198,7 +198,7 @@ void timsort(ProductReview *vet, int n)
             int mid = left + size - 1;
             int right = menor(left + 2*size - 1, n-1);
             if(mid < right) {
-                vet = merge(vet, left, mid, right, &comparizons, &movement);
+                merge(vet, left, mid, right, &comparizons, &movement);
             }
         }
     }
@@ -243,7 +243,7 @@ void sort(ProductReview *vet, int n, int methodId)
         //quicksort(vet,n);
         break;
     case 2:
-        //mergesort(vet,n);
+        mergesort(vet,n);
         break;
     case 3:
         timsort(vet,n);
@@ -274,19 +274,21 @@ void preSort()
         N.push_back(stoi(value));
     }
 
-    for(int l=0;l<nSorts;l++) //itera entre os sorts
-    {
+    int l=1;
+
+   /*  for(int l=0;l<nSorts;l++) //itera entre os sorts
+    { 
         for(int k=0;k<i-1;k++)  //itera entre os valores de N
         {
             for(int j=0;j<M;j++) //roda M vezes
-            {
+            {*/
 
-                reviews = import(N[k]);
+                reviews = import(N[0]);
 
-                sort(reviews,N[k],l+1);     
-            }
+                sort(reviews,N[0],l+1);     
+            /*}
         }
-    } 
+     }  */
 }
 
 #endif
