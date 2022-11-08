@@ -34,6 +34,7 @@ int erastotenes(int num)
     for(int a=0;a<(n/2);a++){
         
         for(int c=0;c<(n-trashed);c++){ 
+            if(divisor!=0)
             if(nat[c]%divisor==0){
                 nat[c]=0;
                 trash++;
@@ -53,7 +54,7 @@ int erastotenes(int num)
             }
             
         }
-        if(divisor>num)
+        if(divisor>=num)
             return divisor;
         divisor=nat[0];
         b+=1;
@@ -132,7 +133,7 @@ ProductReview* createTable(int n)
     for(int i=0;i<n;i++)
     {
         finished=false;
-        colisions=0;
+        
         for(int c=0;!finished;c++)
         {
             index=hash(imports[i].getProductId(),c,size,h2);
@@ -151,7 +152,6 @@ ProductReview* createTable(int n)
                 continue;
             }
             else{
-                colisions++;
                 ccounter++;
             }
             
@@ -187,13 +187,13 @@ void preHash()
 {
     int n;
     int P;
-    std::cout<<"Quantas reviews devem ter no hash?";
+    std::cout<<"Quantas reviews devem ter no hash?\n";
     std::cin>>n;
     ProductReview* table = createTable(n);
     //sorttable(table,counter);
     std::cout<<"\n\n====== Produtos mais recorrentes ======\n";
-    std::cout<<"\nQuantas posições devem ser visualizadas?";
-    std::cin>>P;
+    /* std::cout<<"\nQuantas posições devem ser visualizadas?";
+    std::cin>>P; */
     
 }
 
