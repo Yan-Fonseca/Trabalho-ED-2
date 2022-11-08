@@ -29,12 +29,12 @@ void saveData(int methodId,int n,double comparizons,double movimentations,double
         break;
     }
 
-    saida<<method<<" com "<<n<<" items:\ncomps "<<comparizons<<", moves"<<movimentations<<", tempo:"<<time<<"\n";
+    saida<<method<<" com "<<n<<" items:\ncomps "<<comparizons<<", moves "<<movimentations<<", tempo: "<<time<<"\n";
 } 
 
 void quicksort(ProductReview *vet, int n)
 {
-    double comparizons,movement,time;
+    double comparizons=0,movement=0,time;
     std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
     
     //Coloque o algoritmo abaixo
@@ -51,17 +51,75 @@ void quicksort(ProductReview *vet, int n)
     saveData(1,n,comparizons,movement,time);
 }
 
+void merge(ProductReview array[],int left, int mid, int right, double *comparizons, double *movements)
+{
+    int arrayA= mid-left+1; //cria o array temporario A com tamanho do intervalo do merge
+    int arrayB= right-mid; //cria o array temporario B com tamanho do intervalo do merge
+
+    ProductReview* A = new ProductReview[arrayA]; 
+    ProductReview* B = new ProductReview[arrayB];
+
+    for(int i=left;i<=mid;i++)
+        A[i-left]=array[i]; //próximo elemento a considerar no primeiro intervalo
+    for(int i=mid+1;i<right;i++) //próximo elemento a considerar no segundo intervalo
+        B[i-mid]=array[i]; // Foi retirado o +1 de B[i-mid+1], pois acessa memória indevida
+    
+    int indexA=0,indexB=0; //declara os contadores do Array A,B 
+    int index=left;
+
+    //adiciona a menor string no array e aumenta o contador
+    while(indexA<arrayA&&indexB<arrayB){
+        if(A[indexA].getUserId().compare(B[indexB].getUserId()) < 0){   
+            array[index]=A[indexA];
+            indexA++;
+        }else{array[index]=B[indexB];
+            indexB++;
+        }
+        (*comparizons)++; 
+        index++;
+    }
+    // só vai executar um dos dois while abaixo 
+    //copia qualquer entrada restante da primeira metade do array
+    while(indexA<arrayA){
+        array[index]=A[indexA];
+        indexA++;
+        index++;
+        (*movements)++;
+    }
+    //copia qualquer entrada restante da segunda metade do array
+    while(indexB<arrayB){
+        array[index]=B[indexB];
+        indexB++;
+        index++;
+        (*movements)++;
+    }
+    //deleta arrays temporarios
+    delete[] A;
+    delete[] B; 
+    //retorna o array principal
+    //return array;
+}
+
+void StartmergeSort(ProductReview array[], int left, int right, double *comparizons, double *movements) {
+    if (left == right) {
+        return;
+    }
+    int mid = (left + right) / 2;
+    // pega a primeira e a segunda metade
+    StartmergeSort (array, left, mid, comparizons,movements);
+    StartmergeSort(array, mid + 1, right, comparizons, movements);
+    merge(array , left, mid, right,comparizons, movements);
+}   
+
 void mergesort(ProductReview *vet, int n)
 {
-    double comparizons,movement,time;
+    double comparizons=0,movement=0,time;
     std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
     
     //Coloque o algoritmo abaixo
     //--------------------------
-
-
-
-
+    
+    StartmergeSort( vet , 0, n-1, &comparizons, &movement);
 
     //--------------------------
 
@@ -71,21 +129,23 @@ void mergesort(ProductReview *vet, int n)
 }
 
 // insertionSort para o uso do TimSort.
-void insertionSort(ProductReview *vet, int init, int end, double *comparizons, double *movement) {
+ProductReview* insertionSort(ProductReview *vet, int init, int end, double *comparizons, double *movement) {
     int j;
     ProductReview chave;
-    for(int i=init+1; i<end; i++) {
+    for(int i=init+1; i<=end; i++) {
         chave = vet[i];
         j = i - 1;
-        while(j>init && vet[j].getUserId().compare(chave.getUserId())>0) {
+        while(j>=init && vet[j].getUserId().compare(chave.getUserId())>0) {
             vet[j+1] = vet[j];
-            j--;
-            movement++;
-            comparizons++;
+            --j;
+            (*movement)++;
+            (*comparizons)++;
         }
-        vet[i+1] = chave;
-        movement++;
+        vet[j+1] = chave;
+        (*movement)++;
     }
+    std::cout << "Dentro do insertion\n\n";
+    return vet;
 }
 
 // Função que compara 2 valores e retorna o menor.
@@ -95,44 +155,6 @@ int menor(int val1, int val2) {
     return val1;
 }
 
-void merge(ProductReview *vet, int inicio, int meio, int fim, double *comparizons, double *movements) {
-    int i = inicio;
-    int j = meio;
-    int k = 0;
-
-    ProductReview aux[fim-meio+1];
-    
-    while(i<meio && j<fim) {
-        if(vet[i].getUserId().compare(vet[j].getUserId())<0) {
-            aux[k] = vet[i];
-            i++;
-        } else {
-            aux[k] = vet[j];
-            j++;
-        }
-        comparizons++;
-        k++;
-    }
-
-    while (i<meio) {
-        aux[k] = vet[i];
-        i++;
-        k++;
-        movements++;
-    }
-    while (j<fim)
-    {
-        aux[k] = vet[j];
-        j++;
-        k++;
-        movements;
-    }
-    
-    for(i = inicio; i<fim; i++) {
-        vet[i] = aux[i-inicio];
-        movements++;
-    }
-}
 
 int minrun(int n) {
     int r=0;
@@ -152,12 +174,13 @@ void timsort(ProductReview *vet, int n)
     int MINRUN = minrun(n);
 
     for(int i=0; i<n; i+=MINRUN) {
-        insertionSort(vet,i,menor(i+MINRUN-1,n-1), &comparizons, &movement);
+        vet = insertionSort(vet,i,menor(i+MINRUN-1,n-1), &comparizons, &movement);
     }
 
+    std::cout << "minrun: " << MINRUN << "\n";
     for(int size = MINRUN; size < n; size = 2*size) {
         for(int left = 0; left<n; left += 2*size) {
-            int mid = left + size -1;
+            int mid = left + size - 1;
             int right = menor(left + 2*size - 1, n-1);
             if(mid < right) {
                 merge(vet, left, mid, right, &comparizons, &movement);
@@ -172,7 +195,7 @@ void timsort(ProductReview *vet, int n)
 
 void radixsort(ProductReview *vet, int n)
 {
-    double comparizons,movement,time;
+    double comparizons=0,movement=0,time;
     std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
     
     //Coloque o algoritmo abaixo
@@ -201,7 +224,7 @@ void sort(ProductReview *vet, int n, int methodId)
     switch (methodId)
     {
     case 1:
-        quicksort(vet,n);
+        //quicksort(vet,n);
         break;
     case 2:
         mergesort(vet,n);
@@ -210,7 +233,7 @@ void sort(ProductReview *vet, int n, int methodId)
         timsort(vet,n);
         break;
     case 4:
-        radixsort(vet,n);
+        //radixsort(vet,n);
         break;
     default:
         std::cout<<"Sorting algorithm ID not valid\n";
@@ -235,19 +258,21 @@ void preSort()
         N.push_back(stoi(value));
     }
 
-    //for(int l=0;l<nSorts;l++) //itera entre os sorts
-    //{
+    for(int l=0;l<nSorts;l++) //itera entre os sorts
+    { 
+        
         for(int k=0;k<i-1;k++)  //itera entre os valores de N
         {
+
             for(int j=0;j<M;j++) //roda M vezes
             {
 
-                reviews = import(N[k]);
-
-                sort(reviews,N[k],3);     
+                reviews = import(N[0]);
+                sort(reviews,N[0],l+1);     
+                
             }
-        }
-    //} 
+        }  
+    }
 }
 
 #endif
