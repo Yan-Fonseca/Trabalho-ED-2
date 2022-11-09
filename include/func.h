@@ -306,8 +306,8 @@ ProductReview* import(int n)
         b[i].setData(info);
     }
     std::cout<<"\n";
-    for(int i=0;i<filled;i++)
-        std::cout<<arr[i];
+    /* for(int i=0;i<filled;i++)
+        std::cout<<arr[i]; */
     delete arr;
     return b;
 }

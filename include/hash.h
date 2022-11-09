@@ -1,19 +1,15 @@
+#ifndef HASH_H
+#define HASH_H
+
 #include "sort.h"
 #include <cmath>
 
-//Counts the number of repetitions of each product ID
-int* counter;
-
-void startcounter(int n)
+typedef struct 
 {
-    counter = new int[n];
-    for(int i=0;i<n;i++)
-        counter[i]=0;
-}
+    std::string productId="";
+    int qtdReviews=0;
 
-void deletecounter(){delete counter;}
-
-void countUp(int index){counter[index]++;}
+}RegistroHash;
 
 //finds the smallest prime number larger than num
 int erastotenes(int num)
@@ -100,31 +96,30 @@ int hash(std::string d, int colisions,int h1,int h2)
     return hash;
 }
 
-ProductReview* createTable(int n)
+RegistroHash* createTable(int n)
 {
     int ccounter=0;
     int nproducts=0;
     int size= erastotenes(n);
-    startcounter(size);
 
-    std::string null="-1";
-
-    ProductReview* table = new ProductReview[size];
-        for(int j=0;j<size;j++){
-            table[j].setNull();
-        }
-    ProductReview* imports;
-    int colisions=0;
+    RegistroHash* table = new RegistroHash[size];
+    RegistroHash* importsRH = new RegistroHash[n];
+    ProductReview* importsPR;
+    
     bool finished;
     int index;
-    imports=import(n);
+    importsPR=import(n);
 
-
-
-    /* std::cout<<"import:";
+    for(int q=0;q<n;q++)
+    {
+        importsRH[q].productId=importsPR[q].getProductId();
+    }
+    delete importsPR;
+    
+    std::cout<<"import:";
     for(int j=0;j<n;j++)
-        std::cout<<imports[j].getProductId()<<" ";
-    std::cout<<"\n"; */
+        std::cout<<importsRH[j].productId<<" ";
+    std::cout<<"\n";
 
     
     
@@ -136,22 +131,27 @@ ProductReview* createTable(int n)
         
         for(int c=0;!finished;c++)
         {
-            index=hash(imports[i].getProductId(),c,size,h2);
+            index=hash(importsRH[i].productId,c,size,h2);
             
-            if(table[index].getProductId()=="-1"){
-                table[index]=imports[i];
-                finished=true;
+            if(table[index].productId=="")
+            {
+                table[index]=importsRH[i];
+                table[index].qtdReviews++;
 
-                countUp(index);
+                finished=true;
 
                 continue;
             }
-            else if(table[index].getProductId()==imports[i].getProductId()){
-                countUp(index);
+            else if(table[index].productId==importsRH[i].productId)
+            {           
+                table[index].qtdReviews++;
+
                 finished=true;
+                
                 continue;
             }
-            else{
+            else
+            {
                 ccounter++;
             }
             
@@ -167,7 +167,7 @@ ProductReview* createTable(int n)
     //std::cout<<"\n[";
     for(int i=0;i<size;i++){
         //std::cout<<counter[i]<<" ";
-        if(counter[i]!=0)
+        if(table[i].qtdReviews!=0)
             nproducts++;
     }
     //std::cout<<"]\n";
@@ -189,13 +189,25 @@ void preHash()
     int P;
     std::cout<<"Quantas reviews devem ter no hash?\n";
     std::cin>>n;
-    ProductReview* table = createTable(n);
+    RegistroHash* table = createTable(n);
     //sorttable(table,counter);
-    std::cout<<"\n\n====== Produtos mais recorrentes ======\n";
-    /* std::cout<<"\nQuantas posições devem ser visualizadas?";
-    std::cin>>P; */
+   /*  std::cout<<"\n\n====== Produtos mais recorrentes ======\n";
+    std::cout<<"\nQuantas posições devem ser visualizadas?";
+    std::cin>>P;
+    std::vector<RegistroHash> arr;
+    for(int j=0;j<n;j++)
+        arr[j]=table[j];
+
+    RegistroHash* array = arr.data();
+    //StartmergeSort(array,0,n);
+    std::cout<<"\n Produtos com mais reviews:\n";
+    for(int j=0;j<P;j++)
+    {
+        std::cout<<j+1<<" - "<<array[n-1-j].productId<<"\n";
+    } */
     
 }
 
 
 
+#endif
