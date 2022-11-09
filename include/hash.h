@@ -4,16 +4,79 @@
 #include "sort.h"
 #include <cmath>
 
+int tablesize;
+
 typedef struct 
 {
-    std::string productId="";
+    std::string productId="-1";
     int qtdReviews=0;
 
 }RegistroHash;
 
+
+void merge(RegistroHash array[],int left, int mid, int right)
+{
+    int arrayA= mid-left+1; //cria o array temporario A com tamanho do intervalo do merge
+    int arrayB= right-mid; //cria o array temporario B com tamanho do intervalo do merge
+
+    RegistroHash* A = new RegistroHash[arrayA]; 
+    RegistroHash* B = new RegistroHash[arrayB];
+
+    for(int i=left;i<=mid;i++)
+        A[i-left]=array[i]; //próximo elemento a considerar no primeiro intervalo
+    for(int i=mid+1;i<right;i++) //próximo elemento a considerar no segundo intervalo
+        B[i-mid]=array[i]; // Foi retirado o +1 de B[i-mid+1], pois acessa memória indevida
+    
+    int indexA=0,indexB=0; //declara os contadores do Array A,B 
+    int index=left;
+
+    //adiciona a menor string no array e aumenta o contador
+    while(indexA<arrayA&&indexB<arrayB){
+        if(A[indexA].qtdReviews < B[indexB].qtdReviews){   
+            array[index]=A[indexA];
+            indexA++;
+        }else{array[index]=B[indexB];
+            indexB++;
+        }
+        index++;
+    }
+    // só vai executar um dos dois while abaixo 
+    //copia qualquer entrada restante da primeira metade do array
+    while(indexA<arrayA){
+        array[index]=A[indexA];
+        indexA++;
+        index++;
+    }
+    //copia qualquer entrada restante da segunda metade do array
+    while(indexB<arrayB){
+        array[index]=B[indexB];
+        indexB++;
+        index++;
+    }
+    //deleta arrays temporarios
+    delete[] A;
+    delete[] B; 
+    //retorna o array principal
+    //return array;
+}
+
+void StartmergeSort(RegistroHash array[], int left, int right) {
+    if (left == right) {
+        return;
+    }
+    int mid = (left + right) / 2;
+    // pega a primeira e a segunda metade
+    StartmergeSort (array, left, mid);
+    StartmergeSort(array, mid + 1, right);
+    merge(array , left, mid, right);
+}   
+
+
 //finds the smallest prime number larger than num
 int erastotenes(int num)
 {
+    if(num<3)  
+        return 3;
     int n = num*2;
     std::vector<int> nat;
     for(int i=0;i<n+100;i++){
@@ -61,17 +124,6 @@ int erastotenes(int num)
     return -1;
 }
 
-/* int twopowers(int n)
-{
-    int numero=2;
-    std::vector<int> array;
-    for(int j=0;numero<n;j++){
-        array.push_back(numero);
-        numero=numero*2;
-    }
-    return numero;
-} */
-
 //Assigns a numerical value to a string
  double valueString(std::string s)
 {
@@ -88,11 +140,16 @@ int erastotenes(int num)
 //Hash function
 int hash(std::string d, int colisions,int h1,int h2)
 {
-    double a=valueString(d);
+    long int a=valueString(d);
 
     int n = fmod(a,100000);
-    int hash = fmod(n,h1)+ (colisions*fmod(n,h2));
+
+    
+
+    int hash = (n%h1) + (colisions*(1+(n%h2)));
+
     hash = hash%h1;
+
     return hash;
 }
 
@@ -116,14 +173,13 @@ RegistroHash* createTable(int n)
     }
     delete importsPR;
     
-    std::cout<<"import:";
+    /* std::cout<<"import:";
     for(int j=0;j<n;j++)
-        std::cout<<importsRH[j].productId<<" ";
-    std::cout<<"\n";
+        std::cout<<importsRH[j].productId<<" "; */
 
+    std::cout<<"\n";
     
-    
-    int h2 = (size/2)+1;
+    int h2 = 2*size/3;
 
     for(int i=0;i<n;i++)
     {
@@ -133,7 +189,7 @@ RegistroHash* createTable(int n)
         {
             index=hash(importsRH[i].productId,c,size,h2);
             
-            if(table[index].productId=="")
+            if(table[index].productId=="-1")
             {
                 table[index]=importsRH[i];
                 table[index].qtdReviews++;
@@ -153,24 +209,24 @@ RegistroHash* createTable(int n)
             else
             {
                 ccounter++;
+                
+                //std::cout<<i<<" "<<importsRH[i].productId<<" "<<index<<" "<<c<<"\n";
+
+                if(c>12){
+                    std::cout<<"\nERROR\n";
+                    //std::cout<<"size:"<<size<<" h2:"<<h2<<"\n";
+                    return nullptr;
+                }
+                    
             }
             
         } 
     }
 
-    /* std::cout<<"\n[";
     for(int i=0;i<size;i++){
-        std::cout<<table[i].getProductId()<<" ";
-    }
-    std::cout<<"]\n"; */
-
-    //std::cout<<"\n[";
-    for(int i=0;i<size;i++){
-        //std::cout<<counter[i]<<" ";
         if(table[i].qtdReviews!=0)
             nproducts++;
     }
-    //std::cout<<"]\n";
 
     std::cout<<"\n|====== HASH DATA =======\n\n";
     std::cout<<"Hash Table Size: "<<size<<"\n";
@@ -178,7 +234,9 @@ RegistroHash* createTable(int n)
     std::cout<<"Number of Products: "<<nproducts<<"\n";
     std::cout<<"\n=========================|\n\n";
 
-    //delete counter;
+    tablesize = size;
+
+    delete importsRH;
 
     return table;
 }
@@ -187,24 +245,52 @@ void preHash()
 {
     int n;
     int P;
-    std::cout<<"Quantas reviews devem ter no hash?\n";
+    std::cout<<"Quantas reviews devem ter no hash? ";
     std::cin>>n;
+    while(n<1){
+        std::cout<<"\nNumero invalido. Favor digitar número maior que 0\n\n";
+        std::cout<<"Quantas reviews devem ter no hash? ";
+        std::cin>>n;
+    }
     RegistroHash* table = createTable(n);
-    //sorttable(table,counter);
-   /*  std::cout<<"\n\n====== Produtos mais recorrentes ======\n";
-    std::cout<<"\nQuantas posições devem ser visualizadas?";
-    std::cin>>P;
-    std::vector<RegistroHash> arr;
-    for(int j=0;j<n;j++)
-        arr[j]=table[j];
 
-    RegistroHash* array = arr.data();
-    //StartmergeSort(array,0,n);
+    std::cout<<"\n\n====== Produtos mais recorrentes ======\n";
+    std::cout<<"\nQuantas posicoes devem ser visualizadas? ";
+    std::cin>>P;
+    while(P<1 || P>n){
+        std::cout<<"\nNumero invalido. Favor digitar numero maior que 0 e menor que "<<n<<"\n\n";
+        std::cout<<"Quantas reviews devem ter no hash? ";
+        std::cin>>P;
+    }
+    
+    RegistroHash* copy = new RegistroHash[tablesize];
+
+    for(int i = 0;i<tablesize;i++)
+        copy[i]=table[i];
+    
+    std::cout<<"\nog:";
+    for(int i=0;i<tablesize;i++)
+        std::cout<<table[i].productId<<" ";
+
+    std::cout<<"\nbefore:";
+    for(int i=0;i<tablesize;i++)
+        std::cout<<copy[i].productId<<" ";
+
+
+
+
+
+    StartmergeSort(copy,0,tablesize);
+
+    std::cout<<"\nafter:";
+    for(int i=0;i<tablesize;i++)
+        std::cout<<copy[i].productId<<" ";
+
     std::cout<<"\n Produtos com mais reviews:\n";
     for(int j=0;j<P;j++)
     {
-        std::cout<<j+1<<" - "<<array[n-1-j].productId<<"\n";
-    } */
+        std::cout<<j+1<<" - "<<copy[j].productId<<"\n";
+    }
     
 }
 

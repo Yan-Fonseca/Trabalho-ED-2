@@ -96,52 +96,6 @@ void merge(ProductReview array[],int left, int mid, int right, double *comparizo
     delete[] B; 
 }
 
-void merge(RegistroHash array[],int left, int mid, int right)
-{
-    int arrayA= mid-left+1; //cria o array temporario A com tamanho do intervalo do merge
-    int arrayB= right-mid; //cria o array temporario B com tamanho do intervalo do merge
-
-    RegistroHash* A = new RegistroHash[arrayA]; 
-    RegistroHash* B = new RegistroHash[arrayB];
-
-    for(int i=left;i<=mid;i++)
-        A[i-left]=array[i]; //próximo elemento a considerar no primeiro intervalo
-    for(int i=mid+1;i<right;i++) //próximo elemento a considerar no segundo intervalo
-        B[i-mid]=array[i]; // Foi retirado o +1 de B[i-mid+1], pois acessa memória indevida
-    
-    int indexA=0,indexB=0; //declara os contadores do Array A,B 
-    int index=left;
-
-    //adiciona a menor string no array e aumenta o contador
-    while(indexA<arrayA&&indexB<arrayB){
-        if(A[indexA].qtdReviews < B[indexB].qtdReviews){   
-            array[index]=A[indexA];
-            indexA++;
-        }else{array[index]=B[indexB];
-            indexB++;
-        }
-        index++;
-    }
-    // só vai executar um dos dois while abaixo 
-    //copia qualquer entrada restante da primeira metade do array
-    while(indexA<arrayA){
-        array[index]=A[indexA];
-        indexA++;
-        index++;
-    }
-    //copia qualquer entrada restante da segunda metade do array
-    while(indexB<arrayB){
-        array[index]=B[indexB];
-        indexB++;
-        index++;
-    }
-    //deleta arrays temporarios
-    delete[] A;
-    delete[] B; 
-    //retorna o array principal
-    //return array;
-}
-
 void StartmergeSort(ProductReview array[], int left, int right, double *comparizons, double *movements) {
     if (left == right) {
         return;
@@ -151,18 +105,8 @@ void StartmergeSort(ProductReview array[], int left, int right, double *compariz
     StartmergeSort (array, left, mid, comparizons,movements);
     StartmergeSort(array, mid + 1, right, comparizons, movements);
     merge(array , left, mid, right,comparizons, movements);
-}   
+}  
 
-void StartmergeSort(RegistroHash array[], int left, int right) {
-    if (left == right) {
-        return;
-    }
-    int mid = (left + right) / 2;
-    // pega a primeira e a segunda metade
-    StartmergeSort (array, left, mid);
-    StartmergeSort(array, mid + 1, right);
-    merge(array , left, mid, right);
-}   
 
 void mergesort(ProductReview *vet, int n)
 {
