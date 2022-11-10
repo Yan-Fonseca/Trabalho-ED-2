@@ -5,7 +5,6 @@
 #include <fstream>
 #include <math.h>
 #include <time.h>
-#include <sstream>
 #include <iomanip>
 #include <chrono>
 
@@ -27,29 +26,7 @@ typedef struct
 
 std::vector<Irregular> IrregUser;
 std::vector<Irregular> IrregProduct; //Talvez tenham ProductIds irregulares??
-
-/* void loading(double i, double n)
-{
-    int ratio = trunc(10*i/n);
-
-    switch (ratio)
-    {
-    case 0 :std::cout<<"[          ] 0%\n";break;
-    case 1 :std::cout<<"[&         ] 10%\n";break;
-    case 2 :std::cout<<"[&&        ] 20%\n";break;
-    case 3 :std::cout<<"[&&&       ] 30%\n";break;
-    case 4 :std::cout<<"[&&&&      ] 40%\n";break;
-    case 5 :std::cout<<"[&&&&&     ] 50%\n";break;
-    case 6 :std::cout<<"[&&&&&&    ] 60%\n";break;
-    case 7 :std::cout<<"[&&&&&&&   ] 70%\n";break;
-    case 8 :std::cout<<"[&&&&&&&&  ] 80%\n";break;
-    case 9 :std::cout<<"[&&&&&&&&& ] 90%\n";break;
-    case 10:std::cout<<"[&&&&&&&&&&] 100%\n";break;
-    default:
-        break;
-    }
-    return;
-} */
+std::vector<Irregular> IrregTime;
 
 void getReview(int i)
 {
@@ -63,7 +40,7 @@ void getReview(int i)
 
         bin.seekg(0, bin.beg);
 
-        for(unsigned int q=0;q<IrregUser.size()||q<IrregProduct.size();q++){ //Algoritmo para lidar com inputs nao usuais
+        for(unsigned int q=0;q<IrregUser.size()||q<IrregProduct.size()||q<IrregTime.size();q++){ //Algoritmo para lidar com inputs nao usuais
             if(q<IrregUser.size()){
                 if(i>IrregUser[q].index)
                     extra+=IrregUser[q].extraSize;
@@ -75,6 +52,12 @@ void getReview(int i)
                     extra+=IrregProduct[q].extraSize;
                 else if(i==IrregProduct[q].index)
                     s[1]+=IrregProduct[q].extraSize;
+            }
+            if(q<IrregTime.size()){
+                if(i>IrregTime[q].index)
+                    extra+=IrregTime[q].extraSize;
+                else if(i==IrregTime[q].index)
+                    s[1]+=IrregTime[q].extraSize;
             }
         }
 
@@ -114,7 +97,7 @@ std::string getReviewString(int i) //igual a funçao superior em todos os sentid
 
         bin.seekg(0, bin.beg);
 
-        for(unsigned int q=0;q<IrregUser.size()||q<IrregProduct.size();q++){
+        for(unsigned int q=0;q<IrregUser.size()||q<IrregProduct.size()||q<IrregTime.size();q++){ //Algoritmo para lidar com inputs nao usuais
             if(q<IrregUser.size()){
                 if(i>IrregUser[q].index)
                     extra+=IrregUser[q].extraSize;
@@ -126,6 +109,12 @@ std::string getReviewString(int i) //igual a funçao superior em todos os sentid
                     extra+=IrregProduct[q].extraSize;
                 else if(i==IrregProduct[q].index)
                     s[1]+=IrregProduct[q].extraSize;
+            }      
+            if(q<IrregTime.size()){
+                if(i>IrregTime[q].index)
+                    extra+=IrregTime[q].extraSize;
+                else if(i==IrregTime[q].index)
+                    s[1]+=IrregTime[q].extraSize;
             }
         }
 

@@ -134,7 +134,7 @@ int erastotenes(int num)
     {
         value+=(((int)c[i])-48)*pow(p,i);
     }
-    return value;
+    return abs(value);
 } 
 
 //Hash function
