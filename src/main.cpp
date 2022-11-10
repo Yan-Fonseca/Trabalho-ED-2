@@ -15,7 +15,6 @@ void menu()
   switch (input)
   {
   case 1:
-    std::cout<<"Work in Progress\n";
     preSort();
     break;
   case 2:
@@ -82,8 +81,8 @@ int main(int argc, char **argv)
     for(int j=0;j<n;j++)
     {
         rreviews[j].print();
-    }
-    */
+    } 
+   */
 
     menu();
 

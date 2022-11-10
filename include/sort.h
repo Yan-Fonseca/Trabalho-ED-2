@@ -2,8 +2,9 @@
 #define SORT_H
 
 #include "func.h"
+#include "hash.h"
 
-int nSorts = 4;
+int nSorts = 3;
 
 void saveData(int methodId,int n,double comparizons,double movimentations,double time) 
 {
@@ -21,16 +22,12 @@ void saveData(int methodId,int n,double comparizons,double movimentations,double
     case 3:
         method = "timsort";
         break;
-    case 4:
-        method = "radixsort";
-        break;
     default:
         method = "method "+ methodId;
         break;
     }
 
     saida<<method<<" com "<<n<<" items:\ncomps "<<comparizons<<", moves "<<movimentations<<", tempo: "<<time<<"\n";
-
 } 
 
 void quicksort(ProductReview *vet, int n)
@@ -97,8 +94,6 @@ void merge(ProductReview array[],int left, int mid, int right, double *comparizo
     //deleta arrays temporarios
     delete[] A;
     delete[] B; 
-    //retorna o array principal
-    //return array;
 }
 
 void StartmergeSort(ProductReview array[], int left, int right, double *comparizons, double *movements) {
@@ -110,7 +105,8 @@ void StartmergeSort(ProductReview array[], int left, int right, double *compariz
     StartmergeSort (array, left, mid, comparizons,movements);
     StartmergeSort(array, mid + 1, right, comparizons, movements);
     merge(array , left, mid, right,comparizons, movements);
-}   
+}  
+
 
 void mergesort(ProductReview *vet, int n)
 {
@@ -128,19 +124,6 @@ void mergesort(ProductReview *vet, int n)
     time=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
     saveData(2,n,comparizons,movement,time);
 }
-
-/* int* runDivider(ProductReview *array,int size)
-{
-    int const minrun = 64;
-    int runsize=0;
-    std::vector<int> divisions={0};
-    for(int i=0;i<size;i++)
-    {
-        if(runsize<minrun)
-            runsize++;
-        else if(runsize>=minrun&&array[i-1]<)
-    }
-} */
 
 // insertionSort para o uso do TimSort.
 ProductReview* insertionSort(ProductReview *vet, int init, int end, double *comparizons, double *movement) {
@@ -184,8 +167,7 @@ void timsort(ProductReview *vet, int n)
     double comparizons=0,movement=0,time;
     std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
     
-    //Coloque o algoritmo abaixo
-    //--------------------------
+
     int MINRUN = minrun(n);
 
     for(int i=0; i<n; i+=MINRUN) {
@@ -202,30 +184,10 @@ void timsort(ProductReview *vet, int n)
             }
         }
     }
-    //--------------------------
 
     std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
     time=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
     saveData(3,n,comparizons,movement,time);
-}
-
-void radixsort(ProductReview *vet, int n)
-{
-    double comparizons=0,movement=0,time;
-    std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
-    
-    //Coloque o algoritmo abaixo
-    //--------------------------
-
-
-
-
-
-    //--------------------------
-
-    std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
-    time=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
-    saveData(4,n,comparizons,movement,time);
 }
 
 
@@ -235,7 +197,6 @@ void sort(ProductReview *vet, int n, int methodId)
     //1- Quicksort 
     //2- Mergesort 
     //3- Timsort
-    //4- Radixsort
 
     switch (methodId)
     {
@@ -247,9 +208,6 @@ void sort(ProductReview *vet, int n, int methodId)
         break;
     case 3:
         timsort(vet,n);
-        break;
-    case 4:
-        //radixsort(vet,n);
         break;
     default:
         std::cout<<"Sorting algorithm ID not valid\n";

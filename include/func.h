@@ -231,17 +231,84 @@ void createBinary(std::string p, double n)
     }
 }
 
+int anti_duplicate(int arr[],int num,int filled,int max)
+{
+    if(filled==0)
+    {
+        arr[0]=num;
+        return num;
+    }
+    else{
+            
+        int lo = 0, hi = filled;
+        int mid;
+        
+        //binary search
+        while (hi - lo > 1) {
+            mid = (hi + lo) / 2;
+            if (arr[mid] < num) {
+                lo = mid + 1;
+            }
+            else {
+                hi = mid;
+            }
+        }
+        if (arr[lo] == num) 
+        {
+            int val=num+1;
+            if(val==max)
+                val=0;
+            val=anti_duplicate(arr,val,filled,max);
+            return val;
+        }
+        else if (arr[hi] == num) 
+        {
+            int val=num+1;
+            if(val==max)
+                val=0;
+            val=anti_duplicate(arr,val,filled,max);
+            return val;
+        }
+        else {
+            for(int i=filled-1;i>=lo;i--)
+            {
+                arr[i+1]=arr[i];
+            }
+            if(num<arr[lo])
+                arr[lo]=num;
+            else
+                arr[hi]=num;
+            return num;
+        }
+    }
+}
+
+
+
 ProductReview* import(int n)
 {
+    int *arr = new int[n];
+    int filled=0;
+    int rnd=0;
 
     ProductReview *b = new ProductReview[n];
     
     for(int i=0;i<n;i++)
     {
         srand(i*time(0));
-        std::string info = getReviewString(rand()% nReviews);
+        rnd=rand()% nReviews;
+        
+
+        rnd=anti_duplicate(arr,rnd,filled,nReviews);
+        filled++;
+
+        std::string info = getReviewString(rnd);
         b[i].setData(info);
     }
+    std::cout<<"\n";
+    /* for(int i=0;i<filled;i++)
+        std::cout<<arr[i]; */
+    delete arr;
     return b;
 }
 
