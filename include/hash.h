@@ -14,7 +14,7 @@ typedef struct
 }RegistroHash;
 
 
-void merge(RegistroHash array[],int left, int mid, int right)
+/* void merge(RegistroHash array[],int left, int mid, int right)
 {
     int arrayA= mid-left+1; //cria o array temporario A com tamanho do intervalo do merge
     int arrayB= right-mid; //cria o array temporario B com tamanho do intervalo do merge
@@ -70,7 +70,7 @@ void StartmergeSort(RegistroHash array[], int left, int right) {
     StartmergeSort(array, mid + 1, right);
     merge(array , left, mid, right);
 }   
-
+ */
 
 //finds the smallest prime number larger than num
 int erastotenes(int num)
@@ -254,7 +254,7 @@ void preHash()
     }
     RegistroHash* table = createTable(n);
 
-    std::cout<<"\n\n====== Produtos mais recorrentes ======\n";
+    /* std::cout<<"\n\n====== Produtos mais recorrentes ======\n";
     std::cout<<"\nQuantas posicoes devem ser visualizadas? ";
     std::cin>>P;
     while(P<1 || P>n){
@@ -266,9 +266,11 @@ void preHash()
     RegistroHash* copy = new RegistroHash[tablesize];
 
     for(int i = 0;i<tablesize;i++)
-        copy[i]=table[i];
+        copy[i]=table[i]; */
     
-    std::cout<<"\nog:";
+    
+
+    /* std::cout<<"\nOG:";
     for(int i=0;i<tablesize;i++)
         std::cout<<table[i].productId<<" ";
 
@@ -276,21 +278,19 @@ void preHash()
     for(int i=0;i<tablesize;i++)
         std::cout<<copy[i].productId<<" ";
 
-
-
-
-
     StartmergeSort(copy,0,tablesize);
 
     std::cout<<"\nafter:";
     for(int i=0;i<tablesize;i++)
-        std::cout<<copy[i].productId<<" ";
+        std::cout<<copy[i].productId<<" "; */
 
-    std::cout<<"\n Produtos com mais reviews:\n";
+
+
+    /* std::cout<<"\n Produtos com mais reviews:\n";
     for(int j=0;j<P;j++)
     {
         std::cout<<j+1<<" - "<<copy[j].productId<<"\n";
-    }
+    } */
     
 }
 
