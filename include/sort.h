@@ -297,8 +297,8 @@ void preSort()
             for(int j=0;j<M;j++) //roda M vezes
             {
 
-                reviews = import(N[0]);
-                sort(reviews,N[0],l+1);     
+                reviews = import(N[k]);
+                sort(reviews,N[k],l+1);     
                 
             }
         }  
