@@ -53,21 +53,22 @@ void quicksort(ProductReview *vet, int n)
 }
 
 int partition(ProductReview array[], int lo, int hi) {
-    int i = lo, j = hi + 1;
+    int i = lo;
+    int j = hi + 1;
     ProductReview v = array[lo];
 
     while(1) {
         while(array[++i].getUserId().compare(v.getUserId()) < 0) {
             if(i == hi) break;
         }
-        while(v.getUserId().compare(array[--j].getUserId())) {
+        while(v.getUserId().compare(array[--j].getUserId()) < 0) {
             if(j == lo) break;
         }
         if(i >= j) break;
         std::swap(array[i], array[j]);
     }
 
-    std::swap(array[lo], array[hi]);
+    std::swap(array[lo], array[j]);
     return j;
 
 }
