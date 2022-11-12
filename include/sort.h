@@ -146,15 +146,20 @@ ProductReview* insertionSort(ProductReview *vet, int init, int end, double *comp
 }
 
 // Função que compara 2 valores e retorna o menor.
+// É usada para quando estiver na última minrun o vetor não ultrapassar o tamanho
+// do vetor original, resultando dessa forma em Segmentation Fault.
 int menor(int val1, int val2) {
     if(val1>val2)
         return val2;
     return val1;
 }
 
-
+// Função para calcular a minrun ideal para o uso do Timsort com base na quantidade de itens
+// no vetor de entrada (tamanho n)
 int minrun(int n) {
     int r=0;
+    // A minrun ideal, segundo Tim Peters, é um valor entre 32 e 64 (considerando valores de n
+    // grandes)
     while(n>=64) {
         r |= n & 1;
         n>>=1;
