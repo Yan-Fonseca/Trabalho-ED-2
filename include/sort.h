@@ -42,7 +42,8 @@ void quicksort(ProductReview *vet, int n)
     //--------------------------
 
 
-    
+    StartQuickSort(vet , 0, n-1, &comparizons, &movement);
+
 
 
     //--------------------------
