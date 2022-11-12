@@ -30,6 +30,57 @@ void saveData(int methodId,int n,double comparizons,double movimentations,double
     saida<<method<<" com "<<n<<" items:\ncomps "<<comparizons<<", moves "<<movimentations<<", tempo: "<<time<<"\n";
 } 
 
+int median_of_3(ProductReview array[], int lo, int hi)
+{
+    int mid = lo + (hi - lo) / 2;
+
+    if (array[hi].getUserId().compare(array[lo].getUserId()) < 0) std::swap(array[lo], array[hi]);
+    if (array[mid].getUserId().compare(array[lo].getUserId()) < 0) std::swap(array[lo], array[mid]);
+    if (array[hi].getUserId().compare(array[mid].getUserId()) < 0) std::swap(array[mid], array[hi]);
+    
+    return mid;
+}
+
+
+int partition(ProductReview array[], int lo, int hi) {
+    int i = lo;
+    int j = hi + 1;
+    ProductReview v = array[lo];
+
+    while(1) {
+        while(array[++i].getUserId().compare(v.getUserId()) < 0) {
+            if(i == hi) break;
+        }
+        while(v.getUserId().compare(array[--j].getUserId()) < 0) {
+            if(j == lo) break;
+        }
+        if(i >= j) break;
+        std::swap(array[i], array[j]);
+    }
+
+    std::swap(array[lo], array[j]);
+    return j;
+
+}
+
+
+
+void StartQuickSort(ProductReview array[], int lo, int hi, double *comparizons, double *movements)
+{
+    if(lo < hi) {
+       
+        int median = median_of_3(array, lo, hi);
+        std::swap(array[lo], array[median]);
+       
+        int j = partition(array, lo, hi);
+       
+        StartQuickSort(array, lo, j-1, comparizons, movements);
+        StartQuickSort(array, j+1, hi, comparizons, movements);
+    }
+}
+
+
+
 void quicksort(ProductReview *vet, int n)
 {
     double comparizons=0,movement=0,time;
@@ -39,6 +90,7 @@ void quicksort(ProductReview *vet, int n)
     //--------------------------
 
 
+    StartQuickSort(vet , 0, n-1, &comparizons, &movement);
 
 
 
@@ -48,6 +100,7 @@ void quicksort(ProductReview *vet, int n)
     time=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
     saveData(1,n,comparizons,movement,time);
 }
+
 
 void merge(ProductReview array[],int left, int mid, int right, double *comparizons, double *movements)
 {
@@ -141,7 +194,6 @@ ProductReview* insertionSort(ProductReview *vet, int init, int end, double *comp
         vet[j+1] = chave;
         (*movement)++;
     }
-    std::cout << "Dentro do insertion\n\n";
     return vet;
 }
 
@@ -179,7 +231,6 @@ void timsort(ProductReview *vet, int n)
         vet = insertionSort(vet,i,menor(i+MINRUN-1,n-1), &comparizons, &movement);
     }
 
-    std::cout << "minrun: " << MINRUN << "\n";
     for(int size = MINRUN; size < n; size = 2*size) {
         for(int left = 0; left<n; left += 2*size) {
             int mid = left + size - 1;
@@ -206,7 +257,7 @@ void sort(ProductReview *vet, int n, int methodId)
     switch (methodId)
     {
     case 1:
-        //quicksort(vet,n);
+        quicksort(vet,n);
         break;
     case 2:
         mergesort(vet,n);
