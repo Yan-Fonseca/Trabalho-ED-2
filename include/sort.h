@@ -211,7 +211,6 @@ ProductReview* insertionSort(ProductReview *vet, int init, int end, double *comp
         vet[j+1] = chave;
         (*movement)++;
     }
-    std::cout << "Dentro do insertion\n\n";
     return vet;
 }
 
@@ -245,7 +244,6 @@ void timsort(ProductReview *vet, int n)
         vet = insertionSort(vet,i,menor(i+MINRUN-1,n-1), &comparizons, &movement);
     }
 
-    std::cout << "minrun: " << MINRUN << "\n";
     for(int size = MINRUN; size < n; size = 2*size) {
         for(int left = 0; left<n; left += 2*size) {
             int mid = left + size - 1;
@@ -293,7 +291,7 @@ void sort(ProductReview *vet, int n, int methodId)
     switch (methodId)
     {
     case 1:
-        //quicksort(vet,n);
+        quicksort(vet,n);
         break;
     case 2:
         mergesort(vet,n);
