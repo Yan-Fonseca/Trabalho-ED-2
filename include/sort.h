@@ -33,25 +33,17 @@ void saveData(int methodId,int n,double comparizons,double movimentations,double
 
 } 
 
-void quicksort(ProductReview *vet, int n)
+int median_of_3(ProductReview array[], int lo, int hi)
 {
-    double comparizons=0,movement=0,time;
-    std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
+    int mid = lo + (hi - lo) / 2;
+
+    if (array[hi].getUserId().compare(array[lo].getUserId()) < 0) std::swap(array[lo], array[hi]);
+    if (array[mid].getUserId().compare(array[lo].getUserId()) < 0) std::swap(array[lo], array[mid]);
+    if (array[hi].getUserId().compare(array[mid].getUserId()) < 0) std::swap(array[mid], array[hi]);
     
-    //Coloque o algoritmo abaixo
-    //--------------------------
-
-
-    StartQuickSort(vet , 0, n-1, &comparizons, &movement);
-
-
-
-    //--------------------------
-
-    std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
-    time=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
-    saveData(1,n,comparizons,movement,time);
+    return mid;
 }
+
 
 int partition(ProductReview array[], int lo, int hi) {
     int i = lo;
@@ -74,6 +66,8 @@ int partition(ProductReview array[], int lo, int hi) {
 
 }
 
+
+
 void StartQuickSort(ProductReview array[], int lo, int hi, double *comparizons, double *movements)
 {
     if(lo < hi) {
@@ -88,17 +82,27 @@ void StartQuickSort(ProductReview array[], int lo, int hi, double *comparizons, 
     }
 }
 
-int median_of_3 (ProductReview array[], int lo, int hi)
+
+
+void quicksort(ProductReview *vet, int n)
 {
-    int mid = lo + (hi - lo) / 2;
-
-    if (array[hi].getUserId().compare(array[lo].getUserId()) < 0) std::swap(array[lo], array[hi]);
-    if (array[mid].getUserId().compare(array[lo].getUserId()) < 0) std::swap(array[lo], array[mid]);
-    if (array[hi].getUserId().compare(array[mid].getUserId()) < 0) std::swap(array[mid], array[hi]);
+    double comparizons=0,movement=0,time;
+    std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
     
-    return mid;
-}
+    //Coloque o algoritmo abaixo
+    //--------------------------
 
+
+    StartQuickSort(vet , 0, n-1, &comparizons, &movement);
+
+
+
+    //--------------------------
+
+    std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
+    time=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
+    saveData(1,n,comparizons,movement,time);
+}
 
 
 void merge(ProductReview array[],int left, int mid, int right, double *comparizons, double *movements)
