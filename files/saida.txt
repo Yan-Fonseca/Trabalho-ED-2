@@ -1,72 +1,72 @@
 quicksort com 100 items:
-comps 0, moves 0, tempo: 7.92e-05
+comps 534, moves 204, tempo: 6.01e-05
 quicksort com 100 items:
-comps 0, moves 0, tempo: 5.37e-05
+comps 534, moves 204, tempo: 5.03e-05
 quicksort com 100 items:
-comps 0, moves 0, tempo: 7.56e-05
-quicksort com 100 items:
-comps 0, moves 0, tempo: 5.43e-05
-quicksort com 100 items:
-comps 0, moves 0, tempo: 5.58e-05
-quicksort com 100 items:
-comps 0, moves 0, tempo: 5.63e-05
-quicksort com 100 items:
-comps 0, moves 0, tempo: 5.36e-05
-quicksort com 100 items:
-comps 0, moves 0, tempo: 5.48e-05
-quicksort com 100 items:
-comps 0, moves 0, tempo: 5.34e-05
-quicksort com 100 items:
-comps 0, moves 0, tempo: 5.25e-05
-quicksort com 100 items:
-comps 0, moves 0, tempo: 5.33e-05
-quicksort com 100 items:
-comps 0, moves 0, tempo: 5.14e-05
+comps 534, moves 204, tempo: 5.15e-05
+quicksort com 500 items:
+comps 3658, moves 1260, tempo: 0.000301
+quicksort com 500 items:
+comps 3658, moves 1260, tempo: 0.0003024
+quicksort com 500 items:
+comps 3658, moves 1260, tempo: 0.0002949
+quicksort com 1000 items:
+comps 7397, moves 2853, tempo: 0.0009146
+quicksort com 1000 items:
+comps 7397, moves 2853, tempo: 0.0006374
+quicksort com 1000 items:
+comps 7999, moves 2775, tempo: 0.0006452
+quicksort com 5000 items:
+comps 49766, moves 16737, tempo: 0.0039926
+quicksort com 5000 items:
+comps 46996, moves 16855, tempo: 0.0038934
+quicksort com 5000 items:
+comps 52871, moves 16576, tempo: 0.0037872
 mergesort com 100 items:
-comps 316, moves 356, tempo: 5.84e-05
+comps 316, moves 356, tempo: 5.08e-05
 mergesort com 100 items:
-comps 316, moves 356, tempo: 5.53e-05
+comps 316, moves 356, tempo: 5.45e-05
 mergesort com 100 items:
-comps 316, moves 356, tempo: 5.6e-05
-mergesort com 100 items:
-comps 316, moves 356, tempo: 5.66e-05
-mergesort com 100 items:
-comps 316, moves 356, tempo: 5.84e-05
-mergesort com 100 items:
-comps 316, moves 356, tempo: 5.66e-05
-mergesort com 100 items:
-comps 316, moves 356, tempo: 5.44e-05
-mergesort com 100 items:
-comps 316, moves 356, tempo: 5.54e-05
-mergesort com 100 items:
-comps 316, moves 356, tempo: 0.0001074
-mergesort com 100 items:
-comps 316, moves 356, tempo: 5.59e-05
-mergesort com 100 items:
-comps 316, moves 356, tempo: 5.53e-05
-mergesort com 100 items:
-comps 316, moves 356, tempo: 5.62e-05
+comps 316, moves 356, tempo: 5.38e-05
+mergesort com 500 items:
+comps 2216, moves 2272, tempo: 0.0004903
+mergesort com 500 items:
+comps 2216, moves 2272, tempo: 0.0005169
+mergesort com 500 items:
+comps 2216, moves 2272, tempo: 0.0003253
+mergesort com 1000 items:
+comps 4932, moves 5044, tempo: 0.0007068
+mergesort com 1000 items:
+comps 4932, moves 5044, tempo: 0.0010733
+mergesort com 1000 items:
+comps 4932, moves 5044, tempo: 0.0437625
+mergesort com 5000 items:
+comps 29804, moves 32004, tempo: 0.0056196
+mergesort com 5000 items:
+comps 29804, moves 32004, tempo: 0.0043328
+mergesort com 5000 items:
+comps 29804, moves 32004, tempo: 0.0048012
 timsort com 100 items:
-comps 1263, moves 1263, tempo: 0.0002129
+comps 1258, moves 1258, tempo: 7.45e-05
 timsort com 100 items:
-comps 1263, moves 1263, tempo: 8.4e-05
+comps 1258, moves 1258, tempo: 9.23e-05
 timsort com 100 items:
-comps 1230, moves 1230, tempo: 8.11e-05
-timsort com 100 items:
-comps 1225, moves 1225, tempo: 8.15e-05
-timsort com 100 items:
-comps 1225, moves 1225, tempo: 8e-05
-timsort com 100 items:
-comps 1225, moves 1225, tempo: 8.29e-05
-timsort com 100 items:
-comps 1225, moves 1225, tempo: 8.08e-05
-timsort com 100 items:
-comps 1225, moves 1225, tempo: 8.56e-05
-timsort com 100 items:
-comps 1225, moves 1225, tempo: 0.0001698
-timsort com 100 items:
-comps 1225, moves 1225, tempo: 8.22e-05
-timsort com 100 items:
-comps 1225, moves 1225, tempo: 9.65e-05
-timsort com 100 items:
-comps 1225, moves 1225, tempo: 8.71e-05
+comps 1258, moves 1258, tempo: 7.62e-05
+timsort com 500 items:
+comps 9241, moves 8255, tempo: 0.0005876
+timsort com 500 items:
+comps 9241, moves 8255, tempo: 0.0005782
+timsort com 500 items:
+comps 9241, moves 8255, tempo: 0.0006945
+timsort com 1000 items:
+comps 18992, moves 16036, tempo: 0.0012638
+timsort com 1000 items:
+comps 19324, moves 16374, tempo: 0.0012378
+timsort com 1000 items:
+comps 19324, moves 16374, tempo: 0.0012897
+timsort com 5000 items:
+comps 83420, moves 54071, tempo: 0.0062852
+timsort com 5000 items:
+comps 82317, moves 52922, tempo: 0.0062735
+timsort com 5000 items:
+comps 83836, moves 54491, tempo: 0.0063537

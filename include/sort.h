@@ -30,37 +30,54 @@ void saveData(int methodId,int n,double comparizons,double movimentations,double
     saida<<method<<" com "<<n<<" items:\ncomps "<<comparizons<<", moves "<<movimentations<<", tempo: "<<time<<"\n";
 } 
 
-int median_of_3(ProductReview array[], int lo, int hi)
+int median_of_3(ProductReview array[], int lo, int hi, double *comparizons, double *movements)
 {
     int mid = lo + (hi - lo) / 2;
 
-    if (array[hi].getUserId().compare(array[lo].getUserId()) < 0) std::swap(array[lo], array[hi]);
-    if (array[mid].getUserId().compare(array[lo].getUserId()) < 0) std::swap(array[lo], array[mid]);
-    if (array[hi].getUserId().compare(array[mid].getUserId()) < 0) std::swap(array[mid], array[hi]);
+    if (array[hi].getUserId().compare(array[lo].getUserId()) < 0) {
+        std::swap(array[lo], array[hi]);
+        *movements += 1;
+    }
+
+    if (array[mid].getUserId().compare(array[lo].getUserId()) < 0) {
+        std::swap(array[lo], array[mid]);
+        *movements += 1;
+    }
+
+    if (array[hi].getUserId().compare(array[mid].getUserId()) < 0) {
+        std::swap(array[mid], array[hi]);
+        *movements += 1;
+    }
     
+    *comparizons += 3;
+
     return mid;
 }
 
 
-int partition(ProductReview array[], int lo, int hi) {
+int partition(ProductReview array[], int lo, int hi, double *comparizons, double *movements) {
     int i = lo;
     int j = hi + 1;
     ProductReview v = array[lo];
 
     while(1) {
         while(array[++i].getUserId().compare(v.getUserId()) < 0) {
+            *comparizons += 1;
             if(i == hi) break;
         }
         while(v.getUserId().compare(array[--j].getUserId()) < 0) {
+            *comparizons += 1;
             if(j == lo) break;
         }
         if(i >= j) break;
         std::swap(array[i], array[j]);
+        *movements += 1;
     }
 
     std::swap(array[lo], array[j]);
-    return j;
+    *movements += 1;
 
+    return j;
 }
 
 
@@ -69,10 +86,10 @@ void StartQuickSort(ProductReview array[], int lo, int hi, double *comparizons, 
 {
     if(lo < hi) {
        
-        int median = median_of_3(array, lo, hi);
+        int median = median_of_3(array, lo, hi, comparizons, movements);
         std::swap(array[lo], array[median]);
        
-        int j = partition(array, lo, hi);
+        int j = partition(array, lo, hi, comparizons, movements);
        
         StartQuickSort(array, lo, j-1, comparizons, movements);
         StartQuickSort(array, j+1, hi, comparizons, movements);
@@ -86,15 +103,9 @@ void quicksort(ProductReview *vet, int n)
     double comparizons=0,movement=0,time;
     std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
     
-    //Coloque o algoritmo abaixo
-    //--------------------------
-
 
     StartQuickSort(vet , 0, n-1, &comparizons, &movement);
 
-
-
-    //--------------------------
 
     std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
     time=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
@@ -166,12 +177,7 @@ void mergesort(ProductReview *vet, int n)
     double comparizons=0,movement=0,time;
     std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
     
-    //Coloque o algoritmo abaixo
-    //--------------------------
-    
     StartmergeSort( vet , 0, n-1, &comparizons, &movement);
-
-    //--------------------------
 
     std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
     time=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
