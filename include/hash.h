@@ -13,65 +13,58 @@ typedef struct
 
 }RegistroHash;
 
+const long long MAX_SIZE = 1000001;
 
-/* void merge(RegistroHash array[],int left, int mid, int right)
+std::vector<int >isprime(MAX_SIZE , true);
+std::vector<int >prime;
+std::vector<int>SPF(MAX_SIZE);
+ 
+// function generate all prime number less than N in O(n)
+int manipulated_seive(int N)
 {
-    int arrayA= mid-left+1; //cria o array temporario A com tamanho do intervalo do merge
-    int arrayB= right-mid; //cria o array temporario B com tamanho do intervalo do merge
+    // 0 and 1 are not prime
+    isprime[0] = isprime[1] = false ;
 
-    RegistroHash* A = new RegistroHash[arrayA]; 
-    RegistroHash* B = new RegistroHash[arrayB];
-
-    for(int i=left;i<=mid;i++)
-        A[i-left]=array[i]; //próximo elemento a considerar no primeiro intervalo
-    for(int i=mid+1;i<right;i++) //próximo elemento a considerar no segundo intervalo
-        B[i-mid]=array[i]; // Foi retirado o +1 de B[i-mid+1], pois acessa memória indevida
-    
-    int indexA=0,indexB=0; //declara os contadores do Array A,B 
-    int index=left;
-
-    //adiciona a menor string no array e aumenta o contador
-    while(indexA<arrayA&&indexB<arrayB){
-        if(A[indexA].qtdReviews < B[indexB].qtdReviews){   
-            array[index]=A[indexA];
-            indexA++;
-        }else{array[index]=B[indexB];
-            indexB++;
+    N=N+5000;
+ 
+    // Fill rest of the entries
+    for (long long int i=2; i<N ; i++)
+    {
+        // If isPrime[i] == True then i is
+        // prime number
+        if (isprime[i])
+        {
+            // put i into prime[] vector
+            prime.push_back(i);
+ 
+            // A prime number is its own smallest
+            // prime factor
+            SPF[i] = i;
         }
-        index++;
+ 
+        // Remove all multiples of  i*prime[j] which are
+        // not prime by making isPrime[i*prime[j]] = false
+        // and put smallest prime factor of i*Prime[j] as prime[j]
+        // [ for exp :let  i = 5 , j = 0 , prime[j] = 2 [ i*prime[j] = 10 ]
+        // so smallest prime factor of '10' is '2' that is prime[j] ]
+        // this loop run only one time for number which are not prime
+        for (long long int j=0;
+             j < (int)prime.size() &&
+             i*prime[j] < N && prime[j] <= SPF[i];
+             j++)
+        {
+            isprime[i*prime[j]]=false;
+ 
+            // put smallest prime factor of i*prime[j]
+            SPF[i*prime[j]] = prime[j] ;
+        }
     }
-    // só vai executar um dos dois while abaixo 
-    //copia qualquer entrada restante da primeira metade do array
-    while(indexA<arrayA){
-        array[index]=A[indexA];
-        indexA++;
-        index++;
-    }
-    //copia qualquer entrada restante da segunda metade do array
-    while(indexB<arrayB){
-        array[index]=B[indexB];
-        indexB++;
-        index++;
-    }
-    //deleta arrays temporarios
-    delete[] A;
-    delete[] B; 
-    //retorna o array principal
-    //return array;
+    for(int i=0;i<prime.size();i++)
+        if(prime[i]>(N-5000)*1.1)
+            return prime[i];
+    
+    return -1;
 }
-
-void StartmergeSort(RegistroHash array[], int left, int right) {
-    if (left == right) {
-        return;
-    }
-    int mid = (left + right) / 2;
-    // pega a primeira e a segunda metade
-    StartmergeSort (array, left, mid);
-    StartmergeSort(array, mid + 1, right);
-    merge(array , left, mid, right);
-}   
- */
-
 
 // int median_of_3(RegistroHash array[], int lo, int hi)
 // {
@@ -132,7 +125,7 @@ void StartmergeSort(RegistroHash array[], int left, int right) {
 
 
 //finds the smallest prime number larger than num
-int erastotenes(int num)
+int eratostenes(int num)
 {
     if(num<3)  
         return 3;
@@ -193,7 +186,7 @@ int erastotenes(int num)
     {
         value+=(((int)c[i])-48)*pow(p,i);
     }
-    return value;
+    return abs(value);
 } 
 
 //Hash function
@@ -216,7 +209,7 @@ RegistroHash* createTable(int n)
 {
     int ccounter=0;
     int nproducts=0;
-    int size= erastotenes(n);
+    int size= manipulated_seive(n);
 
     RegistroHash* table = new RegistroHash[size];
     RegistroHash* importsRH = new RegistroHash[n];
@@ -231,7 +224,6 @@ RegistroHash* createTable(int n)
     {
         importsRH[q].productId=importsPR[q].getProductId();
     }
-    delete importsPR;
     
     /* std::cout<<"import:";
     for(int j=0;j<n;j++)
@@ -295,8 +287,6 @@ RegistroHash* createTable(int n)
     std::cout<<"\n=========================|\n\n";
 
     tablesize = size;
-
-    delete importsRH;
 
     return table;
 }
