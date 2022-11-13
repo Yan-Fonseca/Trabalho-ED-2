@@ -59,8 +59,8 @@ int manipulated_seive(int N)
             SPF[i*prime[j]] = prime[j] ;
         }
     }
-    for(int i=0;i<prime.size();i++)
-        if(prime[i]>(N-5000)*1.1)
+    for(int i=0;i<(int)prime.size();i++)
+        if(prime[i]>(N-5000)*2)
             return prime[i];
     
     return -1;
@@ -121,7 +121,7 @@ void StartQuickSort(RegistroHash array[], int lo, int hi)
 
 
 //finds the smallest prime number larger than num
-int eratostenes(int num)
+/* int eratostenes(int num)
 {
     if(num<3)  
         return 3;
@@ -170,7 +170,7 @@ int eratostenes(int num)
             break;
     }
     return -1;
-}
+} */
 
 //Assigns a numerical value to a string
  double valueString(std::string s)
@@ -300,7 +300,7 @@ void preHash()
     }
     RegistroHash* table = createTable(n);
 
-    /* std::cout<<"\n\n====== Produtos mais recorrentes ======\n";
+    std::cout<<"\n\n====== Produtos mais recorrentes ======\n";
     std::cout<<"\nQuantas posicoes devem ser visualizadas? ";
     std::cin>>P;
     while(P<1 || P>n){
@@ -312,31 +312,25 @@ void preHash()
     RegistroHash* copy = new RegistroHash[tablesize];
 
     for(int i = 0;i<tablesize;i++)
-        copy[i]=table[i]; */
-    
-    
-
-    /* std::cout<<"\nOG:";
-    for(int i=0;i<tablesize;i++)
-        std::cout<<table[i].productId<<" ";
+        copy[i]=table[i];
 
     std::cout<<"\nbefore:";
     for(int i=0;i<tablesize;i++)
         std::cout<<copy[i].productId<<" ";
 
-    StartmergeSort(copy,0,tablesize);
+    StartQuickSort(copy,0,tablesize);
 
     std::cout<<"\nafter:";
     for(int i=0;i<tablesize;i++)
-        std::cout<<copy[i].productId<<" "; */
+        std::cout<<copy[i].productId<<" ";
 
 
 
-    /* std::cout<<"\n Produtos com mais reviews:\n";
+    std::cout<<"\n Produtos com mais reviews:\n";
     for(int j=0;j<P;j++)
     {
         std::cout<<j+1<<" - "<<copy[j].productId<<"\n";
-    } */
+    }
 
 }
 
