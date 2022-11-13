@@ -62,7 +62,7 @@ void merge(ProductReview array[],int left, int mid, int right, double *comparizo
     */
 
     int arrayA= right-mid+1;
-    ProductReview* A = new ProductReview[arrayA]; 
+    ProductReview* aux = new ProductReview[arrayA]; 
 
     int indexA= left,indexB=mid; //declara os contadores do Array A,B 
     int index=0;
@@ -71,10 +71,10 @@ void merge(ProductReview array[],int left, int mid, int right, double *comparizo
 
     //vet[i].getUserId().compare(vet[j].getUserId())<0
     while(indexA <mid && indexB < right){
-        if(A[indexA].getUserId().compare(A[indexB].getUserId()) < 0){   
-            array[index]=A[indexA];
+        if(aux[indexA].getUserId().compare(aux[indexB].getUserId()) < 0){   
+            array[index]=aux[indexA];
             indexA++;
-        }else{array[index]=A[indexB];
+        }else{array[index]=aux[indexB];
             indexB++;
         }
         (*comparizons)++; 
@@ -83,20 +83,24 @@ void merge(ProductReview array[],int left, int mid, int right, double *comparizo
     // só vai executar um dos dois while abaixo 
     //copia qualquer entrada restante da primeira metade do array
     while(indexA<mid){
-        array[index]=A[indexA];
+        array[index]=aux[indexA];
         indexA++;
         index++;
         (*movements)++;
     }
     //copia qualquer entrada restante da segunda metade do array
     while(indexB<right){
-        array[index]=A[indexB];
+        array[index]=aux[indexB];
         indexB++;
         index++;
         (*movements)++;
     }
+    for(int i = left ; i < right; i++) {
+        array[i] = aux[i-left];
+        (*movements)++;
+    }
     //deleta arrays temporarios
-    delete[] A;
+    delete[] aux;
     //retorna o array principal
     //return array;
 }
