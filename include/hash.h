@@ -227,8 +227,6 @@ RegistroHash* createTable(int n)
 
     tablesize = size;
 
-    delete importsRH;
-
     return table;
 }
 
