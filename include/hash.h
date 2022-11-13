@@ -73,7 +73,7 @@ void StartmergeSort(RegistroHash array[], int left, int right) {
  */
 
 //finds the smallest prime number larger than num
-int erastotenes(int num)
+int eratostenes(int num)
 {
     if(num<3)  
         return 3;
@@ -157,7 +157,7 @@ RegistroHash* createTable(int n)
 {
     int ccounter=0;
     int nproducts=0;
-    int size= erastotenes(n);
+    int size= eratostenes(n);
 
     RegistroHash* table = new RegistroHash[size];
     RegistroHash* importsRH = new RegistroHash[n];
