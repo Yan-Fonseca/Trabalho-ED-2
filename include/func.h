@@ -288,7 +288,7 @@ ProductReview* import(int n)
         rnd=rand()% nReviews;
         
 
-        rnd=anti_duplicate(arr,rnd,filled,nReviews);
+        //rnd=anti_duplicate(arr,rnd,filled,nReviews);
         filled++;
 
         std::string info = getReviewString(rnd);
