@@ -15,9 +15,9 @@ typedef struct
 
 const long long MAX_SIZE = 1000001;
 
-std::vector<long long >isprime(MAX_SIZE , true);
-std::vector<long long >prime;
-std::vector<long long >SPF(MAX_SIZE);
+std::vector<int >isprime(MAX_SIZE , true);
+std::vector<int >prime;
+std::vector<int>SPF(MAX_SIZE);
  
 // function generate all prime number less than N in O(n)
 int manipulated_seive(int N)
