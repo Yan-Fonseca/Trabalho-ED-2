@@ -66,19 +66,6 @@ int manipulated_seive(int N)
     return -1;
 }
 
-void StartmergeSort(RegistroHash array[], int left, int right) {
-    if (left == right) {
-        return;
-    }
-    int mid = (left + right) / 2;
-    // pega a primeira e a segunda metade
-    StartmergeSort (array, left, mid);
-    StartmergeSort(array, mid + 1, right);
-    merge(array , left, mid, right);
-}   
- */
-
-
 // int median_of_3(RegistroHash array[], int lo, int hi)
 // {
 //     int mid = lo + (hi - lo) / 2;
