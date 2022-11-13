@@ -44,13 +44,20 @@ int main(int argc, char **argv)
     std::cout<<"\n"<<"Quantas reviews devem ser analizadas?"<<"\n";
     std::cin>>nReviews;
     
-    /* if(nReviews<1)
-        return 0; */
-    
+
+    // Tempo para geração do arquivo binário
+    double timeForCreateBinary;
+    std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
+
     createBinary(path,nReviews);
     nReviews = getSize();
 
+    std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
+    timeForCreateBinary=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
+
+    
     std::cout<<"\n|====== PRE PROCESSING FINISHED ======|\n\n";
+    std::cout << "Tempo para gerar o arquivo binário: " << timeForCreateBinary << "\n\n";
 
     //GET REVIEW
     /* 

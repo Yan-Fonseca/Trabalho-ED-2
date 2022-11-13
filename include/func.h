@@ -294,7 +294,7 @@ ProductReview* import(int n)
         std::string info = getReviewString(rnd);
         b[i].setData(info);
     }
-    std::cout<<"\n";
+    //std::cout<<"\n";
     /* for(int i=0;i<filled;i++)
         std::cout<<arr[i]; */
     delete arr;

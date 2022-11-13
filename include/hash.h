@@ -66,6 +66,77 @@ int manipulated_seive(int N)
     return -1;
 }
 
+void StartmergeSort(RegistroHash array[], int left, int right) {
+    if (left == right) {
+        return;
+    }
+    int mid = (left + right) / 2;
+    // pega a primeira e a segunda metade
+    StartmergeSort (array, left, mid);
+    StartmergeSort(array, mid + 1, right);
+    merge(array , left, mid, right);
+}   
+ */
+
+
+// int median_of_3(RegistroHash array[], int lo, int hi)
+// {
+//     int mid = lo + (hi - lo) / 2;
+
+//     if (array[hi].qtdReviews < array[lo].qtdReviews) {
+//         std::swap(array[lo], array[hi]);
+//     }
+
+//     if (array[mid].qtdReviews < array[lo].qtdReviews) {
+//         std::swap(array[lo], array[mid]);
+//     }
+
+//     if (array[hi].qtdReviews < array[mid].qtdReviews) {
+//         std::swap(array[mid], array[hi]);
+//     }
+
+//     return mid;
+// }
+
+
+// int partition(RegistroHash array[], int lo, int hi) {
+//     int i = lo;
+//     int j = hi + 1;
+//     RegistroHash v = array[lo];
+
+//     while(1) {
+//         while(array[++i].qtdReviews < v.qtdReviews) {
+//             if(i == hi) break;
+//         }
+//         while(v.qtdReviews < array[--j].qtdReviews) {
+//             if(j == lo) break;
+//         }
+//         if(i >= j) break;
+//         std::swap(array[i], array[j]);
+//     }
+
+//     std::swap(array[lo], array[j]);
+
+//     return j;
+// }
+
+
+
+// void StartQuickSort(RegistroHash array[], int lo, int hi)
+// {
+//     if(lo < hi) {
+       
+//         int median = median_of_3(array, lo, hi);
+//         std::swap(array[lo], array[median]);
+       
+//         int j = partition(array, lo, hi);
+       
+//         StartQuickSort(array, lo, j-1);
+//         StartQuickSort(array, j+1, hi);
+//     }
+// }
+
+
 //finds the smallest prime number larger than num
 int eratostenes(int num)
 {
@@ -160,6 +231,7 @@ RegistroHash* createTable(int n)
     bool finished;
     int index;
     importsPR=import(n);
+
 
     for(int q=0;q<n;q++)
     {
