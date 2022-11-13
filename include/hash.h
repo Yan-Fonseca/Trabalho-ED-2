@@ -25,7 +25,7 @@ int manipulated_seive(int N)
     // 0 and 1 are not prime
     isprime[0] = isprime[1] = false ;
 
-    N=N+100;
+    N=N+5000;
  
     // Fill rest of the entries
     for (long long int i=2; i<N ; i++)
@@ -60,8 +60,10 @@ int manipulated_seive(int N)
         }
     }
     for(int i=0;i<prime.size();i++)
-        if(prime[i]>(N-100)*1.1)
+        if(prime[i]>(N-5000)*1.1)
             return prime[i];
+    
+    return -1;
 }
 
 //finds the smallest prime number larger than num
