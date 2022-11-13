@@ -1,78 +1,81 @@
 quicksort com 100 items:
-comps 575, moves 199, tempo: 6.14e-05
+comps 509, moves 212, tempo: 5.12e-05
 quicksort com 100 items:
-comps 575, moves 199, tempo: 5.61e-05
+comps 509, moves 212, tempo: 5.13e-05
 quicksort com 100 items:
-comps 575, moves 199, tempo: 5.3e-05
+comps 509, moves 212, tempo: 5.23e-05
 quicksort com 500 items:
-comps 3705, moves 1294, tempo: 0.0003546
+comps 3466, moves 1304, tempo: 0.0003091
 quicksort com 500 items:
-comps 3705, moves 1294, tempo: 0.0003119
+comps 3466, moves 1304, tempo: 0.000305
 quicksort com 500 items:
-comps 3705, moves 1294, tempo: 0.0003093
+comps 3700, moves 1285, tempo: 0.0003042
 quicksort com 1000 items:
-comps 7272, moves 2815, tempo: 0.000663
+comps 8207, moves 2812, tempo: 0.0006581
 quicksort com 1000 items:
-comps 7540, moves 2825, tempo: 0.0006825
+comps 8207, moves 2812, tempo: 0.0006577
 quicksort com 1000 items:
-comps 7540, moves 2825, tempo: 0.0006412
+comps 8207, moves 2812, tempo: 0.0006804
 quicksort com 5000 items:
-comps 47435, moves 16826, tempo: 0.0039715
+comps 44962, moves 16938, tempo: 0.0039798
 quicksort com 5000 items:
-comps 46593, moves 16871, tempo: 0.0041213
+comps 46268, moves 16798, tempo: 0.0038042
 quicksort com 5000 items:
-comps 47650, moves 16757, tempo: 0.0044507
+comps 45554, moves 16960, tempo: 0.0038607
 
 ==============================================
+
 mergesort com 100 items:
-comps 316, moves 356, tempo: 5.21e-05
+comps 316, moves 356, tempo: 5.15e-05
 mergesort com 100 items:
-comps 316, moves 356, tempo: 5.61e-05
+comps 316, moves 356, tempo: 5.67e-05
 mergesort com 100 items:
-comps 316, moves 356, tempo: 5.45e-05
+comps 316, moves 356, tempo: 5.83e-05
 mergesort com 500 items:
-comps 2216, moves 2272, tempo: 0.0003536
+comps 2216, moves 2272, tempo: 0.0004844
 mergesort com 500 items:
-comps 2216, moves 2272, tempo: 0.0003341
+comps 2216, moves 2272, tempo: 0.0003203
 mergesort com 500 items:
-comps 2216, moves 2272, tempo: 0.0003252
+comps 2216, moves 2272, tempo: 0.0005098
 mergesort com 1000 items:
-comps 4932, moves 5044, tempo: 0.0007048
+comps 4932, moves 5044, tempo: 0.0010412
 mergesort com 1000 items:
-comps 4932, moves 5044, tempo: 0.0007059
+comps 4932, moves 5044, tempo: 0.0009212
 mergesort com 1000 items:
-comps 4932, moves 5044, tempo: 0.0007036
+comps 4932, moves 5044, tempo: 0.0006937
 mergesort com 5000 items:
-comps 29804, moves 32004, tempo: 0.0043204
+comps 29804, moves 32004, tempo: 0.148861
 mergesort com 5000 items:
-comps 29804, moves 32004, tempo: 0.0041484
+comps 29804, moves 32004, tempo: 0.0043325
 mergesort com 5000 items:
-comps 29804, moves 32004, tempo: 0.0042231
+comps 29804, moves 32004, tempo: 0.0043723
 
 ==============================================
+
 timsort com 100 items:
-comps 1184, moves 1186, tempo: 7.44e-05
+comps 1086, moves 1088, tempo: 7e-05
 timsort com 100 items:
-comps 1184, moves 1186, tempo: 7.43e-05
+comps 1051, moves 1051, tempo: 6.76e-05
 timsort com 100 items:
-comps 1184, moves 1186, tempo: 7.23e-05
+comps 1086, moves 1088, tempo: 6.94e-05
 timsort com 500 items:
-comps 8650, moves 7680, tempo: 0.0005455
+comps 8957, moves 7973, tempo: 0.0006065
 timsort com 500 items:
-comps 8650, moves 7680, tempo: 0.0008133
+comps 8944, moves 7960, tempo: 0.0005828
 timsort com 500 items:
-comps 8650, moves 7680, tempo: 0.0005753
+comps 8944, moves 7960, tempo: 0.0005833
 timsort com 1000 items:
-comps 18785, moves 15845, tempo: 0.0012378
+comps 19271, moves 16317, tempo: 0.0017537
 timsort com 1000 items:
-comps 18785, moves 15845, tempo: 0.0012338
+comps 19271, moves 16317, tempo: 0.0013538
 timsort com 1000 items:
-comps 18785, moves 15845, tempo: 0.0012374
+comps 19271, moves 16317, tempo: 0.0012778
 timsort com 5000 items:
-comps 83886, moves 54425, tempo: 0.0062591
+comps 83658, moves 54311, tempo: 0.006572
 timsort com 5000 items:
-comps 83523, moves 54072, tempo: 0.0154938
+comps 83574, moves 54179, tempo: 0.0070042
 timsort com 5000 items:
-comps 82648, moves 53247, tempo: 0.0067847
+comps 83636, moves 54283, tempo: 0.0069476
 
 ==============================================
+

@@ -6,7 +6,7 @@
 
 int nSorts = 3;
 
-void saveData(int methodId,int n,double comparizons,double movimentations,double time) 
+void saveData(int methodId,int n,long int comparizons,long int movimentations,double time) 
 {
     //escreve os dados de cada sorteamento no arquivo saida.txt
     std::ofstream saida("../files/saida.txt",std::ios::app);
@@ -32,10 +32,10 @@ void saveData(int methodId,int n,double comparizons,double movimentations,double
 
 void methodsSeparator() {
     std::ofstream saida("../files/saida.txt",std::ios::app);
-    saida<<"\n==============================================\n";
+    saida<<"\n==============================================\n\n";
 }
 
-int median_of_3(ProductReview array[], int lo, int hi, double *comparizons, double *movements)
+int median_of_3(ProductReview array[], int lo, int hi, long int *comparizons, long int *movements)
 {
     int mid = lo + (hi - lo) / 2;
 
@@ -60,7 +60,7 @@ int median_of_3(ProductReview array[], int lo, int hi, double *comparizons, doub
 }
 
 
-int partition(ProductReview array[], int lo, int hi, double *comparizons, double *movements) {
+int partition(ProductReview array[], int lo, int hi, long int *comparizons, long int *movements) {
     int i = lo;
     int j = hi + 1;
     ProductReview v = array[lo];
@@ -87,7 +87,7 @@ int partition(ProductReview array[], int lo, int hi, double *comparizons, double
 
 
 
-void StartQuickSort(ProductReview array[], int lo, int hi, double *comparizons, double *movements)
+void StartQuickSort(ProductReview array[], int lo, int hi, long int *comparizons, long int *movements)
 {
     if(lo < hi) {
        
@@ -105,7 +105,8 @@ void StartQuickSort(ProductReview array[], int lo, int hi, double *comparizons, 
 
 void quicksort(ProductReview *vet, int n)
 {
-    double comparizons=0,movement=0,time;
+    double time;
+    long int comparizons=0,movement=0;
     std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
     
 
@@ -118,7 +119,7 @@ void quicksort(ProductReview *vet, int n)
 }
 
 
-void merge(ProductReview array[],int left, int mid, int right, double *comparizons, double *movements)
+void merge(ProductReview array[],int left, int mid, int right, long int *comparizons, long int *movements)
 {
     int arrayA= mid-left+1; //cria o array temporario A com tamanho do intervalo do merge
     int arrayB= right-mid; //cria o array temporario B com tamanho do intervalo do merge
@@ -165,7 +166,7 @@ void merge(ProductReview array[],int left, int mid, int right, double *comparizo
     delete[] B; 
 }
 
-void StartmergeSort(ProductReview array[], int left, int right, double *comparizons, double *movements) {
+void StartmergeSort(ProductReview array[], int left, int right, long int *comparizons, long int *movements) {
     if (left == right) {
         return;
     }
@@ -179,7 +180,8 @@ void StartmergeSort(ProductReview array[], int left, int right, double *compariz
 
 void mergesort(ProductReview *vet, int n)
 {
-    double comparizons=0,movement=0,time;
+    double time;
+    long int comparizons=0,movement=0;
     std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
     
     StartmergeSort( vet , 0, n-1, &comparizons, &movement);
@@ -190,7 +192,7 @@ void mergesort(ProductReview *vet, int n)
 }
 
 // insertionSort para o uso do TimSort.
-ProductReview* insertionSort(ProductReview *vet, int init, int end, double *comparizons, double *movement) {
+ProductReview* insertionSort(ProductReview *vet, int init, int end, long int *comparizons, long int *movement) {
     int j;
     ProductReview chave;
     for(int i=init+1; i<=end; i++) {
@@ -232,7 +234,8 @@ int minrun(int n) {
 
 void timsort(ProductReview *vet, int n)
 {
-    double comparizons=0,movement=0,time;
+    double time;
+    long int comparizons=0,movement=0;
     std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
     
 
