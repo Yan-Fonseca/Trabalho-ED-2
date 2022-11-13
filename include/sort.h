@@ -34,6 +34,10 @@ void methodsSeparator() {
     std::ofstream saida("../files/saida.txt",std::ios::app);
     saida<<"\n==============================================\n\n";
 }
+void itemsPerIterationSeparator() {
+    std::ofstream saida("../files/saida.txt",std::ios::app);
+    saida<<"----------------------------------------------\n";
+}
 
 int median_of_3(ProductReview array[], int lo, int hi, long int *comparizons, long int *movements)
 {
@@ -304,10 +308,9 @@ void preSort()
 
     for(int l=0;l<nSorts;l++) //itera entre os sorts
     { 
-        
         for(int k=0;k<i-1;k++)  //itera entre os valores de N
         {
-
+            itemsPerIterationSeparator();
             for(int j=0;j<M;j++) //roda M vezes
             {
 
