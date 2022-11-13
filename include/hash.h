@@ -329,7 +329,7 @@ void preHash()
     std::cout<<"\n Produtos com mais reviews:\n";
     for(int j=0;j<P;j++)
     {
-        std::cout<<j+1<<" - "<<copy[j].productId<<"\n";
+        std::cout<<j+1<<" - "<<copy[tablesize-j-1].productId<<" - "<<copy[tablesize-j-1].qtdReviews<<"\n";
     }
 
 }
