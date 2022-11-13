@@ -30,6 +30,11 @@ void saveData(int methodId,int n,double comparizons,double movimentations,double
     saida<<method<<" com "<<n<<" items:\ncomps "<<comparizons<<", moves "<<movimentations<<", tempo: "<<time<<"\n";
 } 
 
+void methodsSeparator() {
+    std::ofstream saida("../files/saida.txt",std::ios::app);
+    saida<<"\n==============================================\n";
+}
+
 int median_of_3(ProductReview array[], int lo, int hi, double *comparizons, double *movements)
 {
     int mid = lo + (hi - lo) / 2;
@@ -307,7 +312,8 @@ void preSort()
                 sort(reviews,N[k],l+1);     
                 
             }
-        }  
+        }
+        methodsSeparator();
     }
 }
 
