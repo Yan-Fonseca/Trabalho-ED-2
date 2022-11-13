@@ -163,7 +163,6 @@ RegistroHash* createTable(int n)
     {
         importsRH[q].productId=importsPR[q].getProductId();
     }
-    delete importsPR;
     
     /* std::cout<<"import:";
     for(int j=0;j<n;j++)
