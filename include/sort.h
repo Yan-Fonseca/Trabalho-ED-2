@@ -53,27 +53,28 @@ void quicksort(ProductReview *vet, int n)
 }
 
 void merge(ProductReview array[],int left, int mid, int right, double *comparizons, double *movements)
-{
+{   /*
     int arrayA= mid-left+1; //cria o array temporario A com tamanho do intervalo do merge
     int arrayB= right-mid; //cria o array temporario B com tamanho do intervalo do merge
 
     ProductReview* A = new ProductReview[arrayA]; 
     ProductReview* B = new ProductReview[arrayB];
+    */
 
-    for(int i=left;i<=mid;i++)
-        A[i-left]=array[i]; //próximo elemento a considerar no primeiro intervalo
-    for(int i=mid+1;i<right;i++) //próximo elemento a considerar no segundo intervalo
-        B[i-mid]=array[i]; // Foi retirado o +1 de B[i-mid+1], pois acessa memória indevida
-    
-    int indexA=0,indexB=0; //declara os contadores do Array A,B 
-    int index=left;
+    int arrayA= right-mid+1;
+    ProductReview* A = new ProductReview[arrayA]; 
+
+    int indexA= left,indexB=mid; //declara os contadores do Array A,B 
+    int index=0;
 
     //adiciona a menor string no array e aumenta o contador
-    while(indexA<arrayA&&indexB<arrayB){
-        if(A[indexA].getUserId().compare(B[indexB].getUserId()) < 0){   
+
+    //vet[i].getUserId().compare(vet[j].getUserId())<0
+    while(indexA <mid && indexB < right){
+        if(A[indexA].getUserId().compare(A[indexB].getUserId()) < 0){   
             array[index]=A[indexA];
             indexA++;
-        }else{array[index]=B[indexB];
+        }else{array[index]=A[indexB];
             indexB++;
         }
         (*comparizons)++; 
@@ -81,22 +82,21 @@ void merge(ProductReview array[],int left, int mid, int right, double *comparizo
     }
     // só vai executar um dos dois while abaixo 
     //copia qualquer entrada restante da primeira metade do array
-    while(indexA<arrayA){
+    while(indexA<mid){
         array[index]=A[indexA];
         indexA++;
         index++;
         (*movements)++;
     }
     //copia qualquer entrada restante da segunda metade do array
-    while(indexB<arrayB){
-        array[index]=B[indexB];
+    while(indexB<right){
+        array[index]=A[indexB];
         indexB++;
         index++;
         (*movements)++;
     }
     //deleta arrays temporarios
     delete[] A;
-    delete[] B; 
     //retorna o array principal
     //return array;
 }
