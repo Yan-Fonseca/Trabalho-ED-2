@@ -66,62 +66,58 @@ int manipulated_seive(int N)
     return -1;
 }
 
-// int median_of_3(RegistroHash array[], int lo, int hi)
-// {
-//     int mid = lo + (hi - lo) / 2;
+ int median_of_3(RegistroHash array[], int lo, int hi)
+ {
+    int mid = lo + (hi - lo) / 2;
 
-//     if (array[hi].qtdReviews < array[lo].qtdReviews) {
-//         std::swap(array[lo], array[hi]);
-//     }
+    if (array[hi].qtdReviews < array[lo].qtdReviews) {
+         std::swap(array[lo], array[hi]);
+    }
 
-//     if (array[mid].qtdReviews < array[lo].qtdReviews) {
-//         std::swap(array[lo], array[mid]);
-//     }
+    if (array[mid].qtdReviews < array[lo].qtdReviews) {
+        std::swap(array[lo], array[mid]);
+    }
 
-//     if (array[hi].qtdReviews < array[mid].qtdReviews) {
-//         std::swap(array[mid], array[hi]);
-//     }
+    if (array[hi].qtdReviews < array[mid].qtdReviews) {
+        std::swap(array[mid], array[hi]);
+    }
+    return mid;
+}
 
-//     return mid;
-// }
+int partition(RegistroHash array[], int lo, int hi) {
+    int i = lo;
+    int j = hi + 1;
+    RegistroHash v = array[lo];
 
+    while(1) {
+        while(array[++i].qtdReviews < v.qtdReviews) {
+            if(i == hi) break;
+        }
+        while(v.qtdReviews < array[--j].qtdReviews) {
+            if(j == lo) break;
+        }
+        if(i >= j) break;
+        std::swap(array[i], array[j]);
+    }
 
-// int partition(RegistroHash array[], int lo, int hi) {
-//     int i = lo;
-//     int j = hi + 1;
-//     RegistroHash v = array[lo];
+    std::swap(array[lo], array[j]);
 
-//     while(1) {
-//         while(array[++i].qtdReviews < v.qtdReviews) {
-//             if(i == hi) break;
-//         }
-//         while(v.qtdReviews < array[--j].qtdReviews) {
-//             if(j == lo) break;
-//         }
-//         if(i >= j) break;
-//         std::swap(array[i], array[j]);
-//     }
+    return j;
+}
 
-//     std::swap(array[lo], array[j]);
-
-//     return j;
-// }
-
-
-
-// void StartQuickSort(RegistroHash array[], int lo, int hi)
-// {
-//     if(lo < hi) {
+void StartQuickSort(RegistroHash array[], int lo, int hi)
+{
+    if(lo < hi) {
        
-//         int median = median_of_3(array, lo, hi);
-//         std::swap(array[lo], array[median]);
+        int median = median_of_3(array, lo, hi);
+        std::swap(array[lo], array[median]);
        
-//         int j = partition(array, lo, hi);
+        int j = partition(array, lo, hi);
        
-//         StartQuickSort(array, lo, j-1);
-//         StartQuickSort(array, j+1, hi);
-//     }
-// }
+        StartQuickSort(array, lo, j-1);
+        StartQuickSort(array, j+1, hi);
+    }
+}
 
 
 //finds the smallest prime number larger than num
@@ -341,7 +337,7 @@ void preHash()
     {
         std::cout<<j+1<<" - "<<copy[j].productId<<"\n";
     } */
-    
+
 }
 
 
