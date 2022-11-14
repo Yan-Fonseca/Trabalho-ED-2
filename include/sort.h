@@ -132,6 +132,18 @@ void merge(ProductReview array[],int left, int mid, int right, long int *compari
     for(int j=0;j<arrayB;j++) //próximo elemento a considerar no segundo intervalo
         B[j]=array[mid+1+j]; // Foi retirado o +1 de B[i-mid+1], pois acessa memória indevida
     
+
+    /*
+        int i = left , j = mid , k=0;
+        for(;(i< mid) && (j<right);){
+            if(array[i] < array[j]){
+                aux[k] = array[i]; i++;
+            else
+                aux[k] = array[j];j++;
+            }
+            k++
+        }
+    */
     int indexA=0,indexB=0; //declara os contadores do Array A,B 
     int index=left;
 
