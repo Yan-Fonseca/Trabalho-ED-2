@@ -127,7 +127,7 @@ void merge(ProductReview array[],int left, int mid, int right, long int *compari
     ProductReview* A = new ProductReview[arrayA]; 
     ProductReview* B = new ProductReview[arrayB];
 
-    for(int i=0;i<=arrayA;i++)
+    for(int i=0;i<arrayA;i++)
         A[i]=array[left+i]; //próximo elemento a considerar no primeiro intervalo
     for(int j= 0;j< arrayB;j++) //próximo elemento a considerar no segundo intervalo
         B[j]=array[mid+1+j]; // Foi retirado o +1 de B[i-mid+1], pois acessa memória indevida
@@ -277,10 +277,13 @@ void sort(ProductReview *vet, int n, int methodId)
         break;
     case 2:
     std::cout<<"\nMerge\n";
-    for(int i=0;i<n;i++)
-            std::cout<<vet[i].getUserId()<<" ";
-            std::cout<<" \n\n";
-        mergesort(vet,n);
+    for(int i=0;i < n;i++){
+        std::cout<<vet[i].getUserId()<< " ";
+    }
+        std::cout<<" \n\n";
+    
+
+        mergesort(vet ,n);
         for(int i=0;i<n;i++)
             std::cout<<vet[i].getUserId()<<" ";
         break;
