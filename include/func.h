@@ -171,6 +171,73 @@ std::vector<ProductReview*> loadReviews(double nReviews){
     return reviews;
 }
 
+/* Criar um buffer que repassa os dados para cada 1000 registros para o arquivo binário de forma
+// a melhorar o desempenho da criação do binário e não gastar tanta memória.
+// criar o binário vai entrar em um loop que irá chamar loadReviews várias vezes
+// Problemas: - 
+*/
+
+void createBinary2(std::string p, double n) {
+    nReviews=n;
+    path=p;
+    int buffer_tam = 10000;
+
+    std::ifstream loader(path+"ratings_Electronics.csv");
+    std::string line;
+
+    std::vector<ProductReview*> reviews;
+    ProductReview *a;
+    double counter=0; 
+
+    std::string user,product,rate,time;
+
+    std::ofstream eraser(path+"ratings_Electronics.bin"); eraser.close(); //apaga o conteudo do arquivo
+    std::ofstream binaryfile(path+"ratings_Electronics.bin",std::ios::app|std::ios::binary);
+
+    while(counter < nReviews) {
+        for(double i=0;i<buffer_tam&&loader.good();i++)
+        {
+            getline(loader,line);
+            a= new ProductReview(line);
+            reviews.push_back(a);
+            counter++;
+        }
+
+        for(int i=0;i<buffer_tam;i++)
+        {
+            user=reviews[i]->getUserId();
+            product=reviews[i]->getProductId();
+            rate=reviews[i]->getRating();
+            time=reviews[i]->getTime();
+
+            int UidSize = userId_size;
+            int PidSize = productId_size;
+
+            Irregular irreg;
+
+            if(user.length()>userId_size-1){ //-1 e para sempre ter 1 byte extra
+                irreg.index = i;
+                UidSize=user.length()+1;
+                irreg.extraSize = UidSize-userId_size;
+                IrregUser.push_back(irreg);
+            }
+            if(product.length()>productId_size-1){
+                irreg.index = i;
+                PidSize=product.length()+1;
+                irreg.extraSize = PidSize-productId_size;
+                IrregProduct.push_back(irreg);
+            }
+
+            binaryfile.write(reinterpret_cast<const char*>(user.c_str()),UidSize);
+            binaryfile.write(reinterpret_cast<const char*>(product.c_str()),PidSize);
+            binaryfile.write(reinterpret_cast<const char*>(rate.c_str()),rating_size);
+            binaryfile.write(reinterpret_cast<const char*>(time.c_str()),timestamp_size);
+        }
+        reviews.clear();
+    }
+    
+}
+
 void createBinary(std::string p, double n)
 {
     nReviews=n;
