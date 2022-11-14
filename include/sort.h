@@ -127,10 +127,10 @@ void merge(ProductReview array[],int left, int mid, int right, long int *compari
     ProductReview* A = new ProductReview[arrayA]; 
     ProductReview* B = new ProductReview[arrayB];
 
-    for(int i=0;i<arrayA;i++)
-        A[i]=array[left+i]; //próximo elemento a considerar no primeiro intervalo
+    for(int i=0;i<arrayA;i++)//próximo elemento a considerar no primeiro intervalo
+        A[i]=array[left+i]; 
     for(int j= 0;j< arrayB;j++) //próximo elemento a considerar no segundo intervalo
-        B[j]=array[mid+1+j]; // Foi retirado o +1 de B[i-mid+1], pois acessa memória indevida
+        B[j]=array[mid+1+j]; 
     
     int indexA=0,indexB=0; //declara os contadores do Array A,B 
     int index=left;
@@ -165,8 +165,6 @@ void merge(ProductReview array[],int left, int mid, int right, long int *compari
     //deleta arrays temporarios
     delete[] A;
     delete[] B; 
-    //retorna o array principal
-    //return array;
 }
 
 void StartmergeSort(ProductReview array[], int left, int right, long int *comparizons, long int *movements) {
@@ -174,7 +172,7 @@ void StartmergeSort(ProductReview array[], int left, int right, long int *compar
         return;
     }
     int mid = (left + right) / 2;
-    // pega a primeira e a segunda metade
+    // pega a primeira e a segunda metade do merge
     StartmergeSort (array, left, mid, comparizons,movements);
     StartmergeSort(array, mid + 1, right, comparizons, movements);
     merge(array , left, mid, right,comparizons, movements);
