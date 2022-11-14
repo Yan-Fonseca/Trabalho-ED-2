@@ -134,17 +134,22 @@ void StartQuickSort(ProductReview array[], int lo, int hi, long int *comparizons
 
 void quicksort(ProductReview *vet, int n)
 {
-    double time;
-    long int comparizons=0,movement=0;
-    std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
-    
+    long int comparizons[M],movement[M];
+    double time[M];
 
-    StartQuickSort(vet , 0, n-1, &comparizons, &movement);
-
-
-    std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
-    time=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
-    saveData(1,n,comparizons,movement,time);
+    for(int j=0;j<M;j++) //roda M vezes
+    {
+        comparizons[j]=0;
+        movement[j]=0;
+        std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
+        
+        StartQuickSort(vet , 0, n-1, &comparizons[j], &movement[j]);
+        
+        std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
+        time[j]=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
+        saveData(2,n,comparizons[j],movement[j],time[j]);
+    }
+    saveAverageData(time, comparizons, movements);
 }
 
 
@@ -288,15 +293,22 @@ void startTimSort(ProductReview *vet, int n, long int *comparizons, long int *mo
 
 void timsort(ProductReview *vet, int n)
 {
-    double time;
-    long int comparizons=0,movement=0;
-    std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
-    
-    startTimSort(vet, n, &comparizons, &movement);
+    long int comparizons[M],movement[M];
+    double time[M];
 
-    std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
-    time=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
-    saveData(3,n,comparizons,movement,time);
+    for(int j=0;j<M;j++) //roda M vezes
+    {
+        comparizons[j]=0;
+        movement[j]=0;
+        std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
+        
+        startTimSort(vet, n, &comparizons[j], &movement[j]);
+        
+        std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
+        time[j]=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
+        saveData(2,n,comparizons[j],movement[j],time[j]);
+    }
+    saveAverageData(time, comparizons, movements);
 }
 
 
