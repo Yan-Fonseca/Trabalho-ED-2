@@ -1,93 +1,141 @@
 ----------------------------------------------
 quicksort com 100 items:
-comps 548, moves 214, tempo: 5.58e-05
+comparações 502, moves 205, tempo: 5.3e-05
 quicksort com 100 items:
-comps 548, moves 214, tempo: 5.76e-05
+comparações 669, moves 63, tempo: 3.46e-05
 quicksort com 100 items:
-comps 548, moves 214, tempo: 5.79e-05
+comparações 669, moves 63, tempo: 3.35e-05
+
+Média de tempo em todas as iterações: 4.03667e-05
+Média de comparações: 613
+Média de movimentações: 110
 ----------------------------------------------
 quicksort com 500 items:
-comps 3428, moves 1302, tempo: 0.0003386
+comparações 3338, moves 1286, tempo: 0.0002867
 quicksort com 500 items:
-comps 3428, moves 1302, tempo: 0.0006203
+comparações 4262, moves 255, tempo: 0.0001739
 quicksort com 500 items:
-comps 3428, moves 1302, tempo: 0.0003926
+comparações 4262, moves 255, tempo: 0.0002127
+
+Média de tempo em todas as iterações: 0.000224433
+Média de comparações: 3954
+Média de movimentações: 598
 ----------------------------------------------
 quicksort com 1000 items:
-comps 7489, moves 2803, tempo: 0.0007517
+comparações 7603, moves 2804, tempo: 0.0006223
 quicksort com 1000 items:
-comps 7489, moves 2803, tempo: 0.0007226
+comparações 9523, moves 513, tempo: 0.0003395
 quicksort com 1000 items:
-comps 7489, moves 2803, tempo: 0.0007252
+comparações 9523, moves 513, tempo: 0.0003382
+
+Média de tempo em todas as iterações: 0.000433333
+Média de comparações: 8883
+Média de movimentações: 1276
 ----------------------------------------------
 quicksort com 5000 items:
-comps 44270, moves 16951, tempo: 0.0045751
+comparações 46003, moves 16862, tempo: 0.003797
 quicksort com 5000 items:
-comps 44466, moves 16996, tempo: 0.0043408
+comparações 60669, moves 2969, tempo: 0.002059
 quicksort com 5000 items:
-comps 43974, moves 17068, tempo: 0.0043068
+comparações 60669, moves 2969, tempo: 0.0021295
+
+Média de tempo em todas as iterações: 0.00266183
+Média de comparações: 55780
+Média de movimentações: 7600
 
 ==============================================
 
 ----------------------------------------------
 mergesort com 100 items:
-comps 316, moves 356, tempo: 5.25e-05
+comparações 316, moves 356, tempo: 5.08e-05
 mergesort com 100 items:
-comps 316, moves 356, tempo: 9.36e-05
+comparações 316, moves 356, tempo: 4.63e-05
 mergesort com 100 items:
-comps 316, moves 356, tempo: 0.0001406
+comparações 316, moves 356, tempo: 4.43e-05
+
+Média de tempo em todas as iterações: 4.71333e-05
+Média de comparações: 316
+Média de movimentações: 356
 ----------------------------------------------
 mergesort com 500 items:
-comps 2216, moves 2272, tempo: 0.0005501
+comparações 2216, moves 2272, tempo: 0.214142
 mergesort com 500 items:
-comps 2216, moves 2272, tempo: 0.0005419
+comparações 2216, moves 2272, tempo: 0.0010196
 mergesort com 500 items:
-comps 2216, moves 2272, tempo: 0.0003835
+comparações 2216, moves 2272, tempo: 0.0010178
+
+Média de tempo em todas as iterações: 0.0720598
+Média de comparações: 2216
+Média de movimentações: 2272
 ----------------------------------------------
 mergesort com 1000 items:
-comps 4932, moves 5044, tempo: 0.0007458
+comparações 4932, moves 5044, tempo: 0.0009946
 mergesort com 1000 items:
-comps 4932, moves 5044, tempo: 0.0007371
+comparações 4932, moves 5044, tempo: 0.0009905
 mergesort com 1000 items:
-comps 4932, moves 5044, tempo: 0.0010128
+comparações 4932, moves 5044, tempo: 0.0009293
+
+Média de tempo em todas as iterações: 0.000971467
+Média de comparações: 4932
+Média de movimentações: 5044
 ----------------------------------------------
 mergesort com 5000 items:
-comps 29804, moves 32004, tempo: 0.0056191
+comparações 29804, moves 32004, tempo: 0.0046714
 mergesort com 5000 items:
-comps 29804, moves 32004, tempo: 0.0046656
+comparações 29804, moves 32004, tempo: 0.0040827
 mergesort com 5000 items:
-comps 29804, moves 32004, tempo: 0.0045085
+comparações 29804, moves 32004, tempo: 0.0041218
+
+Média de tempo em todas as iterações: 0.00429197
+Média de comparações: 29804
+Média de movimentações: 32004
 
 ==============================================
 
 ----------------------------------------------
 timsort com 100 items:
-comps 1072, moves 1072, tempo: 7.25e-05
+comparações 1241, moves 1253, tempo: 7.48e-05
 timsort com 100 items:
-comps 1072, moves 1072, tempo: 7.21e-05
+comparações 51, moves 147, tempo: 4.11e-05
 timsort com 100 items:
-comps 1072, moves 1072, tempo: 7.13e-05
+comparações 51, moves 147, tempo: 3.2e-05
+
+Média de tempo em todas as iterações: 4.93e-05
+Média de comparações: 447
+Média de movimentações: 515
 ----------------------------------------------
 timsort com 500 items:
-comps 9143, moves 8167, tempo: 0.0006184
+comparações 8940, moves 7964, tempo: 0.0005581
 timsort com 500 items:
-comps 8967, moves 7991, tempo: 0.0006047
+comparações 768, moves 1224, tempo: 0.0001594
 timsort com 500 items:
-comps 8918, moves 7942, tempo: 0.0007122
+comparações 768, moves 1224, tempo: 0.0001572
+
+Média de tempo em todas as iterações: 0.000291567
+Média de comparações: 3492
+Média de movimentações: 3470
 ----------------------------------------------
 timsort com 1000 items:
-comps 19173, moves 16231, tempo: 0.0014045
+comparações 19395, moves 16459, tempo: 0.0013715
 timsort com 1000 items:
-comps 19173, moves 16231, tempo: 0.0013091
+comparações 2048, moves 2936, tempo: 0.0003949
 timsort com 1000 items:
-comps 19173, moves 16231, tempo: 0.0013876
+comparações 2048, moves 2936, tempo: 0.000392
+
+Média de tempo em todas as iterações: 0.000719467
+Média de comparações: 7830
+Média de movimentações: 7443
 ----------------------------------------------
 timsort com 5000 items:
-comps 84074, moves 54711, tempo: 0.0069031
+comparações 83370, moves 53957, tempo: 0.0065971
 timsort com 5000 items:
-comps 83333, moves 53872, tempo: 0.0068152
+comparações 18237, moves 21558, tempo: 0.00329
 timsort com 5000 items:
-comps 84748, moves 55319, tempo: 0.0080411
+comparações 18277, moves 21518, tempo: 0.0032298
+
+Média de tempo em todas as iterações: 0.0043723
+Média de comparações: 39961
+Média de movimentações: 32344
 
 ==============================================
 

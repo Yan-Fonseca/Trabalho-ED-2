@@ -55,7 +55,7 @@ void saveAverageData(double tempos[], long int comparizons[], long int movements
     averageMovements = averageMovements/M;
 
     std::ofstream saida("../files/saida.txt",std::ios::app);
-    saida << "Média de tempo em todas as iterações: " << averageTime << "\n";
+    saida << "\nMédia de tempo em todas as iterações: " << averageTime << "\n";
     saida << "Média de comparações: " << averageComparizons << "\n";
     saida << "Média de movimentações: " << averageMovements << "\n";
 }
@@ -147,9 +147,9 @@ void quicksort(ProductReview *vet, int n)
         
         std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
         time[j]=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
-        saveData(2,n,comparizons[j],movement[j],time[j]);
+        saveData(1,n,comparizons[j],movement[j],time[j]);
     }
-    saveAverageData(time, comparizons, movements);
+    saveAverageData(time, comparizons, movement);
 }
 
 
@@ -229,7 +229,7 @@ void mergesort(ProductReview *vet, int n)
         time[j]=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
         saveData(2,n,comparizons[j],movement[j],time[j]);
     }
-    saveAverageData(time, comparizons, movements);
+    saveAverageData(time, comparizons, movement);
 }
 
 // insertionSort para o uso do TimSort.
@@ -277,7 +277,7 @@ void startTimSort(ProductReview *vet, int n, long int *comparizons, long int *mo
     int MINRUN = minrun(n);
 
     for(int i=0; i<n; i+=MINRUN) {
-        vet = insertionSort(vet,i,menor(i+MINRUN-1,n-1), comparizons, movement);
+        vet = insertionSort(vet,i,menor(i+MINRUN-1,n-1), comparizons, movements);
     }
 
     for(int size = MINRUN; size < n; size = 2*size) {
@@ -285,7 +285,7 @@ void startTimSort(ProductReview *vet, int n, long int *comparizons, long int *mo
             int mid = left + size - 1;
             int right = menor(left + 2*size - 1, n-1);
             if(mid < right) {
-                merge(vet, left, mid, right, comparizons, movement);
+                merge(vet, left, mid, right, comparizons, movements);
             }
         }
     }
@@ -306,9 +306,9 @@ void timsort(ProductReview *vet, int n)
         
         std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
         time[j]=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
-        saveData(2,n,comparizons[j],movement[j],time[j]);
+        saveData(3,n,comparizons[j],movement[j],time[j]);
     }
-    saveAverageData(time, comparizons, movements);
+    saveAverageData(time, comparizons, movement);
 }
 
 
