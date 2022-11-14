@@ -127,20 +127,21 @@ void merge(ProductReview array[],int left, int mid, int right, long int *compari
     ProductReview* A = new ProductReview[arrayA]; 
     ProductReview* B = new ProductReview[arrayB];
 
-    for(int i=left;i<=mid;i++)
-        A[i-left]=array[i]; //próximo elemento a considerar no primeiro intervalo
-    for(int i=mid+1;i<right;i++) //próximo elemento a considerar no segundo intervalo
-        B[i-mid]=array[i]; // Foi retirado o +1 de B[i-mid+1], pois acessa memória indevida
+    for(int i=0;i<arrayA;i++)
+        A[i]=array[left+i]; //próximo elemento a considerar no primeiro intervalo
+    for(int j= 0;j< arrayB;j++) //próximo elemento a considerar no segundo intervalo
+        B[j]=array[mid+1+j]; // Foi retirado o +1 de B[i-mid+1], pois acessa memória indevida
     
     int indexA=0,indexB=0; //declara os contadores do Array A,B 
     int index=left;
 
     //adiciona a menor string no array e aumenta o contador
-    while(indexA<arrayA&&indexB<arrayB){
-        if(A[indexA].getUserId().compare(B[indexB].getUserId()) < 0){   
+    while(indexA<arrayA && indexB<arrayB){
+        if(A[indexA].getUserId().compare(B[indexB].getUserId()) <= 0){   
             array[index]=A[indexA];
             indexA++;
-        }else{array[index]=B[indexB];
+        }else{
+            array[index]=B[indexB];
             indexB++;
         }
         (*comparizons)++; 
@@ -164,10 +165,12 @@ void merge(ProductReview array[],int left, int mid, int right, long int *compari
     //deleta arrays temporarios
     delete[] A;
     delete[] B; 
+    //retorna o array principal
+    //return array;
 }
 
 void StartmergeSort(ProductReview array[], int left, int right, long int *comparizons, long int *movements) {
-    if (left == right) {
+    if (left >= right) {
         return;
     }
     int mid = (left + right) / 2;
@@ -175,7 +178,7 @@ void StartmergeSort(ProductReview array[], int left, int right, long int *compar
     StartmergeSort (array, left, mid, comparizons,movements);
     StartmergeSort(array, mid + 1, right, comparizons, movements);
     merge(array , left, mid, right,comparizons, movements);
-}  
+}
 
 
 void mergesort(ProductReview *vet, int n)
