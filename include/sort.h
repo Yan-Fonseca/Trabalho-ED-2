@@ -168,18 +168,18 @@ void merge(ProductReview array[],int left, int mid, int right, long int *compari
     //return array;
 }
 
-void StartmergeSort(ProductReview array[], int left, int right, long int *comparizons, long int *movements) {
-    if (left >= right) {
-        return;
-    }
-    auto mid = left + (right-left) / 2;
-    // pega a primeira e a segunda metade
-    StartmergeSort (array, left, mid, comparizons,movements);
-    StartmergeSort(array, (mid + 1), right, comparizons, movements);
-    merge(array , left, mid, right,comparizons, movements);
-}  
+void StartmergeSort(ProductReview array[], int const begin, int const end, long int *comparizons, long int *movements)
+{
+    if (begin >= end)
+        return; // Returns recursively
+ 
+    auto mid = begin + (end - begin) / 2;
+    StartmergeSort(array, begin, mid ,comparizons,movements);
+    StartmergeSort(array, mid + 1, end,comparizons, movements);
+    merge( array, begin, mid, end,comparizons,movements);
+}
 
-
+//long int *comparizons, long int *movements
 void mergesort(ProductReview *vet, int n)
 {
     double time;
