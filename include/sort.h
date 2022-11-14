@@ -41,15 +41,23 @@ void itemsPerIterationSeparator() {
     saida<<"----------------------------------------------\n";
 }
 
-void saveAverageTime(double tempos[]) {
-    double media=0;
+void saveAverageData(double tempos[], long int comparizons[], long int movements[]) {
+    double averageTime=0;
+    long int averageComparizons=0;
+    long int averageMovements=0;
     for(int i=0; i<M; i++) {
-        media += tempos[i];
+        averageTime += tempos[i];
+        averageComparizons += comparizons[i];
+        averageMovements += movements[i];
     }
-    media = media/M;
+    averageTime = averageTime/M;
+    averageComparizons = averageComparizons/M;
+    averageMovements = averageMovements/M;
 
     std::ofstream saida("../files/saida.txt",std::ios::app);
-    saida << "Média de tempo em todas as iterações: " << media << "\n";
+    saida << "Média de tempo em todas as iterações: " << averageTime << "\n";
+    saida << "Média de comparações: " << averageComparizons << "\n";
+    saida << "Média de movimentações: " << averageMovements << "\n";
 }
 
 
@@ -201,22 +209,22 @@ void StartmergeSort(ProductReview array[], int left, int right, long int *compar
 
 void mergesort(ProductReview *vet, int n)
 {
-    long int comparizons,movement;
+    long int comparizons[M],movement[M];
     double times[M];
 
     for(int j=0;j<M;j++) //roda M vezes
     {
-        comparizons=0;
-        movement=0;
+        comparizons[j]=0;
+        movement[j]=0;
         std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
         
-        StartmergeSort( vet , 0, n-1, &comparizons, &movement);
+        StartmergeSort( vet , 0, n-1, &comparizons[j], &movement[j]);
         
         std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
         times[j]=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
-        saveData(2,n,comparizons,movement,times[j]);
+        saveData(2,n,comparizons[j],movement[j],times[j]);
     }
-    saveAverageTime(times);
+    saveAverageData(times, comparizons, movements);
 }
 
 // insertionSort para o uso do TimSort.
