@@ -164,16 +164,18 @@ void merge(ProductReview array[],int left, int mid, int right, long int *compari
     //deleta arrays temporarios
     delete[] A;
     delete[] B; 
+    //retorna o array principal
+    //return array;
 }
 
 void StartmergeSort(ProductReview array[], int left, int right, long int *comparizons, long int *movements) {
-    if (left == right) {
+    if (left >= right) {
         return;
     }
-    int mid = (left + right) / 2;
+    auto mid = left + (right-left) / 2;
     // pega a primeira e a segunda metade
     StartmergeSort (array, left, mid, comparizons,movements);
-    StartmergeSort(array, mid + 1, right, comparizons, movements);
+    StartmergeSort(array, (mid + 1), right, comparizons, movements);
     merge(array , left, mid, right,comparizons, movements);
 }  
 
@@ -271,13 +273,17 @@ void sort(ProductReview *vet, int n, int methodId)
     switch (methodId)
     {
     case 1:
-        quicksort(vet,n);
         break;
     case 2:
+    std::cout<<"\nMerge\n";
+    for(int i=0;i<n;i++)
+            std::cout<<vet[i].getUserId()<<" ";
+            std::cout<<" \n\n";
         mergesort(vet,n);
+        for(int i=0;i<n;i++)
+            std::cout<<vet[i].getUserId()<<" ";
         break;
     case 3:
-        timsort(vet,n);
         break;
     default:
         std::cout<<"Sorting algorithm ID not valid\n";
@@ -293,7 +299,8 @@ void preSort()
     int M = 3;
     int i;
     std::string value;
-    ProductReview* reviews;
+    ProductReview* review;
+    ProductReview* reviews = new ProductReview[6];
 
     std::ifstream file("../files/input.dat");
     for(i=0;file.good();i++)
@@ -301,21 +308,22 @@ void preSort()
         getline(file,value);
         N.push_back(stoi(value));
     }
-
+     review = import(6);
     for(int l=0;l<nSorts;l++) //itera entre os sorts
     { 
         
-        for(int k=0;k<i-1;k++)  //itera entre os valores de N
-        {
+       /*  for(int k=0;k<i-1;k++)  //itera entre os valores de N
+        { */
 
             for(int j=0;j<M;j++) //roda M vezes
             {
-
-                reviews = import(N[k]);
-                sort(reviews,N[k],l+1);     
+                for(int p=0;p<6;p++)
+                    reviews[p]=review[p];
+               
+                sort(reviews,6,l+1);     
                 
             }
-        }
+        /* } */
         methodsSeparator();
     }
 }
