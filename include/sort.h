@@ -118,21 +118,6 @@ void quicksort(ProductReview *vet, int n)
     saveData(1,n,comparizons,movement,time);
 }
 
-
-void merge(ProductReview array[],int left, int mid, int right, long int *comparizons, long int *movements)
-{
-    int arrayA= mid-left+1; //cria o array temporario A com tamanho do intervalo do merge
-    int arrayB= right-mid; //cria o array temporario B com tamanho do intervalo do merge
-
-    ProductReview* A = new ProductReview[arrayA]; 
-    ProductReview* B = new ProductReview[arrayB];
-
-    for(int i=0;i< arrayA;i++)
-        A[i]=array[left+1]; //próximo elemento a considerar no primeiro intervalo
-    for(int j=0;j<arrayB;j++) //próximo elemento a considerar no segundo intervalo
-        B[j]=array[mid+1+j]; // Foi retirado o +1 de B[i-mid+1], pois acessa memória indevida
-    
-
     /*
         int i = left , j = mid , k=0;
         for(;(i< mid) && (j<right);){
@@ -144,15 +129,29 @@ void merge(ProductReview array[],int left, int mid, int right, long int *compari
             k++
         }
     */
+void merge(ProductReview array[],int left, int mid, int right, long int *comparizons, long int *movements)
+{
+    int arrayA= mid-left+1; //cria o array temporario A com tamanho do intervalo do merge
+    int arrayB= right-mid; //cria o array temporario B com tamanho do intervalo do merge
+
+    ProductReview* A = new ProductReview[arrayA]; 
+    ProductReview* B = new ProductReview[arrayB];
+
+    for(int i=0;i<arrayA;i++)
+        A[i]=array[left+i]; //próximo elemento a considerar no primeiro intervalo
+    for(int j= 0;j< arrayB;j++) //próximo elemento a considerar no segundo intervalo
+        B[j]=array[mid+1+j]; // Foi retirado o +1 de B[i-mid+1], pois acessa memória indevida
+    
     int indexA=0,indexB=0; //declara os contadores do Array A,B 
     int index=left;
 
     //adiciona a menor string no array e aumenta o contador
-    while(indexA<arrayA&&indexB<arrayB){
-        if(A[indexA].getUserId().compare(B[indexB].getUserId()) < 0){   
+    while(indexA<arrayA && indexB<arrayB){
+        if(A[indexA].getUserId().compare(B[indexB].getUserId()) <= 0){   
             array[index]=A[indexA];
             indexA++;
-        }else{array[index]=B[indexB];
+        }else{
+            array[index]=B[indexB];
             indexB++;
         }
         (*comparizons)++; 
@@ -176,7 +175,10 @@ void merge(ProductReview array[],int left, int mid, int right, long int *compari
     //deleta arrays temporarios
     delete[] A;
     delete[] B; 
-}
+    //retorna o array principal
+    //return array;
+}   
+
 
 void StartmergeSort(ProductReview array[], int left, int right, long int *comparizons, long int *movements) {
     if (left == right) {
