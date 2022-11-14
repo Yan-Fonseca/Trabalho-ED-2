@@ -210,7 +210,7 @@ void StartmergeSort(ProductReview array[], int left, int right, long int *compar
 void mergesort(ProductReview *vet, int n)
 {
     long int comparizons[M],movement[M];
-    double times[M];
+    double time[M];
 
     for(int j=0;j<M;j++) //roda M vezes
     {
@@ -221,10 +221,10 @@ void mergesort(ProductReview *vet, int n)
         StartmergeSort( vet , 0, n-1, &comparizons[j], &movement[j]);
         
         std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
-        times[j]=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
-        saveData(2,n,comparizons[j],movement[j],times[j]);
+        time[j]=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
+        saveData(2,n,comparizons[j],movement[j],time[j]);
     }
-    saveAverageData(times, comparizons, movements);
+    saveAverageData(time, comparizons, movements);
 }
 
 // insertionSort para o uso do TimSort.
@@ -268,17 +268,11 @@ int minrun(int n) {
     return n + r;
 }
 
-void timsort(ProductReview *vet, int n)
-{
-    double time;
-    long int comparizons=0,movement=0;
-    std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
-    
-
+void startTimSort(ProductReview *vet, int n, long int *comparizons, long int *movements) {
     int MINRUN = minrun(n);
 
     for(int i=0; i<n; i+=MINRUN) {
-        vet = insertionSort(vet,i,menor(i+MINRUN-1,n-1), &comparizons, &movement);
+        vet = insertionSort(vet,i,menor(i+MINRUN-1,n-1), comparizons, movement);
     }
 
     for(int size = MINRUN; size < n; size = 2*size) {
@@ -286,10 +280,19 @@ void timsort(ProductReview *vet, int n)
             int mid = left + size - 1;
             int right = menor(left + 2*size - 1, n-1);
             if(mid < right) {
-                merge(vet, left, mid, right, &comparizons, &movement);
+                merge(vet, left, mid, right, comparizons, movement);
             }
         }
     }
+}
+
+void timsort(ProductReview *vet, int n)
+{
+    double time;
+    long int comparizons=0,movement=0;
+    std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
+    
+    startTimSort(vet, n, &comparizons, &movement);
 
     std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
     time=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
