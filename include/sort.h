@@ -5,7 +5,9 @@
 #include "hash.h"
 
 int nSorts = 3;
+int M = 3; // Quantidade de iterações para cada algoritmo
 
+// Funções de escrita e formatação para o arquivo de saída:
 void saveData(int methodId,int n,long int comparizons,long int movimentations,double time) 
 {
     //escreve os dados de cada sorteamento no arquivo saida.txt
@@ -27,7 +29,7 @@ void saveData(int methodId,int n,long int comparizons,long int movimentations,do
         break;
     }
 
-    saida<<method<<" com "<<n<<" items:\ncomps "<<comparizons<<", moves "<<movimentations<<", tempo: "<<time<<"\n";
+    saida<<method<<" com "<<n<<" items:\ncomparações "<<comparizons<<", moves "<<movimentations<<", tempo: "<<time<<"\n";
 } 
 
 void methodsSeparator() {
@@ -38,6 +40,21 @@ void itemsPerIterationSeparator() {
     std::ofstream saida("../files/saida.txt",std::ios::app);
     saida<<"----------------------------------------------\n";
 }
+
+void saveAverageTime(double tempos[]) {
+    double media=0;
+    for(int i=0; i<M; i++) {
+        media += tempos[i];
+    }
+    media = media/M;
+
+    std::ofstream saida("../files/saida.txt",std::ios::app);
+    saida << "Média de tempo em todas as iterações: " << media << "\n";
+}
+
+
+
+// Funções usadas pelos algoritmos de Ordenação:
 
 int median_of_3(ProductReview array[], int lo, int hi, long int *comparizons, long int *movements)
 {
@@ -184,15 +201,22 @@ void StartmergeSort(ProductReview array[], int left, int right, long int *compar
 
 void mergesort(ProductReview *vet, int n)
 {
-    double time;
-    long int comparizons=0,movement=0;
-    std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
-    
-    StartmergeSort( vet , 0, n-1, &comparizons, &movement);
+    long int comparizons,movement;
+    double times[M];
 
-    std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
-    time=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
-    saveData(2,n,comparizons,movement,time);
+    for(int j=0;j<M;j++) //roda M vezes
+    {
+        comparizons=0;
+        movement=0;
+        std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
+        
+        StartmergeSort( vet , 0, n-1, &comparizons, &movement);
+        
+        std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
+        times[j]=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
+        saveData(2,n,comparizons,movement,times[j]);
+    }
+    saveAverageTime(times);
 }
 
 // insertionSort para o uso do TimSort.
@@ -294,7 +318,6 @@ void preSort()
     std::ofstream eraser("../files/saida.txt"); eraser.close(); //apaga o arquivo
 
     std::vector<int> N;
-    int M = 3;
     int i;
     std::string value;
     ProductReview* reviews;
@@ -311,13 +334,8 @@ void preSort()
         for(int k=0;k<i-1;k++)  //itera entre os valores de N
         {
             itemsPerIterationSeparator();
-            for(int j=0;j<M;j++) //roda M vezes
-            {
-
-                reviews = import(N[k]);
-                sort(reviews,N[k],l+1);     
-                
-            }
+            reviews = import(N[k]);
+            sort(reviews,N[k],l+1);
         }
         methodsSeparator();
     }

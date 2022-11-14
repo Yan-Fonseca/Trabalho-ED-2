@@ -12,12 +12,12 @@ int nReviews=0;
 
 unsigned int userId_size=15,productId_size=11,rating_size=4,timestamp_size=11;
 
-int nTotal = 7824482;
+int nTotal = 7824482; // Quantidade total de registros no arquivo csv
 
 std::string path= "";
 
 //No meio do arquivo temos pouquissimas instancias de userIds contendo +- 21 chars
-//Essa struck é para não ser necessário armazenar 21 bytes para todos userIds em binário
+//Essa struct é para não ser necessário armazenar 21 bytes para todos userIds em binário
 typedef struct 
 {
     int index=0;
