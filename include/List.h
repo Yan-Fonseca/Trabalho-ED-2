@@ -80,6 +80,18 @@ namespace HashList {
         }
     }
 
+    int hashFunction(std::string key) {
+        const int p = 53;
+        int h = 0;
+        long long p_power = 1;
+        for(int i=0; i<key.size(); i++) {
+            h = (h + key[i]*p_power) % TAM;
+            p_power = (p_power * p) % TAM;
+        }
+
+        return h;
+    }
+
     bool insertInHash (HashList::List table[], std::string key) 
     { 
         int id = hashFunction(key);
@@ -93,19 +105,6 @@ namespace HashList {
 
         return false;
 
-    }
-
-
-    int hashFunction(std::string key) {
-        const int p = 53;
-        int h = 0;
-        long long p_power = 1;
-        for(int i=0; i<key.size(); i++) {
-            h = (h + key[i]*p_power) % TAM;
-            p_power = (p_power * p) % TAM;
-        }
-
-        return h;
     }
 
     #endif
