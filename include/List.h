@@ -50,17 +50,19 @@ namespace HashList {
         }
     }
 
-    std::string searchElement(std::string key) 
+    bool checkElement(std::string key) 
     {
         Node *tmp = this->first;
 
         while(tmp != NULL && tmp->getkey() != key) 
         {
             tmp = tmp->getProx();
-
-            if (tmp != NULL) {return tmp->getkey();}
         }
-        return 0;
+        
+        if (tmp != NULL)
+            return true;
+        
+        return false;
     }
 
     };
@@ -71,6 +73,21 @@ namespace HashList {
             HashList::List* tmp = new HashList::List;
             table[i] = *tmp;
         }
+    }
+
+    bool insertInHash (HashList::List table[], std::string key) 
+    { 
+        int id = hashFunction(key);
+        HashList::List aux = table[id];
+        
+        if(!aux.checkElement(key))
+        {
+            aux.inserirNaLista(key);
+            return true;
+        }
+
+        return false;
+
     }
 
 
