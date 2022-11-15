@@ -67,5 +67,18 @@ namespace List {
     };
     
 
+    int hashFunction(std::string key) {
+        const int p = 53;
+        const int m = 7919;
+        int h = 0;
+        long long p_power = 1;
+        for(int i=0; i<key.size(); i++) {
+            h = (h + key[i]*p_power) % m;
+            p_power = (p_power * p) % m;
+        }
+
+        return h;
+    }
+
     #endif
 }
