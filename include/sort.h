@@ -267,6 +267,7 @@ int minrun(int n) {
     // A minrun ideal, segundo Tim Peters, é um valor entre 32 e 64 (considerando valores de n
     // grandes)
     while(n>=64) {
+        // Operações binárias usadas para diminuir o valor de n
         r |= n & 1;
         n>>=1;
     }
@@ -354,7 +355,7 @@ void preSort()
 
     for(int l=0;l<nSorts;l++) //itera entre os sorts
     { 
-        for(int k=0;k<i-1;k++)  //itera entre os valores de N
+        for(int k=0;k<i;k++)  //itera entre os valores de N
         {
             itemsPerIterationSeparator();
             reviews = import(N[k]);

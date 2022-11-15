@@ -1,23 +1,141 @@
 ----------------------------------------------
-quicksort com 10000 items:
-comparações 99641, moves 36037, tempo: 0.0138314
-quicksort com 10000 items:
-comparações 131295, moves 5927, tempo: 0.0228597
-quicksort com 10000 items:
-comparações 131295, moves 5927, tempo: 0.011378
+quicksort com 100 items:
+comparações 491, moves 213, tempo: 6.36e-05
+quicksort com 100 items:
+comparações 669, moves 63, tempo: 4.9e-05
+quicksort com 100 items:
+comparações 669, moves 63, tempo: 3.21e-05
 
-Média de tempo em todas as iterações: 0.016023
-Média de comparações: 120743
-Média de movimentações: 15963
+Média de tempo em todas as iterações: 4.82333e-05
+Média de comparações: 609
+Média de movimentações: 113
 ----------------------------------------------
-quicksort com 50000 items:
-comparações 557253, moves 208920, tempo: 0.417006
-quicksort com 50000 items:
-comparações 780328, moves 32984, tempo: 0.0717002
-quicksort com 50000 items:
-comparações 780328, moves 32984, tempo: 0.0254075
+quicksort com 500 items:
+comparações 3713, moves 1285, tempo: 0.0002954
+quicksort com 500 items:
+comparações 4263, moves 255, tempo: 0.0001606
+quicksort com 500 items:
+comparações 4263, moves 255, tempo: 0.0001642
 
-Média de tempo em todas as iterações: 0.171371
-Média de comparações: 705969
-Média de movimentações: 91629
+Média de tempo em todas as iterações: 0.000206733
+Média de comparações: 4079
+Média de movimentações: 598
 ----------------------------------------------
+quicksort com 1000 items:
+comparações 7994, moves 2825, tempo: 0.0006854
+quicksort com 1000 items:
+comparações 9520, moves 511, tempo: 0.0003371
+quicksort com 1000 items:
+comparações 9520, moves 511, tempo: 0.0003727
+
+Média de tempo em todas as iterações: 0.000465067
+Média de comparações: 9011
+Média de movimentações: 1282
+----------------------------------------------
+quicksort com 5000 items:
+comparações 46394, moves 16867, tempo: 0.0037009
+quicksort com 5000 items:
+comparações 60641, moves 2977, tempo: 0.0020836
+quicksort com 5000 items:
+comparações 60641, moves 2977, tempo: 0.0020774
+
+Média de tempo em todas as iterações: 0.00262063
+Média de comparações: 55892
+Média de movimentações: 7607
+
+==============================================
+
+----------------------------------------------
+mergesort com 100 items:
+comparações 316, moves 356, tempo: 5.76e-05
+mergesort com 100 items:
+comparações 316, moves 356, tempo: 9.16e-05
+mergesort com 100 items:
+comparações 316, moves 356, tempo: 4.49e-05
+
+Média de tempo em todas as iterações: 6.47e-05
+Média de comparações: 316
+Média de movimentações: 356
+----------------------------------------------
+mergesort com 500 items:
+comparações 2216, moves 2272, tempo: 0.0003521
+mergesort com 500 items:
+comparações 2216, moves 2272, tempo: 0.0002998
+mergesort com 500 items:
+comparações 2216, moves 2272, tempo: 0.0002909
+
+Média de tempo em todas as iterações: 0.000314267
+Média de comparações: 2216
+Média de movimentações: 2272
+----------------------------------------------
+mergesort com 1000 items:
+comparações 4932, moves 5044, tempo: 0.0009015
+mergesort com 1000 items:
+comparações 4932, moves 5044, tempo: 0.0006525
+mergesort com 1000 items:
+comparações 4932, moves 5044, tempo: 0.0007179
+
+Média de tempo em todas as iterações: 0.0007573
+Média de comparações: 4932
+Média de movimentações: 5044
+----------------------------------------------
+mergesort com 5000 items:
+comparações 29804, moves 32004, tempo: 0.0044104
+mergesort com 5000 items:
+comparações 29804, moves 32004, tempo: 0.0041034
+mergesort com 5000 items:
+comparações 29804, moves 32004, tempo: 0.0040621
+
+Média de tempo em todas as iterações: 0.00419197
+Média de comparações: 29804
+Média de movimentações: 32004
+
+==============================================
+
+----------------------------------------------
+timsort com 100 items:
+comparações 1452, moves 1452, tempo: 8.7e-05
+timsort com 100 items:
+comparações 51, moves 147, tempo: 1.8e-05
+timsort com 100 items:
+comparações 51, moves 147, tempo: 1.66e-05
+
+Média de tempo em todas as iterações: 4.05333e-05
+Média de comparações: 518
+Média de movimentações: 582
+----------------------------------------------
+timsort com 500 items:
+comparações 9531, moves 8551, tempo: 0.0013688
+timsort com 500 items:
+comparações 768, moves 1224, tempo: 0.0002551
+timsort com 500 items:
+comparações 768, moves 1224, tempo: 0.0002808
+
+Média de tempo em todas as iterações: 0.0006349
+Média de comparações: 3689
+Média de movimentações: 3666
+----------------------------------------------
+timsort com 1000 items:
+comparações 19080, moves 16170, tempo: 0.0012228
+timsort com 1000 items:
+comparações 2048, moves 2936, tempo: 0.0004146
+timsort com 1000 items:
+comparações 2048, moves 2936, tempo: 0.0004075
+
+Média de tempo em todas as iterações: 0.000681633
+Média de comparações: 7725
+Média de movimentações: 7347
+----------------------------------------------
+timsort com 5000 items:
+comparações 83807, moves 54384, tempo: 0.013606
+timsort com 5000 items:
+comparações 18236, moves 21559, tempo: 0.0035982
+timsort com 5000 items:
+comparações 18278, moves 21517, tempo: 0.0032517
+
+Média de tempo em todas as iterações: 0.00681863
+Média de comparações: 40107
+Média de movimentações: 32486
+
+==============================================
+
