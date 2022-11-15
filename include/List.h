@@ -7,17 +7,17 @@ namespace List {
     class Node
     {
     private:
-        std::string valor;
+        std::string key;
         Node* prox;
     public:
-        Node(std::string valor)
+        Node(std::string key)
         {
-            this->valor = valor;
+            this->key = key;
             this->prox = NULL;
         }
         ~Node();
     
-        std::string getValor() {return valor;}
+        std::string getkey() {return key;}
         Node* getProx() {return this->prox;}
         void setProx(Node *p) {this->prox = p;}
     };
@@ -40,8 +40,8 @@ namespace List {
         return (this->first == NULL);
     }
 
-    void inserirNaLista(std::string value) {
-        Node* new_node = new Node(value);
+    void inserirNaLista(std::string key) {
+        Node* new_node = new Node(key);
 
         if(new_node != NULL)
         {
@@ -51,15 +51,15 @@ namespace List {
         }
     }
 
-    std::string searchElement(std::string value) 
+    std::string searchElement(std::string key) 
     {
         Node *tmp = this->first;
 
-        while(tmp && tmp->getValor() != value) 
+        while(tmp && tmp->getkey() != key) 
         {
             tmp = tmp->getProx();
 
-            if (tmp) {return tmp->getValor();}
+            if (tmp) {return tmp->getkey();}
         }
         return 0;
     }
