@@ -50,7 +50,20 @@ namespace List {
             this->tam++;
         }
     }
-    
+
+    std::string searchElement(std::string value) 
+    {
+        Node *tmp = this->first;
+
+        while(tmp && tmp->getValor() != value) 
+        {
+            tmp = tmp->getProx();
+
+            if (tmp) {return tmp->getValor();}
+        }
+        return 0;
+    }
+
     };
     
 
