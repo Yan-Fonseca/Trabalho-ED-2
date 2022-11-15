@@ -3,6 +3,11 @@ namespace HashList {
     #ifndef LIST
     #define LIST
     #define TAM 7919
+
+    int getTAM(){
+        return TAM;
+    }
+
     class Node
     {
     private:

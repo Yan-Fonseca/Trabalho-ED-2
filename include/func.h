@@ -2,6 +2,7 @@
 #define FUNC_H
 
 #include "../include/ProductReview.h"
+#include "../include/List.h"
 #include <fstream>
 #include <math.h>
 #include <time.h>
@@ -220,63 +221,17 @@ void createBinary(std::string p, double n)
     }
 }
 
-int anti_duplicate(int arr[],int num,int filled,int max)
-{
-    if(filled==0)
-    {
-        arr[0]=num;
-        return num;
-    }
-    else{
-            
-        int lo = 0, hi = filled;
-        int mid;
-        
-        //binary search
-        while (hi - lo > 1) {
-            mid = (hi + lo) / 2;
-            if (arr[mid] < num) {
-                lo = mid + 1;
-            }
-            else {
-                hi = mid;
-            }
-        }
-        if (arr[lo] == num) 
-        {
-            int val=num+1;
-            if(val==max)
-                val=0;
-            val=anti_duplicate(arr,val,filled,max);
-            return val;
-        }
-        else if (arr[hi] == num) 
-        {
-            int val=num+1;
-            if(val==max)
-                val=0;
-            val=anti_duplicate(arr,val,filled,max);
-            return val;
-        }
-        else {
-            for(int i=filled-1;i>=lo;i--)
-            {
-                arr[i+1]=arr[i];
-            }
-            if(num<arr[lo])
-                arr[lo]=num;
-            else
-                arr[hi]=num;
-            return num;
-        }
-    }
-}
-
-
-
 ProductReview* import(int n)
 {
-    int *arr = new int[n];
+    // É criada uma tabela Hash para armazenar os os dados gerados aleatoriamente
+    // Optou-se por utilizar uma lista de listas encadeadas.
+    HashList::List table[HashList::getTAM()]; 
+    // TAM é o número primo 7919, um número suficientemente grande
+    // para comportar os dados.
+
+    // A tabela inicia todas as suas posições com um ponteiro para um nó encadeado.
+    HashList::initializeTable(table);
+
     int rnd=0;
     std::string key; // Chave para ser usada no hash.
 
@@ -288,13 +243,20 @@ ProductReview* import(int n)
         rnd=rand()% nReviews;
         std::string info = getReviewString(rnd);
         b[i].setData(info);
+
+        // Lógica para utilizar a chave: Um usuário, teoricamente, não vai avaliar o mesmo produto duas vezes
+        // Portanto, julgamos ser suficiente que a chave para a função do hash seja uma combinação do id do
+        // usuário e o id do produto.
         key = b[i].getProductId() + b[i].getUserId();
+
+        // A função de inserir na tabela retorna true se a chave foi inserida na tabela.
+        // Caso retorne falso, significa que o ProductReview já foi importado e, portanto, o valor de i é
+        // decrementado e o loop inicia novamente.
+        if(!HashList::insertInHash(table, key))
+            i--;
         
     }
-    //std::cout<<"\n";
-    /* for(int i=0;i<filled;i++)
-        std::cout<<arr[i]; */
-    delete arr;
+    
     return b;
 }
 
