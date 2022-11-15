@@ -63,7 +63,7 @@ int manipulated_seive(int N)
         if(prime[i]>(N-5000)*2)
             return prime[i];
     
-    return -1;
+    return prime[999];
 }
 
  int median_of_3(RegistroHash array[], int lo, int hi)
@@ -260,11 +260,11 @@ RegistroHash* createTable(int n)
                 
                 //std::cout<<i<<" "<<importsRH[i].productId<<" "<<index<<" "<<c<<"\n";
 
-                if(c>12){
-                    std::cout<<"\nERROR\n";
-                    //std::cout<<"size:"<<size<<" h2:"<<h2<<"\n";
-                    return nullptr;
-                }
+                // if(c>12){
+                //     std::cout<<"\nERROR\n";
+                //     //std::cout<<"size:"<<size<<" h2:"<<h2<<"\n";
+                //     return nullptr;
+                // }
                     
             }
             
