@@ -142,15 +142,19 @@ std::string getReviewString(int i) //igual a funçao superior em todos os sentid
 std::vector<ProductReview*> loadReviews(double nReviews){
     //std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
 
-    std::ifstream loader(path+"ratings_Electronics.csv", std::ios::in | std::ios::binary);
+    std::ifstream loader(path+"ratings_Electronics.csv", std::ios::binary);
     std::string buffer;
+    std::stringstream buffer2;
+    if(loader.is_open()) buffer2 << loader.rdbuf();
+
     loader.seekg(0, std::ios::end);
     buffer.resize(loader.tellg());
+    
 
     loader.seekg(0);
     loader.read(buffer.data(), buffer.size());
 
-
+    
 
     std::string line;
     std::vector<ProductReview*> reviews;
@@ -161,7 +165,7 @@ std::vector<ProductReview*> loadReviews(double nReviews){
     if(nReviews<0)
         while(loader.good())
         {
-            getline(loader,line);
+            getline(buffer2,line);
             a= new ProductReview(line);
             reviews.push_back(a);
             counter++;
@@ -171,6 +175,7 @@ std::vector<ProductReview*> loadReviews(double nReviews){
         for(double i=0;i<nReviews&&loader.good();i++)
         {
             getline(loader,line);
+            std::cout << line << std::endl;
             a= new ProductReview(line);
             reviews.push_back(a);
             //loading(i,nReviews);
