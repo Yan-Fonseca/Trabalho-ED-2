@@ -260,21 +260,8 @@ int menor(int val1, int val2) {
     return val1;
 }
 
-// Função para calcular a minrun ideal para o uso do Timsort com base na quantidade de itens
-// no vetor de entrada (tamanho n)
-int minrun(int n) {
-    int r=0;
-    // A minrun ideal, segundo Tim Peters, é um valor entre 32 e 64 (considerando valores de n
-    // grandes)
-    while(n>=64) {
-        r |= n & 1;
-        n>>=1;
-    }
-    return n + r;
-}
-
 void startTimSort(ProductReview *vet, int n, long int *comparizons, long int *movements) {
-    int MINRUN = minrun(n);
+    int MINRUN = 50;
 
     for(int i=0; i<n; i+=MINRUN) {
         vet = insertionSort(vet,i,menor(i+MINRUN-1,n-1), comparizons, movements);
