@@ -59,73 +59,69 @@ int manipulated_seive(int N)
             SPF[i*prime[j]] = prime[j] ;
         }
     }
-    for(int i=0;i<prime.size();i++)
-        if(prime[i]>(N-5000)*1.1)
+    for(int i=0;i<(int)prime.size();i++)
+        if(prime[i]>(N-5000)*2)
             return prime[i];
     
     return -1;
 }
 
-// int median_of_3(RegistroHash array[], int lo, int hi)
-// {
-//     int mid = lo + (hi - lo) / 2;
+ int median_of_3(RegistroHash array[], int lo, int hi)
+ {
+    int mid = lo + (hi - lo) / 2;
 
-//     if (array[hi].qtdReviews < array[lo].qtdReviews) {
-//         std::swap(array[lo], array[hi]);
-//     }
+    if (array[hi].qtdReviews < array[lo].qtdReviews) {
+         std::swap(array[lo], array[hi]);
+    }
 
-//     if (array[mid].qtdReviews < array[lo].qtdReviews) {
-//         std::swap(array[lo], array[mid]);
-//     }
+    if (array[mid].qtdReviews < array[lo].qtdReviews) {
+        std::swap(array[lo], array[mid]);
+    }
 
-//     if (array[hi].qtdReviews < array[mid].qtdReviews) {
-//         std::swap(array[mid], array[hi]);
-//     }
+    if (array[hi].qtdReviews < array[mid].qtdReviews) {
+        std::swap(array[mid], array[hi]);
+    }
+    return mid;
+}
 
-//     return mid;
-// }
+int partition(RegistroHash array[], int lo, int hi) {
+    int i = lo;
+    int j = hi + 1;
+    RegistroHash v = array[lo];
 
+    while(1) {
+        while(array[++i].qtdReviews < v.qtdReviews) {
+            if(i == hi) break;
+        }
+        while(v.qtdReviews < array[--j].qtdReviews) {
+            if(j == lo) break;
+        }
+        if(i >= j) break;
+        std::swap(array[i], array[j]);
+    }
 
-// int partition(RegistroHash array[], int lo, int hi) {
-//     int i = lo;
-//     int j = hi + 1;
-//     RegistroHash v = array[lo];
+    std::swap(array[lo], array[j]);
 
-//     while(1) {
-//         while(array[++i].qtdReviews < v.qtdReviews) {
-//             if(i == hi) break;
-//         }
-//         while(v.qtdReviews < array[--j].qtdReviews) {
-//             if(j == lo) break;
-//         }
-//         if(i >= j) break;
-//         std::swap(array[i], array[j]);
-//     }
+    return j;
+}
 
-//     std::swap(array[lo], array[j]);
-
-//     return j;
-// }
-
-
-
-// void StartQuickSort(RegistroHash array[], int lo, int hi)
-// {
-//     if(lo < hi) {
+void StartQuickSort(RegistroHash array[], int lo, int hi)
+{
+    if(lo < hi) {
        
-//         int median = median_of_3(array, lo, hi);
-//         std::swap(array[lo], array[median]);
+        int median = median_of_3(array, lo, hi);
+        std::swap(array[lo], array[median]);
        
-//         int j = partition(array, lo, hi);
+        int j = partition(array, lo, hi);
        
-//         StartQuickSort(array, lo, j-1);
-//         StartQuickSort(array, j+1, hi);
-//     }
-// }
+        StartQuickSort(array, lo, j-1);
+        StartQuickSort(array, j+1, hi);
+    }
+}
 
 
 //finds the smallest prime number larger than num
-int eratostenes(int num)
+/* int eratostenes(int num)
 {
     if(num<3)  
         return 3;
@@ -174,7 +170,7 @@ int eratostenes(int num)
             break;
     }
     return -1;
-}
+} */
 
 //Assigns a numerical value to a string
  double valueString(std::string s)
@@ -304,7 +300,7 @@ void preHash()
     }
     RegistroHash* table = createTable(n);
 
-    /* std::cout<<"\n\n====== Produtos mais recorrentes ======\n";
+    std::cout<<"\n\n====== Produtos mais recorrentes ======\n";
     std::cout<<"\nQuantas posicoes devem ser visualizadas? ";
     std::cin>>P;
     while(P<1 || P>n){
@@ -316,32 +312,26 @@ void preHash()
     RegistroHash* copy = new RegistroHash[tablesize];
 
     for(int i = 0;i<tablesize;i++)
-        copy[i]=table[i]; */
-    
-    
-
-    /* std::cout<<"\nOG:";
-    for(int i=0;i<tablesize;i++)
-        std::cout<<table[i].productId<<" ";
+        copy[i]=table[i];
 
     std::cout<<"\nbefore:";
     for(int i=0;i<tablesize;i++)
         std::cout<<copy[i].productId<<" ";
 
-    StartmergeSort(copy,0,tablesize);
+    StartQuickSort(copy,0,tablesize);
 
     std::cout<<"\nafter:";
     for(int i=0;i<tablesize;i++)
-        std::cout<<copy[i].productId<<" "; */
+        std::cout<<copy[i].productId<<" ";
 
 
 
-    /* std::cout<<"\n Produtos com mais reviews:\n";
+    std::cout<<"\n Produtos com mais reviews:\n";
     for(int j=0;j<P;j++)
     {
-        std::cout<<j+1<<" - "<<copy[j].productId<<"\n";
-    } */
-    
+        std::cout<<j+1<<" - "<<copy[tablesize-j-1].productId<<" - "<<copy[tablesize-j-1].qtdReviews<<"\n";
+    }
+
 }
 
 
