@@ -318,7 +318,7 @@ void preHash()
     for(int i=0;i<tablesize;i++)
         std::cout<<copy[i].productId<<" ";
 
-    StartQuickSort(copy,0,tablesize);
+    StartQuickSort(copy,0,tablesize-1);
 
     std::cout<<"\nafter:";
     for(int i=0;i<tablesize;i++)
