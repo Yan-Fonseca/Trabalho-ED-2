@@ -43,7 +43,7 @@ namespace List {
     void inserirNaLista(std::string value) {
         Node* new_node = new Node(value);
 
-        if(empty())
+        if(new_node != NULL)
         {
             new_node->setProx(this->first);
             this->first = new_node;
