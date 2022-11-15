@@ -277,8 +277,8 @@ int anti_duplicate(int arr[],int num,int filled,int max)
 ProductReview* import(int n)
 {
     int *arr = new int[n];
-    int filled=0;
     int rnd=0;
+    std::string key; // Chave para ser usada no hash.
 
     ProductReview *b = new ProductReview[n];
     
@@ -286,13 +286,10 @@ ProductReview* import(int n)
     {
         srand(i*time(0));
         rnd=rand()% nReviews;
-        
-
-        //rnd=anti_duplicate(arr,rnd,filled,nReviews);
-        filled++;
-
         std::string info = getReviewString(rnd);
         b[i].setData(info);
+        key = b[i].getProductId() + b[i].getUserId();
+        
     }
     //std::cout<<"\n";
     /* for(int i=0;i<filled;i++)
