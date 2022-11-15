@@ -137,10 +137,21 @@ std::string getReviewString(int i) //igual a funçao superior em todos os sentid
     return input;
 }   
 
+
+
 std::vector<ProductReview*> loadReviews(double nReviews){
     //std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
 
-    std::ifstream loader(path+"ratings_Electronics.csv");
+    std::ifstream loader(path+"ratings_Electronics.csv", std::ios::in | std::ios::binary);
+    std::string buffer;
+    loader.seekg(0, std::ios::end);
+    buffer.resize(loader.tellg());
+
+    loader.seekg(0);
+    loader.read(buffer.data(), buffer.size());
+
+
+
     std::string line;
     std::vector<ProductReview*> reviews;
     reviews.reserve(nTotal);
