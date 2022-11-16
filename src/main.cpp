@@ -47,10 +47,7 @@ int main(int argc, char **argv)
     double timeForCreateBinary;
     std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
 
-    std::ifstream fileBin(path+"ratings_Electronics.bin");
-
-    if(!fileBin)
-      createBinary(path,nReviews);
+    createBinary(path,nReviews);
     
     nReviews = getSize();
 
