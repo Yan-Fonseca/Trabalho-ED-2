@@ -22,7 +22,3 @@ target_link_libraries(${PROJECT_NAME} edll)
 enable_testing()
 add_subdirectory(tests)
 
-add_test(
-    NAME radix
-    COMMAND $<TARGET_FILE:radix>
-)

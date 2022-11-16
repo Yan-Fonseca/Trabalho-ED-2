@@ -168,10 +168,6 @@ RegistroHash* createTable(int n)
         importsRH[q].productId=importsPR[q].getProductId();
     }
     
-    /* std::cout<<"import:";
-    for(int j=0;j<n;j++)
-        std::cout<<importsRH[j].productId<<" "; */
-
     std::cout<<"\n";
     
     int h2 = 2*size/3;
@@ -204,15 +200,6 @@ RegistroHash* createTable(int n)
             else
             {
                 ccounter++;
-                
-                //std::cout<<i<<" "<<importsRH[i].productId<<" "<<index<<" "<<c<<"\n";
-
-                // if(c>12){
-                //     std::cout<<"\nERROR\n";
-                //     //std::cout<<"size:"<<size<<" h2:"<<h2<<"\n";
-                //     return nullptr;
-                // }
-                    
             }
             
         } 
