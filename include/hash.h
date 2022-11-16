@@ -135,7 +135,7 @@ int eratostenes(int num)
 //Hash function
 int hash(std::string d, int colisions,int h1,int h2)
 {
-    long int a=valueString(d);
+    long a=valueString(d);
 
     int n = fmod(a,100000);
 

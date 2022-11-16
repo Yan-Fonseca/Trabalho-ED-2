@@ -84,7 +84,7 @@ namespace HashList {
         const int p = 53;
         int h = 0;
         long long p_power = 1;
-        for(int i=0; i<key.size(); i++) {
+        for(int i=0; i<(int)key.size(); i++) {
             h = (h + key[i]*p_power) % TAM;
             p_power = (p_power * p) % TAM;
         }

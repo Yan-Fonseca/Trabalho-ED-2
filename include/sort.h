@@ -8,7 +8,7 @@ int nSorts = 3;
 int M = 3; // Quantidade de iterações para cada algoritmo
 
 // Funções de escrita e formatação para o arquivo de saída:
-void saveData(int methodId,int n,long int comparizons,long int movimentations,double time) 
+void saveData(int methodId,int n,long comparizons,long movimentations,double time) 
 {
     //escreve os dados de cada sorteamento no arquivo saida.txt
     std::ofstream saida("../files/saida.txt",std::ios::app);
@@ -41,10 +41,10 @@ void itemsPerIterationSeparator() {
     saida<<"----------------------------------------------\n";
 }
 
-void saveAverageData(double tempos[], long int comparizons[], long int movements[]) {
+void saveAverageData(double tempos[], long comparizons[], long movements[]) {
     double averageTime=0;
-    long int averageComparizons=0;
-    long int averageMovements=0;
+    long averageComparizons=0;
+    long averageMovements=0;
     for(int i=0; i<M; i++) {
         averageTime += tempos[i];
         averageComparizons += comparizons[i];
@@ -64,7 +64,7 @@ void saveAverageData(double tempos[], long int comparizons[], long int movements
 
 // Funções usadas pelos algoritmos de Ordenação:
 
-int median_of_3(ProductReview array[], int lo, int hi, long int *comparizons, long int *movements)
+int median_of_3(ProductReview array[], int lo, int hi, long *comparizons, long *movements)
 {
     int mid = lo + (hi - lo) / 2;
 
@@ -89,7 +89,7 @@ int median_of_3(ProductReview array[], int lo, int hi, long int *comparizons, lo
 }
 
 
-int partition(ProductReview array[], int lo, int hi, long int *comparizons, long int *movements) {
+int partition(ProductReview array[], int lo, int hi, long *comparizons, long *movements) {
     int i = lo;
     int j = hi + 1;
     ProductReview v = array[lo];
@@ -116,7 +116,7 @@ int partition(ProductReview array[], int lo, int hi, long int *comparizons, long
 
 
 
-void StartQuickSort(ProductReview array[], int lo, int hi, long int *comparizons, long int *movements)
+void StartQuickSort(ProductReview array[], int lo, int hi, long *comparizons, long *movements)
 {
     if(lo < hi) {
        
@@ -134,7 +134,7 @@ void StartQuickSort(ProductReview array[], int lo, int hi, long int *comparizons
 
 void quicksort(ProductReview *vet, int n)
 {
-    long int comparizons[M],movement[M];
+    long comparizons[M],movement[M];
     double time[M];
 
     for(int j=0;j<M;j++) //roda M vezes
@@ -153,7 +153,7 @@ void quicksort(ProductReview *vet, int n)
 }
 
 
-void merge(ProductReview array[],int left, int mid, int right, long int *comparizons, long int *movements)
+void merge(ProductReview array[],int left, int mid, int right, long *comparizons, long *movements)
 {
     int arrayA= mid-left+1; //cria o array temporario A com tamanho do intervalo do merge
     int arrayB= right-mid; //cria o array temporario B com tamanho do intervalo do merge
@@ -201,7 +201,7 @@ void merge(ProductReview array[],int left, int mid, int right, long int *compari
     delete[] B; 
 }
 
-void StartmergeSort(ProductReview array[], int left, int right, long int *comparizons, long int *movements) {
+void StartmergeSort(ProductReview array[], int left, int right, long *comparizons, long *movements) {
     if (left >= right) {
         return;
     }
@@ -215,7 +215,7 @@ void StartmergeSort(ProductReview array[], int left, int right, long int *compar
 
 void mergesort(ProductReview *vet, int n)
 {
-    long int comparizons[M],movement[M];
+    long comparizons[M],movement[M];
     double time[M];
 
     for(int j=0;j<M;j++) //roda M vezes
@@ -234,7 +234,7 @@ void mergesort(ProductReview *vet, int n)
 }
 
 // insertionSort para o uso do TimSort.
-ProductReview* insertionSort(ProductReview *vet, int init, int end, long int *comparizons, long int *movement) {
+ProductReview* insertionSort(ProductReview *vet, int init, int end, long *comparizons, long *movement) {
     int j;
     ProductReview chave;
     for(int i=init+1; i<=end; i++) {
@@ -261,7 +261,7 @@ int menor(int val1, int val2) {
     return val1;
 }
 
-void startTimSort(ProductReview *vet, int n, long int *comparizons, long int *movements) {
+void startTimSort(ProductReview *vet, int n, long *comparizons, long *movements) {
     int MINRUN = 50;
 
     for(int i=0; i<n; i+=MINRUN) {
@@ -281,7 +281,7 @@ void startTimSort(ProductReview *vet, int n, long int *comparizons, long int *mo
 
 void timsort(ProductReview *vet, int n)
 {
-    long int comparizons[M],movement[M];
+    long comparizons[M],movement[M];
     double time[M];
 
     for(int j=0;j<M;j++) //roda M vezes
