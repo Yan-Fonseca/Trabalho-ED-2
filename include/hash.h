@@ -315,16 +315,13 @@ void preHash()
     for(int i = 0;i<tablesize;i++)
         copy[i]=table[i];
 
-    std::cout<<"\nbefore:";
     for(int i=0;i<tablesize;i++)
         std::cout<<copy[i].productId<<" ";
 
     StartQuickSort(copy,0,tablesize-1);
 
-    std::cout<<"\nafter:";
     for(int i=0;i<tablesize;i++)
         std::cout<<copy[i].productId<<" ";
-
 
 
     std::cout<<"\n Produtos com mais reviews:\n";
@@ -334,7 +331,5 @@ void preHash()
     }
 
 }
-
-
 
 #endif
