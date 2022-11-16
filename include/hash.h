@@ -59,11 +59,12 @@ int manipulated_seive(int N)
             SPF[i*prime[j]] = prime[j] ;
         }
     }
-    for(int i=0;i<(int)prime.size();i++)
+    int i = 0;
+    for(i;i<prime.size();i++)
         if(prime[i]>(N-5000)*2)
             return prime[i];
     
-    return prime[999];
+    return prime[i - 1];
 }
 
  int median_of_3(RegistroHash array[], int lo, int hi)
