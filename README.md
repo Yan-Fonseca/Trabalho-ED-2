@@ -1,22 +1,29 @@
-# Trabalho-ED-2
+Para o projeto, utilizamos o CMake para facilitar o processo de compilação nos 
+diferentes Sistemas Operacionais que utilizamos. Portanto, é necessário que se tenha o CMake
+devidamente instalado e atualizado.
 
-## TO DO
-Etapa 1: Criar TAD
-- [x] void ProductReview::print(): imprime os dados de um registro do tipo ProductReview.
-- [x] void createBinary(std::string& path): gera o arquivo binário correspondente ao arquivo CSV armazenado no caminho passado como parâmetro. O arquivo binário deve ser gerado no mesmo diretório do arquivo CSV.
-- [x] void getReview(int i): acessa diretamente o i-ésimo registro do arquivo binário e o imprime na tela. O valor de i deve ser recebido via parâmetro. Considere i=0 como o índice do primeiro registro.
-- [x] ProductReview* import(int n): importa n registros aleatórios do arquivo binário e retorna um vetor contendo esses registros.
+Instruções de compilação:
+Para plataformas Linux desenvolvemos um script de shell, compiler.sh, que automatiza o
+processo de compilação.
+Para poder executar o script, o usuário deve dar a permissão para o mesmo
+executar utilizando o comando:
 
-Etapa 2: Criar os algoritmos de ordenação
-- [x] Quicksort
-- [x] Mergesort
-- [x] Timsort
+chmod +x compiler.sh
 
-Etapa 3: Ler N registros aleatórios e contar quantas vezes um mesmo produto se repete
-- [x] Armazenar os produtos em um hash
-- [x] Imprimir os produtos mais avaliados
-- [x] RegistroHash* createTable(int n): gera e retorna uma tabela hash contendo n registros aleatórios, utilizando o método de tratamento de colisão escolhido para a Etapa 3. A tabela retornada por esta função não deve estar ordenada.
+Para executar o script:
 
-Etapa 4: Programa principal
-- [x] Ordenação
-- [x] Hash
+./compiler.sh
+
+Obs.: caso não execute, utilize o comando: sudo ./compiler.sh
+
+- Após compilar, o CMake irá gerar o diretório build dentro da pasta raiz do projeto.
+Nessa pasta estará o arquivo binário gerado.
+
+Executar o programa:
+1) Entrar no diretório build:
+	cd build/
+
+2) Executar:
+	./EDII path
+
+Em que "path" é o caminho para o arquivo csv.
