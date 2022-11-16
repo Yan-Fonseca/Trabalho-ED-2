@@ -154,7 +154,6 @@ std::vector<ProductReview*> loadReviews(double nReviews){
             a= new ProductReview(line);
             reviews.push_back(a);
             counter++;
-            //loading(counter,7824483);
         }
     else
         for(double i=0;i<nReviews&&loader.good();i++)
@@ -162,13 +161,7 @@ std::vector<ProductReview*> loadReviews(double nReviews){
             getline(loader,line);
             a= new ProductReview(line);
             reviews.push_back(a);
-            //loading(i,nReviews);
         }
-    /* std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
-    double time=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
-    std::cout<<time; */
-
-    //std::cout<<"[&&&&&&&&&&] 100%\n";
     return reviews;
 }
 
