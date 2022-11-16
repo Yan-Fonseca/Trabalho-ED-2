@@ -13,60 +13,6 @@ typedef struct
 
 }RegistroHash;
 
-const long long MAX_SIZE = 1000001;
-
-std::vector<int >isprime(MAX_SIZE , true);
-std::vector<int >prime;
-std::vector<int>SPF(MAX_SIZE);
- 
-// function generate all prime number less than N in O(n)
-int manipulated_seive(int N)
-{
-    // 0 and 1 are not prime
-    isprime[0] = isprime[1] = false ;
-
-    N=N+5000;
- 
-    // Fill rest of the entries
-    for (long long int i=2; i<N ; i++)
-    {
-        // If isPrime[i] == True then i is
-        // prime number
-        if (isprime[i])
-        {
-            // put i into prime[] vector
-            prime.push_back(i);
- 
-            // A prime number is its own smallest
-            // prime factor
-            SPF[i] = i;
-        }
- 
-        // Remove all multiples of  i*prime[j] which are
-        // not prime by making isPrime[i*prime[j]] = false
-        // and put smallest prime factor of i*Prime[j] as prime[j]
-        // [ for exp :let  i = 5 , j = 0 , prime[j] = 2 [ i*prime[j] = 10 ]
-        // so smallest prime factor of '10' is '2' that is prime[j] ]
-        // this loop run only one time for number which are not prime
-        for (long long int j=0;
-             j < (int)prime.size() &&
-             i*prime[j] < N && prime[j] <= SPF[i];
-             j++)
-        {
-            isprime[i*prime[j]]=false;
- 
-            // put smallest prime factor of i*prime[j]
-            SPF[i*prime[j]] = prime[j] ;
-        }
-    }
-    int i = 0;
-    for(i;i<prime.size();i++)
-        if(prime[i]>(N-5000)*2)
-            return prime[i];
-    
-    return prime[i - 1];
-}
-
  int median_of_3(RegistroHash array[], int lo, int hi)
  {
     int mid = lo + (hi - lo) / 2;
@@ -122,7 +68,7 @@ void StartQuickSort(RegistroHash array[], int lo, int hi)
 
 
 //finds the smallest prime number larger than num
-/* int eratostenes(int num)
+int eratostenes(int num)
 {
     if(num<3)  
         return 3;
@@ -171,7 +117,7 @@ void StartQuickSort(RegistroHash array[], int lo, int hi)
             break;
     }
     return -1;
-} */
+}
 
 //Assigns a numerical value to a string
  double valueString(std::string s)
@@ -206,7 +152,7 @@ RegistroHash* createTable(int n)
 {
     int ccounter=0;
     int nproducts=0;
-    int size= manipulated_seive(n);
+    int size= eratostenes(n);
 
     RegistroHash* table = new RegistroHash[size];
     RegistroHash* importsRH = new RegistroHash[n];
