@@ -248,19 +248,12 @@ void preHash()
     for(int i = 0;i<tablesize;i++)
         copy[i]=table[i];
 
-    for(int i=0;i<tablesize;i++)
-        std::cout<<copy[i].productId<<" ";
-
     StartQuickSort(copy,0,tablesize-1);
-
-    for(int i=0;i<tablesize;i++)
-        std::cout<<copy[i].productId<<" ";
-
 
     std::cout<<"\n Produtos com mais reviews:\n";
     for(int j=0;j<P;j++)
     {
-        std::cout<<j+1<<" - "<<copy[tablesize-j-1].productId<<" - "<<copy[tablesize-j-1].qtdReviews<<"\n";
+        std::cout<<j+1<<" - "<<copy[tablesize-j-1].productId<<" : "<<copy[tablesize-j-1].qtdReviews<<"\n";
     }
 
 }

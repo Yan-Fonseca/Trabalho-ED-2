@@ -55,7 +55,7 @@ int main(int argc, char **argv)
     timeForCreateBinary=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
     
     std::cout<<"\n|====== PRE PROCESSING FINISHED ======|\n\n";
-    std::cout << "Tempo para gerar o arquivo binário: " << timeForCreateBinary << "\n\n";
+    std::cout << "Tempo para gerar o arquivo binario: " << timeForCreateBinary << "\n\n";
 
 
     menu();
