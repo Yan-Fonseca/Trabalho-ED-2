@@ -189,6 +189,8 @@ void createBinary2(std::string p, double n) {
     std::ofstream eraser(path+"ratings_Electronics.bin"); eraser.close(); //apaga o conteudo do arquivo
     std::ofstream binaryfile(path+"ratings_Electronics.bin",std::ios::app|std::ios::binary);
 
+    if(n<0)nReviews=reviews.size();
+
     while(counter < nReviews) {
         for(int i=0;i<buffer_tam&&loader.good();i++)
         {
