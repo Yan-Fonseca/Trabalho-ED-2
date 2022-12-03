@@ -175,7 +175,8 @@ std::vector<ProductReview*> loadReviews(double nReviews){
 void createBinary2(std::string p, double n) {
     nReviews=n;
     path=p;
-    int buffer_tam = 10000;
+    int i;
+    int buffer_tam = 100000;
 
     if(n<0)nReviews=nTotal;
 
@@ -192,13 +193,15 @@ void createBinary2(std::string p, double n) {
     std::ofstream binaryfile(path+"ratings_Electronics.bin",std::ios::app|std::ios::binary);
 
     while(counter < nReviews) {
-        for(int i=0;i<buffer_tam&&loader.good();i++)
+        for(i=0;i<buffer_tam&&loader.good();i++)
         {
             getline(loader,line);
             a= new ProductReview(line);
             reviews[i] = a;
             counter++;
         }
+
+        buffer_tam = i;
 
         for(int i=0;i<buffer_tam;i++)
         {
