@@ -203,7 +203,7 @@ void createBinary2(std::string p, double n) {
 
         buffer_tam = i;
 
-        for(int i=0;i<buffer_tam;i++)
+        for(i=0;i<buffer_tam;i++)
         {
             user=reviews[i]->getUserId();
             product=reviews[i]->getProductId();
@@ -233,7 +233,7 @@ void createBinary2(std::string p, double n) {
             binaryfile.write(reinterpret_cast<const char*>(rate.c_str()),rating_size);
             binaryfile.write(reinterpret_cast<const char*>(time.c_str()),timestamp_size);
         }
-        for(int i=0; i<buffer_tam; i++) {
+        for(i=0; i<buffer_tam; i++) {
             delete reviews[i];
         }
     }
