@@ -180,7 +180,7 @@ void createBinary2(std::string p, double n) {
     std::ifstream loader(path+"ratings_Electronics.csv");
     std::string line;
 
-    ProductReview *reviews = new ProductReview[buffer_tam];
+    auto *reviews = new ProductReview*[buffer_tam];
     ProductReview *a;
     double counter=0; 
 
@@ -200,10 +200,10 @@ void createBinary2(std::string p, double n) {
 
         for(int i=0;i<buffer_tam;i++)
         {
-            user=reviews[i].getUserId();
-            product=reviews[i].getProductId();
-            rate=reviews[i].getRating();
-            time=reviews[i].getTime();
+            user=reviews[i]->getUserId();
+            product=reviews[i]->getProductId();
+            rate=reviews[i]->getRating();
+            time=reviews[i]->getTime();
 
             int UidSize = userId_size;
             int PidSize = productId_size;
@@ -228,7 +228,6 @@ void createBinary2(std::string p, double n) {
             binaryfile.write(reinterpret_cast<const char*>(rate.c_str()),rating_size);
             binaryfile.write(reinterpret_cast<const char*>(time.c_str()),timestamp_size);
         }
-
         for(int i=0; i<buffer_tam; i++) {
             delete reviews[i];
         }
