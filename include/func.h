@@ -180,7 +180,7 @@ void createBinary2(std::string p, double n) {
     std::ifstream loader(path+"ratings_Electronics.csv");
     std::string line;
 
-    auto *reviews = new ProductReview[buffer_tam];
+    ProductReview *reviews = new ProductReview[buffer_tam];
     ProductReview *a;
     double counter=0; 
 
@@ -190,7 +190,7 @@ void createBinary2(std::string p, double n) {
     std::ofstream binaryfile(path+"ratings_Electronics.bin",std::ios::app|std::ios::binary);
 
     while(counter < nReviews) {
-        for(double i=0;i<buffer_tam&&loader.good();i++)
+        for(int i=0;i<buffer_tam&&loader.good();i++)
         {
             getline(loader,line);
             a= new ProductReview(line);
@@ -200,10 +200,10 @@ void createBinary2(std::string p, double n) {
 
         for(int i=0;i<buffer_tam;i++)
         {
-            user=reviews[i]->getUserId();
-            product=reviews[i]->getProductId();
-            rate=reviews[i]->getRating();
-            time=reviews[i]->getTime();
+            user=reviews[i].getUserId();
+            product=reviews[i].getProductId();
+            rate=reviews[i].getRating();
+            time=reviews[i].getTime();
 
             int UidSize = userId_size;
             int PidSize = productId_size;
