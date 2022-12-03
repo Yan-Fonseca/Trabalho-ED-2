@@ -180,7 +180,7 @@ void createBinary2(std::string p, double n) {
     std::ifstream loader(path+"ratings_Electronics.csv");
     std::string line;
 
-    std::vector<ProductReview*> reviews;
+    auto *reviews = new ProductReview[buffer_tam];
     ProductReview *a;
     double counter=0; 
 
@@ -194,7 +194,7 @@ void createBinary2(std::string p, double n) {
         {
             getline(loader,line);
             a= new ProductReview(line);
-            reviews.push_back(a);
+            reviews[i] = a;
             counter++;
         }
 
@@ -228,9 +228,13 @@ void createBinary2(std::string p, double n) {
             binaryfile.write(reinterpret_cast<const char*>(rate.c_str()),rating_size);
             binaryfile.write(reinterpret_cast<const char*>(time.c_str()),timestamp_size);
         }
-        reviews.clear();
+
+        for(int i=0; i<buffer_tam; i++) {
+            delete reviews[i];
+        }
     }
     
+    delete [] reviews;
 }
 
 void createBinary(std::string p, double n)
