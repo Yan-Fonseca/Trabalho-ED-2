@@ -177,19 +177,19 @@ void createBinary2(std::string p, double n) {
     path=p;
     int buffer_tam = 10000;
 
+    if(n<0)nReviews=nTotal;
+
     std::ifstream loader(path+"ratings_Electronics.csv");
     std::string line;
 
     auto *reviews = new ProductReview*[buffer_tam];
     ProductReview *a;
-    double counter=0; 
+    long counter=0; 
 
     std::string user,product,rate,time;
 
     std::ofstream eraser(path+"ratings_Electronics.bin"); eraser.close(); //apaga o conteudo do arquivo
     std::ofstream binaryfile(path+"ratings_Electronics.bin",std::ios::app|std::ios::binary);
-
-    if(n<0)nReviews=nTotal;
 
     while(counter < nReviews) {
         for(int i=0;i<buffer_tam&&loader.good();i++)
