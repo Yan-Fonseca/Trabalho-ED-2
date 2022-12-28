@@ -9,9 +9,10 @@ namespace heap {
             char value;
             int frequency;
         public:
+            hNode() { }
             hNode(char key){
-                this.value = key;
-                this.frequency = 1;
+                this->value = key;
+                this->frequency = 1;
             }
             ~hNode() { }
 
@@ -26,7 +27,7 @@ namespace heap {
             void incrementFrequency() {
                 this->frequency++;
             }
-    }
+    };
 
     class Heap {
     private:
@@ -46,7 +47,7 @@ namespace heap {
             return this->heapSize;
         }
 
-        hNode heapMax() {
+        hNode heapMin() {
             return this->heapVector[0];
         }
 
@@ -58,34 +59,34 @@ namespace heap {
             return index*2 + 1;
         }
 
-        void trocar(int index, int bigger) {
+        void trocar(int index, int small) {
             hNode aux = this->heapVector[index];
-            this->heapVector[index] = this->heapVector[bigger];
-            this->heapVector[bigger] = aux;
+            this->heapVector[index] = this->heapVector[small];
+            this->heapVector[small] = aux;
         }
         
-        void maxHeapify(int index) {
+        void minHeapify(int index) {
             int l = left(index);
             int r = right(index);
-            int bigger;
+            int small;
 
-            if(l <= this->heapSize && this->heapVector[l] > this->heapVector[index]) {
-                bigger = l;
+            if(l <= this->heapSize && this->heapVector[l].getFrequency() < this->heapVector[index].getFrequency()) {
+                small = l;
             }
             else {
-                bigger = index;
+                small = index;
             }
 
-            if(r <= this->heapSize && this->heapVector[r] > this->heapVector[bigger]) {
-                bigger = r;
+            if(r <= this->heapSize && this->heapVector[r].getFrequency() < this->heapVector[small].getFrequency()) {
+                small = r;
             }
 
-            if(maior != index) {
-                trocar(index, bigger);
-                maxHeapify(bigger);
+            if(small != index) {
+                trocar(index, small);
+                minHeapify(small);
             }
         }
-    }
+    };
 }
 
 namespace huffman {
