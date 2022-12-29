@@ -17,6 +17,12 @@ namespace Node {
                 this->character = character;
                 this->frequency = frequency;
             }
+            node(int frequency, Node::node *left, Node::node *right) {
+                this->left = left;
+                this->right = right;
+                this->frequency = frequency;
+            }
+
             ~node() { }
 
             char getCharacter() {
