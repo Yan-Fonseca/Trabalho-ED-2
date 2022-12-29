@@ -92,6 +92,19 @@ namespace heap {
                 }
             }
 
+            Node::node* extractMin() {
+                if(this->heapSize>=1) {
+                    Node::node* small = this->vet[0];
+                    this->vet[0] = this->vet[this->heapSize - 1];
+                    this->heapSize = this->heapSize - 1;
+                    minHeapify(0);
+
+                    return small;
+                }
+
+                std::cout << "Erro ao extrair elemento da Heap: Heap sem elementos!\n";
+                return nullptr;
+            }
     };
 }
 
