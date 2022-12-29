@@ -3,100 +3,98 @@
 
 #include <iostream>
 
-namespace heap {
-    const int heapVectorSize = 256;
-
-    class hNode {
+namespace Node {
+    class node {
         private:
-            char value;
+            char character;
             int frequency;
-            hNode *left;
-            hNode *right;
+            node *left;
+            node *right;
         public:
-            hNode() {
+            node(char character, int frequency) {
                 this->left = nullptr;
                 this->right = nullptr;
+                this->character = character;
+                this->frequency = frequency;
             }
-            hNode(char key){
-                this->value = key;
-                this->frequency = 1;
-                this->left = nullptr;
-                this->right = nullptr;
+            ~node() { }
+
+            char getCharacter() {
+                return this->character;
             }
-            ~hNode() { }
 
             int getFrequency() {
                 return this->frequency;
             }
 
-            char getValue() {
-                return this->value;
+            node* getLeft() {
+                return this->left;
             }
 
-            void incrementFrequency() {
-                this->frequency++;
+            node* getRight() {
+                return this->right;
             }
     };
-
-    /*class Heap {
-    private:
-        hNode heapVector[256];
-        int heapSize;
-    public:
-        Heap() {
-            this->heapSize = 0;
-            this->heapVector = new hNode[heapVectorSize];
-        }
-        ~Heap() {
-            delete [] this->heapVector;
-        }
-
-
-        int getHeapSize() {
-            return this->heapSize;
-        }
-
-        hNode heapMin() {
-            return this->heapVector[0];
-        }
-
-        int left(int index) {
-            return index*2;
-        }
-
-        int right(int index) {
-            return index*2 + 1;
-        }
-
-        void trocar(int index, int small) {
-            hNode aux = this->heapVector[index];
-            this->heapVector[index] = this->heapVector[small];
-            this->heapVector[small] = aux;
-        }
-        
-        void minHeapify(int index) {
-            int l = left(index);
-            int r = right(index);
-            int small;
-
-            if(l <= this->heapSize && this->heapVector[l].getFrequency() < this->heapVector[index].getFrequency()) {
-                small = l;
-            }
-            else {
-                small = index;
-            }
-
-            if(r <= this->heapSize && this->heapVector[r].getFrequency() < this->heapVector[small].getFrequency()) {
-                small = r;
-            }
-
-            if(small != index) {
-                trocar(index, small);
-                minHeapify(small);
-            }
-        }
-    };*/
 }
+
+
+namespace heap {
+    const int ASCII = 256;
+    
+    class minHeap {
+        private:
+            Node::node **vet;
+            int heapSize;
+
+            int generateHeapSize(int *table) {
+                int size = 0;
+                for(int i=0; i<ASCII; i++) {
+                    if(table[i]!=0)
+                        size++;
+                }
+                return size;
+            }
+
+            void trocar(int index, int small) {
+                Node::node *n;
+                n = this->vet[index];
+                this->vet[index] = this->vet[small];
+                this->vet[small] = n;
+            }
+        public:
+            minHeap(int *table) {
+                int size = generateHeapSize(table);
+                this->heapSize = size;
+                //PREENCHER AQUI.
+            }
+
+            ~minHeap() { }
+
+            Node::node* getMinimum() {
+                return this->vet[0];
+            }
+
+            void minHeapify(int index) {
+                int small;
+                int left = 2*index;
+                int right = 2*index + 1;
+                if(left < this->heapSize && this->vet[left]->getFrequency() < this->vet[index]->getFrequency()) 
+                    small = left;
+                else
+                    small = index;
+                
+                if(right < this->heapSize && this->vet[right]->getFrequency() < this->vet[small]->getFrequency()) 
+                    small = left;
+                
+                if(small!=index) {
+                    trocar(index,small);
+                    minHeapify(small);
+                }
+            }
+
+    };
+}
+
 
 namespace huffman {
     const int ASCII = 256;
