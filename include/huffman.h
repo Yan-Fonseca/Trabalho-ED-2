@@ -105,6 +105,17 @@ namespace heap {
                 std::cout << "Erro ao extrair elemento da Heap: Heap sem elementos!\n";
                 return nullptr;
             }
+
+            void heapDecrease(int index) {
+                if(this->vet[index]!=nullptr) {
+                    while(index>0 && this->vet[index/2]->getFrequency() > this->vet[index]->getFrequency()) {
+                        trocar(index/2, index);
+                        index = index/2;
+                    }
+                }
+                else
+                    std::cout << "Erro! índice inválido!\n";
+            }
     };
 }
 
