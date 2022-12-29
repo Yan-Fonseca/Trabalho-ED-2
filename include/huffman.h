@@ -151,10 +151,14 @@ namespace huffman {
         public:
             huffmanTree(heap::minHeap *priority_queue) {
                 int n = priority_queue->getSize();
+                Node::node *left;
+                Node::node *right;
+                int frequency;
+
                 for(int i=0; i<n-2; i++) {
-                    Node::node *left = priority_queue->extractMin();
-                    Node::node *right = priority_queue->extractMin();
-                    int frequency = left->getFrequency() + right->getFrequency();
+                    left = priority_queue->extractMin();
+                    right = priority_queue->extractMin();
+                    frequency = left->getFrequency() + right->getFrequency();
 
                     Node::node *no = new Node::node(frequency,left,right);
                     priority_queue->insert(no);
