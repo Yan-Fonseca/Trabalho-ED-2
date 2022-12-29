@@ -116,6 +116,12 @@ namespace heap {
                 else
                     std::cout << "Erro! índice inválido!\n";
             }
+
+            void insert(Node::node *n) {
+                this->heapSize++;
+                this->vet[this->heapSize - 1] = n;
+                heapDecrease(this->heapSize - 1);
+            }
     };
 }
 
