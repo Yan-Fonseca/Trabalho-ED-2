@@ -86,6 +86,10 @@ namespace heap {
                 return this->vet[0];
             }
 
+            int getSize() {
+                return this->heapSize;
+            }
+
             void minHeapify(int index) {
                 int small;
                 int left = 2*index;
@@ -141,6 +145,26 @@ namespace heap {
 namespace huffman {
     const int ASCII = 256;
 
+    class huffmanTree {
+        private:
+            Node::node *root;
+        public:
+            huffmanTree(heap::minHeap *priority_queue) {
+                int n = priority_queue->getSize();
+                for(int i=0; i<n-2; i++) {
+                    Node::node *left = priority_queue->extractMin();
+                    Node::node *right = priority_queue->extractMin();
+                    int frequency = left->getFrequency() + right->getFrequency();
+
+                    Node::node *no = new Node::node(frequency,left,right);
+                    priority_queue->insert(no);
+                }
+
+                this->root = priority_queue->extractMin();
+            }
+            ~huffmanTree() { }
+    };
+
     // Função responsável por criar a tabela de frequências dos caracteres na string
     int *createFrequencyTable(std::string str) {
         int table[ASCII] = {0};
@@ -153,6 +177,7 @@ namespace huffman {
 
     std::string compress(std::string str) {
         int *frequencyTable = createFrequencyTable(str);
+        heap::minHeap *priority_queue = new heap::minHeap(frequencyTable);
     }
 }
 
