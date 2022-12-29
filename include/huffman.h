@@ -69,9 +69,15 @@ namespace heap {
             }
         public:
             minHeap(int *table) {
-                int size = generateHeapSize(table);
-                this->heapSize = size;
-                //PREENCHER AQUI.
+                this->vet = new Node::node*[ASCII];
+                this->heapSize = 0;
+                Node::node *aux;
+                for(int i=0; i<ASCII; i++) {
+                    if(table[i]>0) {
+                        aux = new Node::node(i+1,table[i]); // Aqui pode dar Erro!!
+                        insert(aux);
+                    }
+                }
             }
 
             ~minHeap() { }
