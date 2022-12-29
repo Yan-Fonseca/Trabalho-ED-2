@@ -178,6 +178,7 @@ namespace huffman {
     std::string compress(std::string str) {
         int *frequencyTable = createFrequencyTable(str);
         heap::minHeap *priority_queue = new heap::minHeap(frequencyTable);
+        huffmanTree *tree = new huffmanTree(priority_queue);
     }
 }
 
