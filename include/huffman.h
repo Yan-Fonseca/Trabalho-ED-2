@@ -1,6 +1,8 @@
 #ifndef HUFFMAN_H
 #define HUFFMAN_H
 
+#include <iostream>
+
 namespace heap {
     const int heapVectorSize = 256;
 
@@ -8,11 +10,18 @@ namespace heap {
         private:
             char value;
             int frequency;
+            hNode *left;
+            hNode *right;
         public:
-            hNode() { }
+            hNode() {
+                this->left = nullptr;
+                this->right = nullptr;
+            }
             hNode(char key){
                 this->value = key;
                 this->frequency = 1;
+                this->left = nullptr;
+                this->right = nullptr;
             }
             ~hNode() { }
 
@@ -29,9 +38,9 @@ namespace heap {
             }
     };
 
-    class Heap {
+    /*class Heap {
     private:
-        hNode *heapVector;
+        hNode heapVector[256];
         int heapSize;
     public:
         Heap() {
@@ -86,11 +95,25 @@ namespace heap {
                 minHeapify(small);
             }
         }
-    };
+    };*/
 }
 
 namespace huffman {
-    
+    const int ASCII = 256;
+
+    // Função responsável por criar a tabela de frequências dos caracteres na string
+    int *createFrequencyTable(std::string str) {
+        int table[ASCII] = {0};
+
+        for(int i=0; i<str.size(); i++)
+            table[str[i]]++;
+
+        return table;
+    }
+
+    std::string compress(std::string str) {
+        int *frequencyTable = createFrequencyTable(str);
+    }
 }
 
 #endif
