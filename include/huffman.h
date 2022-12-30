@@ -235,11 +235,24 @@ namespace huffman {
         return table;
     }
 
+    std::string encode(std::string *dict, std::string text) {
+        std::string code = "";
+        int text_length = text.size();
+
+        for(int i=0; i<text_length; i++) {
+            code += dict[text[i]];
+        }
+
+        return code;
+    }
+
     std::string compress(std::string str) {
         int *frequencyTable = createFrequencyTable(str);
         heap::minHeap *priority_queue = new heap::minHeap(frequencyTable);
         huffmanTree *tree = new huffmanTree(priority_queue);
         std::string *dictionary = tree->generateDictionary();
+
+        return encode(dictionary, str);
     }
 }
 
