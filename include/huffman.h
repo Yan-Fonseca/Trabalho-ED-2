@@ -239,6 +239,7 @@ namespace huffman {
         int *frequencyTable = createFrequencyTable(str);
         heap::minHeap *priority_queue = new heap::minHeap(frequencyTable);
         huffmanTree *tree = new huffmanTree(priority_queue);
+        std::string *dictionary = tree->generateDictionary();
     }
 }
 
