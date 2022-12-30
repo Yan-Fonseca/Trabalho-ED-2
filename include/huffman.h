@@ -148,29 +148,7 @@ namespace huffman {
     class huffmanTree {
         private:
             Node::node *root;
-        public:
-            huffmanTree(heap::minHeap *priority_queue) {
-                int n = priority_queue->getSize();
-                Node::node *left;
-                Node::node *right;
-                int frequency;
-
-                for(int i=0; i<n-2; i++) {
-                    left = priority_queue->extractMin();
-                    right = priority_queue->extractMin();
-                    frequency = left->getFrequency() + right->getFrequency();
-
-                    Node::node *no = new Node::node(frequency,left,right);
-                    priority_queue->insert(no);
-                }
-
-                this->root = priority_queue->extractMin();
-            }
-            ~huffmanTree() { }
-
-            Node::node* getRoot() {
-                return this->root;
-            }
+            int height;
 
             int treeHeight(Node::node* n) {
                 int left;
@@ -187,6 +165,63 @@ namespace huffman {
                     else
                         return left;
                 }
+            }
+
+            void generateDictionaryAux(std::string *dict, Node::node *n, std::string path) {
+                std::string left;
+                std::string right;
+
+                if(n->getLeft()==nullptr && n->getRight()==nullptr) {
+                    path += "\0";
+                    dict[n->getCharacter()] = path; // Pode ocorrer erro aqui!
+                }                    
+                else {
+                    left = path;
+                    right = path;
+
+                    left += "0";
+                    right += "1";
+
+                    generateDictionaryAux(dict, n->getLeft(), left);
+                    generateDictionaryAux(dict, n->getRight(), right);
+                }
+            }
+        public:
+            // Algoritmo de Huffman:
+            huffmanTree(heap::minHeap *priority_queue) {
+                int n = priority_queue->getSize();
+                Node::node *left;
+                Node::node *right;
+                int frequency;
+
+                for(int i=0; i<n-2; i++) {
+                    left = priority_queue->extractMin();
+                    right = priority_queue->extractMin();
+                    frequency = left->getFrequency() + right->getFrequency();
+
+                    Node::node *no = new Node::node(frequency,left,right);
+                    priority_queue->insert(no);
+                }
+
+                this->root = priority_queue->extractMin();
+                this->height = this->treeHeight(this->root);
+            }
+            ~huffmanTree() { }
+
+            Node::node* getRoot() {
+                return this->root;
+            }
+
+            int getHeight() {
+                return this->height;
+            }
+
+            std::string* generateDictionary() {
+                std::string* dict = new std::string[ASCII];
+                std::string path = "";
+                generateDictionaryAux(dict, this->root, path);
+
+                return dict;
             }
     };
 
