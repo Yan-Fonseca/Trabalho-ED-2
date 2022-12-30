@@ -167,6 +167,27 @@ namespace huffman {
                 this->root = priority_queue->extractMin();
             }
             ~huffmanTree() { }
+
+            Node::node* getRoot() {
+                return this->root;
+            }
+
+            int treeHeight(Node::node* n) {
+                int left;
+                int right;
+
+                if(n == nullptr)
+                    return -1;
+                else {
+                    left = treeHeight(n->getLeft()) + 1;
+                    right = treeHeight(n->getRight()) + 1;
+
+                    if(right>left)
+                        return right;
+                    else
+                        return left;
+                }
+            }
     };
 
     // Função responsável por criar a tabela de frequências dos caracteres na string
