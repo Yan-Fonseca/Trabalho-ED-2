@@ -114,7 +114,7 @@ int main(int argc, char **argv)
 
     std::cout << "==========================\n";
     std::cout << "Código: " << compressao << "\n";
-    std::cout << "Mensagem desomprimida: " << descompressao << "\n";
+    std::cout << "Mensagem descomprimida: " << descompressao << "\n";
 
     return 0;
 }
