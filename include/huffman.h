@@ -74,7 +74,7 @@ namespace heap {
                 Node::node *aux;
                 for(int i=0; i<ASCII; i++) {
                     if(table[i]>0) {
-                        aux = new Node::node(i+1,table[i]); // Aqui pode dar Erro!!
+                        aux = new Node::node(i,table[i]);
                         insert(aux);
                     }
                 }
@@ -86,24 +86,30 @@ namespace heap {
                 return this->vet[0];
             }
 
+            Node::node** getVet() {
+                return this->vet;
+            }
+
             int getSize() {
                 return this->heapSize;
             }
 
             void minHeapify(int index) {
+                index++;
                 int small;
-                int left = 2*index;
-                int right = 2*index + 1;
-                if(left < this->heapSize && this->vet[left]->getFrequency() < this->vet[index]->getFrequency()) 
+                int left = 2*index - 1;
+                int right = 2*index;
+
+                if(left < this->heapSize && this->vet[left]->getFrequency() < this->vet[index-1]->getFrequency()) 
                     small = left;
                 else
-                    small = index;
+                    small = index-1;
                 
                 if(right < this->heapSize && this->vet[right]->getFrequency() < this->vet[small]->getFrequency()) 
                     small = left;
                 
-                if(small!=index) {
-                    trocar(index,small);
+                if(small!=index-1) {
+                    trocar(index-1,small);
                     minHeapify(small);
                 }
             }
@@ -172,7 +178,6 @@ namespace huffman {
                 std::string right;
 
                 if(n->getLeft()==nullptr && n->getRight()==nullptr) {
-                    path += "\0";
                     dict[n->getCharacter()] = path; // Pode ocorrer erro aqui!
                 }                    
                 else {
@@ -194,7 +199,7 @@ namespace huffman {
                 Node::node *right;
                 int frequency;
 
-                for(int i=0; i<n-2; i++) {
+                for(int i=0; i<n-1; i++) {
                     left = priority_queue->extractMin();
                     right = priority_queue->extractMin();
                     frequency = left->getFrequency() + right->getFrequency();
@@ -223,36 +228,69 @@ namespace huffman {
 
                 return dict;
             }
+
+            void print(Node::node* n) {
+                if(n!=nullptr) {
+                    if(n->getRight()==nullptr && n->getLeft()==nullptr)
+                        std::cout << n->getCharacter() << ": " << n->getFrequency() << "\n";
+                    else {
+                        print(n->getLeft());
+                        print(n->getRight());
+                    }
+                }
+            }
     };
 
     // Função responsável por criar a tabela de frequências dos caracteres na string
-    int *createFrequencyTable(std::string str) {
-        int table[ASCII] = {0};
-
-        for(int i=0; i<str.size(); i++)
+    void createFrequencyTable(std::string str, int *table) {
+        int i=0;
+        while(str[i]!='\0') {
             table[str[i]]++;
-
-        return table;
+            i++;
+        }
     }
 
-    std::string encode(std::string *dict, std::string text) {
-        std::string code = "";
-        int text_length = text.size();
+    std::string *encode(std::string *dict, std::string text) {
+        std::string *code = new std::string;
+        *code = "";
 
-        for(int i=0; i<text_length; i++) {
-            code += dict[text[i]];
+        for(int i=0; text[i]!='\0'; i++) {
+            *code += dict[text[i]];
         }
 
         return code;
     }
 
     std::string compress(std::string str) {
-        int *frequencyTable = createFrequencyTable(str);
+        int frequencyTable[ASCII] = {0};
+        createFrequencyTable(str, frequencyTable);
         heap::minHeap *priority_queue = new heap::minHeap(frequencyTable);
+
+        std::cout << "---------------------------------------\n";
+        std::cout << "Fila de prioridade mínima:\n";
+        for(int i=0; i<priority_queue->getSize(); i++) {
+            std::cout << priority_queue->getVet()[i]->getCharacter() << ": " << priority_queue->getVet()[i]->getFrequency() << "\n";
+        }
+        std::cout << "---------------------------------------\n";
+
         huffmanTree *tree = new huffmanTree(priority_queue);
+
+        std::cout << "Árvore de Huffman:\n";
+        tree->print(tree->getRoot());
+
         std::string *dictionary = tree->generateDictionary();
 
-        return encode(dictionary, str);
+        std::cout << "---------------------------------------\n";
+        std::cout << "Dicionário de códigos para cada caractere:\n";
+        for(int i=0; i<ASCII; i++) {
+            if(dictionary[i].length()!=0)
+                std::cout << i << ": " << dictionary[i] << "\n";
+        }
+        std::cout << "---------------------------------------\n";
+
+        std::string *cipher = encode(dictionary, str);
+
+        return *cipher;
     }
 }
 
