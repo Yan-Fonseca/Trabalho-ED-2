@@ -98,14 +98,23 @@ int main(int argc, char **argv)
     std::string text;
 
     std::cout << "Digite o texto a ser comprimido: ";
-    std::cin.ignore();
     std::getline(std::cin,text);
 
     std::string compressao;
+    std::string descompressao;
 
-    compressao = huffman::compress(text);
+    std::cout << "Palavra: " << text << "\n";
+    huffman::huffmanTree *tree = huffman::makeHuffmanTree(text);
+
+    compressao = huffman::compress(text, tree);
 
     std::cout << "Arquivo comprimido como: " << compressao << "\n";
+
+    descompressao = huffman::decompress(compressao, tree);
+
+    std::cout << "==========================\n";
+    std::cout << "Código: " << compressao << "\n";
+    std::cout << "Mensagem desomprimida: " << descompressao << "\n";
 
     return 0;
 }

@@ -221,14 +221,6 @@ namespace huffman {
                 return this->height;
             }
 
-            std::string* generateDictionary() {
-                std::string* dict = new std::string[ASCII];
-                std::string path = "";
-                generateDictionaryAux(dict, this->root, path);
-
-                return dict;
-            }
-
             void print(Node::node* n) {
                 if(n!=nullptr) {
                     if(n->getRight()==nullptr && n->getLeft()==nullptr)
@@ -238,6 +230,14 @@ namespace huffman {
                         print(n->getRight());
                     }
                 }
+            }
+
+            std::string* generateDictionary() {
+                std::string* dict = new std::string[ASCII];
+                std::string path = "";
+                generateDictionaryAux(dict, this->root, path);
+
+                return dict;
             }
     };
 
@@ -253,15 +253,55 @@ namespace huffman {
     std::string *encode(std::string *dict, std::string text) {
         std::string *code = new std::string;
         *code = "";
-
         for(int i=0; text[i]!='\0'; i++) {
             *code += dict[text[i]];
         }
-
         return code;
     }
 
-    std::string compress(std::string str) {
+    std::string compress(std::string str, huffmanTree* tree) {
+        std::string *dictionary = tree->generateDictionary();
+
+        std::cout << "---------------------------------------\n";
+        std::cout << "Dicionário de códigos para cada caractere:\n";
+        for(int i=0; i<ASCII; i++) {
+            if(dictionary[i].length()!=0)
+                std::cout << i << ": " << dictionary[i] << "\n";
+        }
+        std::cout << "---------------------------------------\n";
+
+        std::string *cipher = encode(dictionary, str);
+
+        return *cipher;
+    }
+
+    std::string decompress(std::string cipher, huffmanTree *tree) {
+        Node::node *no = tree->getRoot();
+        int i=0;
+        std::string text = "";
+
+        while(cipher[i]!='\0') {
+            if(cipher[i]=='0')
+                no = no->getLeft();
+            else if(cipher[i]=='1')
+                no = no->getRight();
+            else {
+                std::cout << "[ERRO] Código não binário!\n";
+                exit(0);
+            }
+            
+            if(no->getLeft()==nullptr && no->getRight()==nullptr) {
+                text += no->getCharacter();
+                no = tree->getRoot();
+            }
+
+            i++;
+        }
+
+        return text;
+    }
+
+    huffmanTree* makeHuffmanTree(std::string str) {
         int frequencyTable[ASCII] = {0};
         createFrequencyTable(str, frequencyTable);
         heap::minHeap *priority_queue = new heap::minHeap(frequencyTable);
@@ -278,19 +318,7 @@ namespace huffman {
         std::cout << "Árvore de Huffman:\n";
         tree->print(tree->getRoot());
 
-        std::string *dictionary = tree->generateDictionary();
-
-        std::cout << "---------------------------------------\n";
-        std::cout << "Dicionário de códigos para cada caractere:\n";
-        for(int i=0; i<ASCII; i++) {
-            if(dictionary[i].length()!=0)
-                std::cout << i << ": " << dictionary[i] << "\n";
-        }
-        std::cout << "---------------------------------------\n";
-
-        std::string *cipher = encode(dictionary, str);
-
-        return *cipher;
+        return tree;
     }
 }
 
