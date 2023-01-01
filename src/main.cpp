@@ -40,7 +40,7 @@ int main(int argc, char **argv)
 
     std::cout << "Caminho do arquivo especificado:"<<path<<"\n";
 
-    /*
+    
     std::cout<<"\n|====== STARTING PRE PROCESSING ======|\n\n";
 
     std::cout<<"\n"<<"Quantas reviews devem ser analizadas?"<<"\n";
@@ -77,7 +77,7 @@ int main(int argc, char **argv)
     
     
     //IMPORT
-    /* 
+     
     double n=0;
     ProductReview* rreviews;
 
@@ -91,10 +91,10 @@ int main(int argc, char **argv)
     {
         rreviews[j].print();
     } 
-   */
+   
 
     //menu();
-    
+    /*
     std::string text;
 
     std::cout << "Digite o texto a ser comprimido: ";
@@ -115,7 +115,7 @@ int main(int argc, char **argv)
     std::cout << "==========================\n";
     std::cout << "Código: " << compressao << "\n";
     std::cout << "Mensagem descomprimida: " << descompressao << "\n";
-
+    */
     return 0;
 }
     

@@ -11,7 +11,7 @@
 
 int nReviews=0;
 
-unsigned int userId_size=15,productId_size=11,rating_size=4,timestamp_size=11;
+unsigned int userId_size=11,productId_size=11,rating_size=5,timestamp_size=11;
 
 int nTotal = 7824482; // Quantidade total de registros no arquivo csv
 
@@ -193,7 +193,7 @@ void createBinary2(std::string p, double n) {
     std::ofstream binaryfile(path+"ratings_Electronics.bin",std::ios::app|std::ios::binary);
 
     while(counter < nReviews) {
-        for(i=0;i<buffer_tam&&loader.good();i++)
+        for(i=0;i<buffer_tam;i++)
         {
             getline(loader,line);
             a= new ProductReview(line);
@@ -246,7 +246,6 @@ void createBinary(std::string p, double n)
     nReviews=n;
     path=p;
     std::vector<ProductReview*> reviews;
-    reviews = loadReviews(nReviews);
     std::string line;
 
     std::string user,product,rate,time;
@@ -256,6 +255,9 @@ void createBinary(std::string p, double n)
 
     if(n<0)nReviews=reviews.size();
 
+
+    reviews = loadReviews(nReviews);
+    
     for(int i=0;i<nReviews;i++)
     {
         user=reviews[i]->getUserId();
