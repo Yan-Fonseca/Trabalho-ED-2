@@ -51,7 +51,7 @@ int main(int argc, char **argv)
     double timeForCreateBinary;
     std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
 
-    createBinary2(path,nReviews);
+    createBinary(path,nReviews);
     nReviews = getSize();
 
     std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();

@@ -290,6 +290,11 @@ void createBinary(std::string p, double n)
         binaryfile.write(reinterpret_cast<const char*>(time.c_str()),timestamp_size);
         
     }
+
+    for(int i=0; i<nReviews; i++) {
+        delete reviews[i];
+    }
+    reviews.clear();
 }
 
 ProductReview* import(int n)
