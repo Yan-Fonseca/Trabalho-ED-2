@@ -1,6 +1,7 @@
 #include "../include/func.h"
 #include "../include/sort.h"
 #include "../include/hash.h"
+#include "../include/huffman.h"
 
 void menu()
 {
@@ -39,6 +40,7 @@ int main(int argc, char **argv)
 
     std::cout << "Caminho do arquivo especificado:"<<path<<"\n";
 
+    /*
     std::cout<<"\n|====== STARTING PRE PROCESSING ======|\n\n";
 
     std::cout<<"\n"<<"Quantas reviews devem ser analizadas?"<<"\n";
@@ -91,7 +93,28 @@ int main(int argc, char **argv)
     } 
    */
 
-    menu();
+    //menu();
+    
+    std::string text;
+
+    std::cout << "Digite o texto a ser comprimido: ";
+    std::getline(std::cin,text);
+
+    std::string compressao;
+    std::string descompressao;
+
+    std::cout << "Palavra: " << text << "\n";
+    huffman::huffmanTree *tree = huffman::makeHuffmanTree(text);
+
+    compressao = huffman::compress(text, tree);
+
+    std::cout << "Arquivo comprimido como: " << compressao << "\n";
+
+    descompressao = huffman::decompress(compressao, tree);
+
+    std::cout << "==========================\n";
+    std::cout << "Código: " << compressao << "\n";
+    std::cout << "Mensagem descomprimida: " << descompressao << "\n";
 
     return 0;
 }
