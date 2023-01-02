@@ -248,25 +248,31 @@ namespace huffman {
             }
     };
 
-    void saveHuffmanTree(huffmanTree *tree) {
-        heap::minHeap *priority_queue = tree->getPriorityQueue();
-        std::string path = getPath();
-        std::ofstream eraser(path+"huffman.bin");
+    void saveHuffmanTree_frequencyTable(int *table) {
+        std::ofstream eraser(path+"huffman.txt");
         eraser.close(); // Limpar conteúdo de huffman.bin
 
-        std::ofstream file(path+"huffman.bin");
-        char character;
-        int frequency;
-        Node::node **n = priority_queue->getVet();
-
-        for(int i=0; i<priority_queue->getSize(); i++) {
-            character = n[i]->getCharacter();
-            frequency = n[i]->getFrequency();
-            file.write(reinterpret_cast<const char*>(character), sizeof(char));
-            file.write(reinterpret_cast<const char*>(frequency), sizeof(int));
+        std::ofstream file(path+"huffman.txt");
+        
+        std::string frequency;
+        std::string ascii;
+        std::string line;
+        
+        if(file) {
+            for(int i=0; i<ASCII; i++) {
+                if(table[i]>0) {
+                    ascii = std::to_string(i);
+                    frequency = std::to_string(table[i]);
+                    file << ascii << ":" << frequency << std::endl;
+                }
+            }
         }
 
         file.close();
+    }
+
+    huffmanTree *loadHuffmanTree_file() {
+        std::ifstream binary(path+"huffman.bin",std::ios::in|std::ios::binary);
     }
 
     // Função responsável por criar a tabela de frequências dos caracteres na string
@@ -359,6 +365,9 @@ namespace huffman {
         textFile.close();
 
         huffmanTree *tree = makeHuffmanTree(text);
+        int table[ASCII] = {0};
+        createFrequencyTable(text, table);
+        saveHuffmanTree_frequencyTable(table);
         code = compress(text,tree);
 
         std::ofstream eraser(path+"reviewsComp.bin"); eraser.close(); //apaga o conteudo do arquivo
