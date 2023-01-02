@@ -156,6 +156,7 @@ namespace huffman {
         private:
             Node::node *root;
             int height;
+            heap::minHeap *heap_vet;
 
             int treeHeight(Node::node* n) {
                 int left;
@@ -195,6 +196,7 @@ namespace huffman {
         public:
             // Algoritmo de Huffman:
             huffmanTree(heap::minHeap *priority_queue) {
+                this->heap_vet = priority_queue;
                 int n = priority_queue->getSize();
                 Node::node *left;
                 Node::node *right;
@@ -240,7 +242,32 @@ namespace huffman {
 
                 return dict;
             }
+
+            heap::minHeap *getPriorityQueue() {
+                return this->heap_vet;
+            }
     };
+
+    void saveHuffmanTree(huffmanTree *tree) {
+        heap::minHeap *priority_queue = tree->getPriorityQueue();
+        std::string path = getPath();
+        std::ofstream eraser(path+"huffman.bin");
+        eraser.close(); // Limpar conteúdo de huffman.bin
+
+        std::ofstream file(path+"huffman.bin");
+        char character;
+        int frequency;
+        Node::node **n = priority_queue->getVet();
+
+        for(int i=0; i<priority_queue->getSize(); i++) {
+            character = n[i]->getCharacter();
+            frequency = n[i]->getFrequency();
+            file.write(reinterpret_cast<const char*>(character), sizeof(char));
+            file.write(reinterpret_cast<const char*>(frequency), sizeof(int));
+        }
+
+        file.close();
+    }
 
     // Função responsável por criar a tabela de frequências dos caracteres na string
     void createFrequencyTable(std::string str, int *table) {
