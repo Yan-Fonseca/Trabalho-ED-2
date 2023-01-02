@@ -17,6 +17,10 @@ int nTotal = 7824482; // Quantidade total de registros no arquivo csv
 
 std::string path= "";
 
+std::string getPath() {
+    return path;
+}
+
 //No meio do arquivo temos pouquissimas instancias de userIds contendo +- 21 chars
 //Essa struct é para não ser necessário armazenar 21 bytes para todos userIds em binário
 typedef struct 
@@ -175,7 +179,7 @@ std::vector<ProductReview*> loadReviews(double nReviews){
 void createBinary2(std::string p, double n) {
     nReviews=n;
     path=p;
-    int i;
+    int i=0;
     int buffer_tam = 100000;
 
     if(n<0)nReviews=nTotal;
@@ -200,8 +204,6 @@ void createBinary2(std::string p, double n) {
             reviews[i] = a;
             counter++;
         }
-
-        buffer_tam = i;
 
         for(i=0;i<buffer_tam;i++)
         {
@@ -253,7 +255,7 @@ void createBinary(std::string p, double n)
     std::ofstream eraser(path+"ratings_Electronics.bin"); eraser.close(); //apaga o conteudo do arquivo
     std::ofstream binaryfile(path+"ratings_Electronics.bin",std::ios::app|std::ios::binary);
 
-    if(n<0)nReviews=reviews.size();
+    if(n<0)nReviews=nTotal;
 
 
     reviews = loadReviews(nReviews);

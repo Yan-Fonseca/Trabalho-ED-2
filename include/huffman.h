@@ -2,6 +2,7 @@
 #define HUFFMAN_H
 
 #include <iostream>
+#include "../include/func.h"
 
 namespace Node {
     class node {
@@ -319,6 +320,62 @@ namespace huffman {
         tree->print(tree->getRoot());
 
         return tree;
+    }
+
+    // Irá comprimir o conteúdo do arquivo reviewsOrig.txt
+    void compress() {
+        std::string path = getPath();
+        std::ifstream textFile(path+"reviewsOrig.txt");
+        std::string text;
+        std::string code;
+        getline(textFile,text);
+        textFile.close();
+
+        huffmanTree *tree = makeHuffmanTree(text);
+        code = compress(text,tree);
+
+        std::ofstream eraser(path+"reviewsComp.bin"); eraser.close(); //apaga o conteudo do arquivo
+        std::ofstream binary(path+"reviewsComp.bin");
+        int i=0;
+        int shift = 7;
+
+        unsigned char byte = 0;
+        unsigned char mask;
+
+        if(binary) {
+            while(code[i]!='\n') {
+                mask = 1;
+
+                // a variável mask é responsável por fazer os deslocamentos binários dados pelo shift
+                // e aplicá-los na variável byte. Funciona da seguinte forma: Quando um char é lido o 
+                // algoritmo verifica se é 1 ou 0. Caso seja 1, o valor 0000 0001 da máscara é deslocado 
+                // para a posição em que o valor 1 estaria no byte atual e é aplicado na variável byte,
+                // caso seja 0, somente o shift será mudado(nesse caso, decrementado).  
+                if(code[i]=='1') {
+                    mask <<= shift;
+                    byte |= mask;
+                }
+
+                shift--;
+
+                // Cada vez que shift fica menor que 0 significa que um byte foi completado, bastando agora 
+                // armazená-lo no arquivo compactado.
+                if(shift<0) {
+                    binary.write(reinterpret_cast<const char*>(byte),1);
+                    byte = 0;
+                    shift = 7;
+                }
+                i++;
+            }
+
+            // Se o último byte do código gerado de huffman for "incompleto", preencher o resto da cadeia
+            // com 0 e armazenar o valor.
+            if(shift!=7) {
+                binary.write(reinterpret_cast<const char*>(byte),1);
+            }
+        }
+
+        binary.close();
     }
 }
 
