@@ -431,6 +431,8 @@ namespace huffman {
     }
 
     void descompress() {
+        // Parte 1:
+        // Gerando a árvore de huffman a partir do arquivo huffman.txt
         std::ifstream file(path+"huffman.txt");
         int table[ASCII] = {0};
         std::string line;
