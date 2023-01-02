@@ -2,6 +2,7 @@
 #define HUFFMAN_H
 
 #include <iostream>
+#include <string>
 #include "../include/func.h"
 
 namespace Node {
@@ -412,6 +413,36 @@ namespace huffman {
         }
 
         binary.close();
+    }
+
+    void splitText(std::string line, int *table) {
+        int i=0;
+        std::string index = "";
+        std::string frequency = "";
+
+        for(i=0; line[i]!=':';i++) {
+            index += line[i];
+        }
+        for(i++; line[i]!='\0';i++) {
+            frequency += line[i];
+        }
+
+        table[stoi(index)] = stoi(frequency);
+    }
+
+    void descompress() {
+        std::ifstream file(path+"huffman.txt");
+        int table[ASCII] = {0};
+        std::string line;
+
+        while(file.good()) {
+            getline(file,line);
+            splitText(line,table);
+        }
+        file.close();
+
+        heap::minHeap *priority_queue = new heap::minHeap(table);
+        huffmanTree *tree = new huffmanTree(priority_queue);
     }
 }
 
