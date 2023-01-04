@@ -27,7 +27,7 @@ public:
     int getNodesN(){return nodes.size();}
     No* getNode(int i);
     Multinode* getSon(int i);
-    std::vector<Multinode*> getSons();
+    Multinode** getSons();
     Multinode* findSon(std::string id);
     bool getIsFolha(){return isFolha;}
 
@@ -35,7 +35,8 @@ public:
     void setOrder(int o){order=o;};
     void setIsFolha(bool ifo){isFolha=ifo;};
     void setNode(No* n, int index){nodes[index]=n;};
-    void setSon(Multinode* mn, int index){sons[index]=mn;};
+    void setSon(Multinode* mn, int index);
+    void setDad(Multinode* mn){dad=mn;};
     void adjustSons();
 
     void insert(No* node,bool balance);
@@ -63,7 +64,7 @@ public:
     ProductReview* busca(std::string userId, std::string productId);
     int getDepth();
     void print();
-    void print(Multinode* raiz);
+    void print(Multinode* raiz,std::string rank);
 };
 
 #endif

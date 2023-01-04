@@ -15,6 +15,12 @@ Multinode::Multinode(int s){
     sons.push_back(nullptr);
 }
 
+void Multinode::setSon(Multinode* mn, int index){
+    sons[index]=mn;
+    if(mn!=nullptr)
+        mn->setDad(this);
+}
+
 Multinode::Multinode(int s,Multinode* d){
     
     dad = d;
@@ -64,7 +70,7 @@ void Multinode::insert_son(Multinode* son){
 No* Multinode::getNode(int i){
     
     if(i>=0&&i<contains)
-        return nodes[i];
+        return nodes.at(i);
     else
         return nullptr;
 }
@@ -72,13 +78,9 @@ No* Multinode::getNode(int i){
 Multinode* Multinode::getSon(int i){
     
     if(i>=0 && i<contains+1)
-        return sons[i];
+        return sons.at(i);
     else
         return nullptr;
-}
-
-std::vector<Multinode*> Multinode::getSons(){
-    return sons;
 }
 
 Multinode* Multinode::findSon(std::string id){
@@ -98,6 +100,7 @@ void Multinode::insert(No* node,bool balance){
         contains++;
         return;
     }
+        
 
     std::string id = node->getId();
 
@@ -165,7 +168,7 @@ void Multinode::balanceRaiz(){
     Multinode* esq = new Multinode(order,this);
     Multinode* dir = new Multinode(order,this);
 
-    for(int i=0;i<contains;i++){
+    for(int i=0;i<order;i++){
         if(i<meio){
             esq->setNode(nodes[i],i);
             esq->setSon(sons[i],i);
@@ -182,8 +185,9 @@ void Multinode::balanceRaiz(){
             cdir++;
         }
     }
-    esq->setSon(sons[meio],meio);
-    dir->setSon(sons[order],contains-meio-1);
+
+    esq->setSon(sons[meio],cesq);
+    dir->setSon(sons[order],cdir);
     sons[meio]=nullptr;
     sons[order]=nullptr;    
 
@@ -199,24 +203,33 @@ void Multinode::balanceRaiz(){
 
 }
 
+Multinode** Multinode::getSons(){
+    Multinode** s = new Multinode*[order];
+    for(unsigned int i=0;i<sons.size();i++){
+        s[i]=sons.at(i);
+    }
+    return s;
+}
+
 void Multinode::balanceFolha(){
 
-    std::vector<Multinode*> oldSons;
-    for(int i=0;i<=contains;i++){
+    /* std::vector<Multinode*> oldSons(3); */
+    /* for(int i=0;i<=dad->getContains();i++){
         oldSons.push_back(dad->getSon(i));
-    }
+    } */
+    Multinode** oldSons = dad->getSons();
 
     
     int meio = (contains-1)/2; 
 
     int cesq=0,cdir=0;
 
-    Multinode* esq = new Multinode(order,this);
-    Multinode* dir = new Multinode(order,this);
+    Multinode* esq = new Multinode(order,dad);
+    Multinode* dir = new Multinode(order,dad);
 
 
    for(int i=0;i<order;i++){
-        //std::cout<<nodes[i]->getId()<<" ";
+        std::cout<<nodes[i]->getId()<<" ";
         if(i<meio){
             esq->setNode(nodes[i],i);
             esq->setSon(sons[i],i);
@@ -233,24 +246,33 @@ void Multinode::balanceFolha(){
             cdir++;
         }
     }
-    esq->setSon(sons[meio],meio);
-    dir->setSon(sons[order],contains-meio-1);
+    std::cout<<"\n";
+
+    esq->setSon(sons[meio],cesq);
+    dir->setSon(sons[order],cdir);
     sons[meio]=nullptr;
     sons[order]=nullptr;  
 
+    setContains(1);
     esq->setContains(cesq);
     dir->setContains(cdir);
 
     dad->insert(nodes[meio],false);
     dad->removeSon(this);
-    dad->insert_son(esq);
-    dad->insert_son(dir);
 
-    for(int j=0;(j<order)&&(oldSons[j]!=nullptr);j++)
+    for(int j=0;(j<order)&&(oldSons[j]!=nullptr);j++){
         if(oldSons[j]==this)
             continue;
         else
             dad->insert_son(oldSons[j]);
+    }
+    dad->insert_son(esq);
+    dad->insert_son(dir);
+
+    /* oldSons = dad->getSons();
+    for(int i=0;i<=order;i++){
+        std::cout<<oldSons[i]->getNode(0)->getId()<<" ";
+    std::cout<<"\n"; */
     
     nodes[meio]=nullptr;
 
@@ -344,26 +366,30 @@ void ArvoreB::print(){
 
         // Imprime os filhos se existirem
     }
+    std::cout<<" - raiz";
     for(i = 0; i <= raiz->getContains(); i++){
         Multinode* son = raiz->getSon(i);
         if (son!=nullptr)
-            print(son);
+            print(son,std::to_string(i));
+        
+        //std::cout<<" - filho "<<i;
     }
     std::cout<<"\n\n";
 
 }
 
-void ArvoreB::print(Multinode* mn){
+void ArvoreB::print(Multinode* mn,std::string rank){
     int i;
     std::cout<<"\n";
     for (i = 0; i < mn->getContains(); i++) {
         // Imprime a chave atual
         std::cout << mn->getNode(i)->getId() << " ";
     }
+    std::cout<<" - filho "<<rank;
     Multinode* son=raiz;
     for(i = 0; (i <= mn->getContains())&&(son!=nullptr); i++){
         Multinode* son = mn->getSon(i);
         if (son!=nullptr)
-            print(son);
+            print(son,rank+"."+std::to_string(i));
     }
 }
