@@ -8,6 +8,9 @@ Multinode::Multinode(int s){
     setOrder(s);
     setContains(0);
     setIsFolha(false);
+
+    nodes.reserve(s);
+
     for(int i=0;i<order;i++){
         nodes.push_back(nullptr);
         sons.push_back(nullptr);
@@ -27,6 +30,10 @@ Multinode::Multinode(int s,Multinode* d){
     setOrder(s);
     setContains(0);
     setIsFolha(true);
+
+    sons.reserve(s);
+    nodes.reserve(s);
+        
     for(int i=0;i<order;i++){
         nodes.push_back(nullptr);
         sons.push_back(nullptr);
@@ -229,7 +236,7 @@ void Multinode::balanceFolha(){
 
 
    for(int i=0;i<order;i++){
-        std::cout<<nodes[i]->getId()<<" ";
+        //std::cout<<nodes[i]->getId()<<" ";
         if(i<meio){
             esq->setNode(nodes[i],i);
             esq->setSon(sons[i],i);
@@ -246,7 +253,7 @@ void Multinode::balanceFolha(){
             cdir++;
         }
     }
-    std::cout<<"\n";
+    //std::cout<<"\n";
 
     esq->setSon(sons[meio],cesq);
     dir->setSon(sons[order],cdir);
@@ -312,6 +319,7 @@ void ArvoreB::insere(ProductReview* pr){
 
 }
 
+//Só para testes
 void ArvoreB::insere(std::string id){
 
     No* node = new No(id);
@@ -332,21 +340,35 @@ void ArvoreB::insere(std::string id){
 
 }
 
-/* ProductReview* ArvoreB::busca(std::string userId, std::string productId){
+ProductReview* ArvoreB::busca(std::string userId, std::string productId){
 
     std::string id = userId + productId;
 
-    Multinode* n = raiz;
+    Multinode* son = raiz;
 
-    for(int y = 0; y< depth; y++){
-        for(int i=0;i<n->getNodesN();i++){
-        if(id<n->getNode(i)->getId())
-            n->getSon(i)->busca(userId,productId);
+    for(int i=0;i<depth;i++){
+        son = son->findSon(id);
+        if(son->getSon(0)==nullptr)
+            break;
+        else    
+            if(i==depth-1)
+                std::cout<<"Error ArvoreB::insere\n";
     }
+    bool found = false;
+    int i;
+    for(i = 0; i< son->getContains(); i++){
+        if(id == son->getNode(i)->getId()){
+            found=true;
+            break;
+        } 
+    }
+    if(!found)
+        return nullptr;
     
-    }
+    ProductReview* pr = new ProductReview(son->getNode(i)->getBase());
 
-} */
+    return pr;
+}
 
 int ArvoreB::getDepth(){
     int d=0;
@@ -360,33 +382,36 @@ int ArvoreB::getDepth(){
 
 void ArvoreB::print(){
     int i;
+    std::cout<<"Arvore B: \n";
+    // Imprime a raizo atual
     for (i = 0; i < raiz->getContains(); i++) {
-        // Imprime a chave atual
         std::cout << raiz->getNode(i)->getId() << " ";
-
-        // Imprime os filhos se existirem
     }
     std::cout<<" - raiz";
+
+    // Imprime os filhos se existirem
     for(i = 0; i <= raiz->getContains(); i++){
         Multinode* son = raiz->getSon(i);
         if (son!=nullptr)
             print(son,std::to_string(i));
-        
-        //std::cout<<" - filho "<<i;
     }
     std::cout<<"\n\n";
 
 }
 
+
 void ArvoreB::print(Multinode* mn,std::string rank){
     int i;
     std::cout<<"\n";
+
+    // Imprime o Multinode atual
     for (i = 0; i < mn->getContains(); i++) {
-        // Imprime a chave atual
         std::cout << mn->getNode(i)->getId() << " ";
     }
     std::cout<<" - filho "<<rank;
-    Multinode* son=raiz;
+
+    // Imprime os filhos se existirem
+    Multinode* son=mn;
     for(i = 0; (i <= mn->getContains())&&(son!=nullptr); i++){
         Multinode* son = mn->getSon(i);
         if (son!=nullptr)

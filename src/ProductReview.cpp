@@ -12,6 +12,20 @@ ProductReview::ProductReview(std::string info)
     setTime(inf[3]);
 }
 
+ProductReview::ProductReview(ProductReview* pr)
+{
+    if(pr==nullptr){
+        std::cout<<"Product Review Null Pointer Constructor.\n";
+        return;
+    }
+        
+
+    setUserId(pr->getUserId());
+    setProductId(pr->getProductId());
+    setRating(pr->getRating());
+    setTime(pr->getTime());
+}
+
 ProductReview::~ProductReview()
 {
     //delete(this);

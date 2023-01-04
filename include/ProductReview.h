@@ -16,6 +16,7 @@ class ProductReview{
     public:
 
     ProductReview(std::string info);
+    ProductReview(ProductReview* pr);
     ProductReview(){};
     ~ProductReview();
 
