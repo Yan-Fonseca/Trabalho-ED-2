@@ -216,28 +216,23 @@ namespace huffman {
         return this->heap_vet;
     }
 
+
     // ======================ALGORITMOS DO NAMESPACE==========================
 
-    void saveHuffmanTree_frequencyTable(int *table) {
-        std::ofstream eraser(path+"huffman.txt");
-        eraser.close(); // Limpar conteúdo de huffman.bin
 
-        std::ofstream file(path+"huffman.txt");
-        
-        std::string frequency;
-        std::string ascii;
-        std::string line;
+    void saveHuffmanTree_frequencyTable(int *table) {
+        std::ofstream eraser(path+"huffman.bin");
+        eraser.close(); // Limpar conteúdo de huffman.bin
+        std::ofstream file(path+"huffman.bin");
         
         if(file) {
             for(int i=0; i<ASCII; i++) {
                 if(table[i]>0) {
-                    ascii = std::to_string(i);
-                    frequency = std::to_string(table[i]);
-                    file << ascii << ":" << frequency << std::endl;
+                    file.write(reinterpret_cast<const char*>(&i),1);
+                    file.write(reinterpret_cast<const char*>(&table[i]),1);
                 }
             }
         }
-
         file.close();
     }
 
