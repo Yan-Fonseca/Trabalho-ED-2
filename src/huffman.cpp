@@ -229,7 +229,7 @@ namespace huffman {
             for(int i=0; i<ASCII; i++) {
                 if(table[i]>0) {
                     file.write(reinterpret_cast<const char*>(&i),1);
-                    file.write(reinterpret_cast<const char*>(&table[i]),1);
+                    file.write(reinterpret_cast<const char*>(&table[i]),sizeof(int));
                 }
             }
         }
@@ -379,35 +379,33 @@ namespace huffman {
         binary.close();
     }
 
-    void splitText(std::string line, int *table) {
-        int i=0;
-        std::string index = "";
-        std::string frequency = "";
-
-        for(i=0; line[i]!=':';i++) {
-            index += line[i];
-        }
-        for(i++; line[i]!='\0';i++) {
-            frequency += line[i];
-        }
-
-        table[stoi(index)] = stoi(frequency);
-    }
-
     void descompress() {
         // Parte 1:
-        // Gerando a árvore de huffman a partir do arquivo huffman.txt
-        std::ifstream file(path+"huffman.txt");
+        // Fazendo a leitura da árvore de huffman.
+        std::ifstream file(path+"huffman.bin", std::ios::binary);
         int table[ASCII] = {0};
-        std::string line;
+        int i;
 
-        while(file.good()) {
-            getline(file,line);
-            splitText(line,table);
+        if(file.is_open()) {
+            file.seekg(0, file.beg);
+            while(file.good()) {
+                file.read(reinterpret_cast<char*>(&i), 1);
+                file.read(reinterpret_cast<char*>(&table[i]),sizeof(int));
+            }
+        }
+        else {
+            std::cout << "Ocorreu um erro na abertura do arquivo binário de huffman!\n";
+            exit(1);
         }
         file.close();
 
+        // Parte 2:
+        // Gerando a árvore de huffman
         heap::minHeap *priority_queue = new heap::minHeap(table);
         huffmanTree *tree = new huffmanTree(priority_queue);
+
+        // Parte 3:
+        // descomprimindo o arquivo
+        
     }
 }

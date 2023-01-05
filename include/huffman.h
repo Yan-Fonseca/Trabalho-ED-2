@@ -87,7 +87,6 @@ namespace huffman {
 
     // Irá comprimir o conteúdo do arquivo reviewsOrig.txt
     void compress();
-    void splitText(std::string line, int *table);
     void descompress();
 }
 
