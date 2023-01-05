@@ -379,6 +379,12 @@ namespace huffman {
         binary.close();
     }
 
+    int bit(char byte, int shift) {
+        int mask = 1;
+        byte >>= shift;
+        return byte & mask;
+    }
+
     void descompress() {
         // Parte 1:
         // Fazendo a leitura da árvore de huffman.
@@ -403,9 +409,45 @@ namespace huffman {
         // Gerando a árvore de huffman
         heap::minHeap *priority_queue = new heap::minHeap(table);
         huffmanTree *tree = new huffmanTree(priority_queue);
+        Node::node *n = tree->getRoot();
 
         // Parte 3:
         // descomprimindo o arquivo
-        
+        std::ifstream file_cipher(path+"reviewsComp.bin", std::ios::binary);
+        file_cipher.seekg(0,file_cipher.beg);
+        char byte;
+        int shift;
+        std::string text = "";
+
+        if(file_cipher) {
+            while(file_cipher.good()) {
+                shift = 7;
+                file_cipher.read(&byte,sizeof(char));
+                while (shift>=0)
+                {
+                    if(n->getLeft()==nullptr && n->getRight()==nullptr) {
+                        text += n->getCharacter();
+                    }
+                    if(bit(byte,shift)) {
+                        n = n->getRight();
+                    }
+                    else {
+                        n = n->getLeft();
+                    }
+
+                    shift--;
+                }
+                
+            }
+        }
+
+        // Parte 4:
+        // Salvando resultado da descompressão no arquivo reviewsDesc.txt
+
+        std::ofstream eraser(path+"reviewsDesc.txt");
+        eraser.close(); // Limpar arquivo
+        std::ofstream descompressed(path+"reviewsDesc.txt");
+
+        descompressed << text;
     }
 }

@@ -87,6 +87,9 @@ namespace huffman {
 
     // Irá comprimir o conteúdo do arquivo reviewsOrig.txt
     void compress();
+
+    // Descompressão do arquivo reviewsComp.bin:
+    int bit(char byte, int shift);
     void descompress();
 }
 
