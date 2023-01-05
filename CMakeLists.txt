@@ -4,7 +4,7 @@ project(EDII)
 set(ROOT_DIR "${PROJECT_SOURCE_DIR}/") # Editar mais tarde se necessário
 
 # Arquivos de configuração dos diretórios
-file(GLOB source_files src/ProductReview.cpp src/huffman.cpp include/*.h)
+file(GLOB source_files src/ProductReview.cpp include/*.h)
 add_library(edll ${source_files})
 target_include_directories(edll PUBLIC ${PROJECT_SOURCE_DIR}/include)
 

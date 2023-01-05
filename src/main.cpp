@@ -40,8 +40,9 @@ int main(int argc, char **argv)
 
     std::cout << "Caminho do arquivo especificado:"<<path<<"\n";
 
+    setPath(path);
     
-    std::cout<<"\n|====== STARTING PRE PROCESSING ======|\n\n";
+    /*std::cout<<"\n|====== STARTING PRE PROCESSING ======|\n\n";
 
     std::cout<<"\n"<<"Quantas reviews devem ser analizadas?"<<"\n";
     std::cin>>nReviews;
@@ -61,6 +62,7 @@ int main(int argc, char **argv)
     std::cout<<"\n|====== PRE PROCESSING FINISHED ======|\n\n";
     std::cout << "Tempo para gerar o arquivo binário: " << timeForCreateBinary << "\n\n";
 
+    */
     //GET REVIEW
     /* 
     double i=0;
@@ -78,7 +80,7 @@ int main(int argc, char **argv)
     
     //IMPORT
      
-    double n=0;
+    /*double n=0;
     ProductReview* rreviews;
 
     std::cout<<"\n\nPegador de reviews aleatorias\nQuantas reviews voce quer pegar?\n";
@@ -91,11 +93,11 @@ int main(int argc, char **argv)
     {
         rreviews[j].print();
     } 
-   
+   */
 
     //menu();
-    /*
-    std::string text;
+    
+    /*std::string text;
 
     std::cout << "Digite o texto a ser comprimido: ";
     std::getline(std::cin,text);
@@ -115,7 +117,14 @@ int main(int argc, char **argv)
     std::cout << "==========================\n";
     std::cout << "Código: " << compressao << "\n";
     std::cout << "Mensagem descomprimida: " << descompressao << "\n";
-    */
+    std::cout << "==========================\n\n";*/
+
+    huffman::compress();
+    std::cout << "Compressão de arquivo realizada com sucesso!\n";
+    std::cout << "==========================\n";
+
+    huffman::descompress();
+    std::cout << "Descompressão realizada com sucesso!\n";
     return 0;
 }
     

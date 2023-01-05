@@ -21,6 +21,10 @@ std::string getPath() {
     return path;
 }
 
+void setPath(std::string p) {
+    path = p;
+}
+
 //No meio do arquivo temos pouquissimas instancias de userIds contendo +- 21 chars
 //Essa struct é para não ser necessário armazenar 21 bytes para todos userIds em binário
 typedef struct 
