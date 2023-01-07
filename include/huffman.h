@@ -48,7 +48,7 @@ namespace Node {
 
 
 namespace heap {
-    const int ASCII = 256;
+    const int ASCII = 126;
     
     class minHeap {
         private:
@@ -150,7 +150,7 @@ namespace heap {
 
 
 namespace huffman {
-    const int ASCII = 256;
+    const int ASCII = 126;
 
     class huffmanTree {
         private:
