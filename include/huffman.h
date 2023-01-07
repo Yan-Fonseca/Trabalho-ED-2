@@ -451,15 +451,17 @@ namespace huffman {
                 file_cipher.read(&byte,sizeof(char));
                 while (shift>=0)
                 {
-                    if(n->getLeft()==nullptr && n->getRight()==nullptr) {
-                        text += n->getCharacter();
-                        n = tree->getRoot();
-                    }
+                    
                     if(bit(byte,shift)) {
                         n = n->getRight();
                     }
                     else {
                         n = n->getLeft();
+                    }
+
+                    if(n->getLeft()==nullptr && n->getRight()==nullptr) {
+                        text += n->getCharacter();
+                        n = tree->getRoot();
                     }
 
                     shift--;
