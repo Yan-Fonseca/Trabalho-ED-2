@@ -422,7 +422,7 @@ namespace huffman {
             }
         }
 
-        shift = 7 - shift;
+        shift = shift-7;
         binary.write(reinterpret_cast<const char*>(&shift),1);
 
         std::cout << "Bits sobrando no final: " << shift << "\n";
@@ -438,7 +438,7 @@ namespace huffman {
 
     std::string decode(std::string text) {
         std::string cipher = "";
-        int textSize = text.size() - 1;
+        int textSize = text.size()-1;
         char byte;
         int index = 0, shift;
         int size = text[textSize];
@@ -461,7 +461,23 @@ namespace huffman {
     }
 
     int getFinalBits(std::string text) {
-        return text[text.size()];
+        int byte = 0;
+        int mask = 1;
+        int aux;
+        std::string number = "";
+        number += text[text.size()-4];
+        number += text[text.size()-3];
+        number += text[text.size()-2];
+        number += text[text.size()-1];
+
+        for(int i=0; i<4; i++) {
+            if(number[i]=='1') {
+                aux = mask << 3 - i;
+                byte |= aux;
+            }
+        }
+
+        return byte;
     }
 
     void descompress() {
