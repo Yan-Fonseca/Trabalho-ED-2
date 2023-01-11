@@ -48,20 +48,21 @@ namespace Node {
 
 
 namespace heap {
-    const int ASCII = 126;
+    const int ASCII = 128;
     
     class minHeap {
         private:
             Node::node **vet;
             int heapSize;
+            int size;
 
-            int generateHeapSize(int *table) {
+            void generateSize(int *table) {
                 int size = 0;
                 for(int i=0; i<ASCII; i++) {
                     if(table[i]!=0)
                         size++;
                 }
-                return size;
+                this->size = size;
             }
 
             void trocar(int index, int small) {
@@ -72,6 +73,7 @@ namespace heap {
             }
         public:
             minHeap(int *table) {
+                generateSize(table);
                 this->vet = new Node::node*[ASCII];
                 this->heapSize = 0;
                 Node::node *aux;
@@ -92,8 +94,12 @@ namespace heap {
                 return this->vet;
             }
 
-            int getSize() {
+            int getHeapSize() {
                 return this->heapSize;
+            }
+
+            int getSize() {
+                return this->size;
             }
 
             void minHeapify(int index) {
@@ -150,12 +156,13 @@ namespace heap {
 
 
 namespace huffman {
-    const int ASCII = 126;
+    const int ASCII = 128;
 
     class huffmanTree {
         private:
             Node::node *root;
-            int height;
+            int height; // Altura da árvore de huffman
+            int size;
             heap::minHeap *heap_vet;
 
             int treeHeight(Node::node* n) {
@@ -196,7 +203,7 @@ namespace huffman {
         public:
             huffmanTree(heap::minHeap *priority_queue) {
                 this->heap_vet = priority_queue;
-                int n = priority_queue->getSize();
+                int n = priority_queue->getHeapSize();
                 Node::node *left;
                 Node::node *right;
                 int frequency;
@@ -300,12 +307,13 @@ namespace huffman {
         return *cipher;
     }
 
-    std::string decompress(std::string cipher, huffmanTree *tree) {
+    std::string decompress(std::string cipher, huffmanTree *tree, int final_bits) {
         Node::node *no = tree->getRoot();
         int i=0;
         std::string text = "";
+        int size = cipher.size();
 
-        while(cipher[i]!='\0') {
+        while(i < size - final_bits && cipher[i]!='\0') {
             if(cipher[i]=='0')
                 no = no->getLeft();
             else if(cipher[i]=='1')
@@ -333,7 +341,7 @@ namespace huffman {
 
         std::cout << "---------------------------------------\n";
         std::cout << "Fila de prioridade mínima:\n";
-        for(int i=0; i<priority_queue->getSize(); i++) {
+        for(int i=0; i<priority_queue->getHeapSize(); i++) {
             std::cout << priority_queue->getVet()[i]->getCharacter() << ": " << priority_queue->getVet()[i]->getFrequency() << "\n";
         }
         std::cout << "---------------------------------------\n";
@@ -356,20 +364,32 @@ namespace huffman {
         textFile.close();
 
         huffmanTree *tree = makeHuffmanTree(text);
-        int table[ASCII] = {0};
-        createFrequencyTable(text, table);
-        saveHuffmanTree_frequencyTable(table);
         code = compress(text,tree);
 
-        std::ofstream eraser(path+"reviewsComp.bin",std::ios::in | std::ios::binary); eraser.close(); //apaga o conteudo do arquivo
-        std::ofstream binary(path+"reviewsComp.bin",std::ios::in | std::ios::binary);
+        int size_of_table = tree->getPriorityQueue()->getSize();
+
+        std::ofstream eraser(path+"reviewsComp.bin",std::ios::out | std::ios::binary); 
+        eraser.close(); //apaga o conteudo do arquivo
+        std::ofstream binary(path+"reviewsComp.bin",std::ios::binary | std::ios::out | std::ios::app);
         int i=0;
         int shift = 7;
+
+        int table[ASCII] = {0}; 
+        createFrequencyTable(text,table);
 
         unsigned char byte = 0;
         unsigned char mask;
 
         if(binary) {
+            for(int i=0; i<ASCII; i++) {
+                if(table[i]>0) {
+                    std::cout << i << ": " << table[i] << "\n";
+                    binary.write(reinterpret_cast<const char*>(&i),1);
+                    binary.write(reinterpret_cast<const char*>(&table[i]),sizeof(int));
+                }
+            }
+            i = 0;
+            binary.write(reinterpret_cast<const char*>(&i),1);
             while(code[i]!='\0') {
                 mask = 1;
 
@@ -388,7 +408,7 @@ namespace huffman {
                 // Cada vez que shift fica menor que 0 significa que um byte foi completado, bastando agora 
                 // armazená-lo no arquivo compactado.
                 if(shift<0) {
-                    binary.write(reinterpret_cast<const char*>(&byte),sizeof(unsigned char));
+                    binary.write(reinterpret_cast<const char*>(&byte),1);
                     byte = 0;
                     shift = 7;
                 }
@@ -396,11 +416,16 @@ namespace huffman {
             }
 
             // Se o último byte do código gerado de huffman for "incompleto", preencher o resto da cadeia
-            // com 0 e armazenar o valor.
+            // e armazenar o byte final.
             if(shift!=7) {
-                binary.write(reinterpret_cast<const char*>(&byte),sizeof(unsigned char));
+                binary.write(reinterpret_cast<const char*>(&byte),1);
             }
         }
+
+        shift = 7 - shift;
+        binary.write(reinterpret_cast<const char*>(&shift),1);
+
+        std::cout << "Bits sobrando no final: " << shift << "\n";
 
         binary.close();
     }
@@ -411,73 +436,97 @@ namespace huffman {
         return byte & mask;
     }
 
+    std::string decode(std::string text) {
+        std::string cipher = "";
+        int textSize = text.size() - 1;
+        char byte;
+        int index = 0, shift;
+        int size = text[textSize];
+
+        while(index < textSize) {
+            shift=7;
+            while (shift>=0) {
+                if(bit(text[index],shift)) {
+                    cipher += "1";
+                }
+                else {
+                    cipher += "0";
+                }
+                shift--;
+            }
+            index++;
+        }
+
+        return cipher;
+    }
+
+    int getFinalBits(std::string text) {
+        return text[text.size()];
+    }
+
     void descompress() {
         // Parte 1:
         // Fazendo a leitura da árvore de huffman.
-        std::ifstream file(path+"huffman.bin", std::ios::in | std::ios::binary);
         int table[ASCII] = {0};
-        int i;
+        char i;
+        int j=0;
+        int final_bits;
 
-        if(file.is_open()) {
-            file.seekg(0, file.beg);
-            while(file.good()) {
-                file.read(reinterpret_cast<char*>(&i), 1);
-                file.read(reinterpret_cast<char*>(&table[i]),sizeof(int));
-            }
+        std::ifstream file_cipher(path+"reviewsComp.bin", std::ios::in | std::ios::binary);
+
+        if(file_cipher.is_open()) {
+            file_cipher.seekg(0,file_cipher.beg);
+            do {
+                file_cipher.read(reinterpret_cast<char*>(&i), 1);
+                if(i==0)
+                    break;
+                file_cipher.read(reinterpret_cast<char*>(&table[i]),sizeof(int));
+            } while(i!=0);
         }
         else {
-            std::cout << "Ocorreu um erro na abertura do arquivo binário de huffman!\n";
+            std::cout << "Ocorreu um erro na abertura do arquivo binário!\n";
             exit(1);
         }
-        file.close();
 
+        std::cout << "Parte 1 concluída\n";
         // Parte 2:
         // Gerando a árvore de huffman
         heap::minHeap *priority_queue = new heap::minHeap(table);
         huffmanTree *tree = new huffmanTree(priority_queue);
         Node::node *n = tree->getRoot();
 
+        std::cout << "Parte 2 concluída\n";
+
         // Parte 3:
-        // descomprimindo o arquivo
-        std::ifstream file_cipher(path+"reviewsComp.bin", std::ios::in | std::ios::binary);
-        file_cipher.seekg(0,file_cipher.beg);
+        // Lendo o arquivo e transformando o código em binário para string.
         char byte;
         int shift;
         std::string text = "";
+        std::string cipher = "";
 
         if(file_cipher) {
             while(file_cipher.good()) {
-                shift = 7;
-                file_cipher.read(&byte,sizeof(char));
-                while (shift>=0)
-                {
-                    
-                    if(bit(byte,shift)) {
-                        n = n->getRight();
-                    }
-                    else {
-                        n = n->getLeft();
-                    }
-
-                    if(n->getLeft()==nullptr && n->getRight()==nullptr) {
-                        text += n->getCharacter();
-                        n = tree->getRoot();
-                    }
-
-                    shift--;
-                }
-                
+                file_cipher.read(&byte,1);
+                cipher += byte;
             }
         }
 
+        cipher = decode(cipher);
+        final_bits = getFinalBits(cipher);
+        std::cout << "Bits no final: " << final_bits << "\n";
+        text = decompress(cipher,tree,final_bits);
+
+        std::cout << "Parte 3 concluída\n";
         // Parte 4:
         // Salvando resultado da descompressão no arquivo reviewsDesc.txt
-
         std::ofstream eraser(path+"reviewsDesc.txt", std::ios::out);
         eraser.close(); // Limpar arquivo
         std::ofstream descompressed(path+"reviewsDesc.txt", std::ios::out);
 
         descompressed << text;
+        descompressed.close();
+
+        std::cout << "Parte 4 concluída\n";
     }
 }
 
