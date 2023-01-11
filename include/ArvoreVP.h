@@ -2,21 +2,21 @@
 #define ARVOREVP_H
 
 #include "NoVP.h"
-
+//a
 class ArvoreVP {
 private:
-    NoVP *raiz;
-    void LeftRotate(NoVP novp);
-    void RightRotate(NoVP novp);
-    void InsertFixup(NoVP*& novp);
+    NoVP *raiz, *vazio;
+    void LeftRotate(NoVP* novp);
+    void RightRotate(NoVP* novp);
+    void Balanceamento_Insere(NoVP*& novp);
+    void In_Ordem(NoVP* raiz);
 
 public:
     ArvoreVP();
     ~ArvoreVP();
+    void Print();
     void insere(ProductReview *pr);
     ProductReview* busca(std::string userId,std::string productId);
-    NoVP* Search(std::string userId_productId);
-
     void print();
     
 };

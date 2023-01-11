@@ -5,26 +5,32 @@
 #include <string>
 #include "ProductReview.h"
 
-class NoVP
-{
-private:
-    std::string id;
+enum class COR {
+    RED,
+    BLACK
+};
+
+class NoVP{
+    private:
     long int binary_position;
     ProductReview* base;
 public:
-    NoVP *Esq, *Dir;
-    int cor;
+    NoVP *left, *right, *pai;
+    std::string valorid;
+    COR cor;
+    NoVP(std::string val, COR c) : valorid(val), cor(c), left(nullptr), right(nullptr), pai(nullptr) {}
 
-    NoVP(){id="null";binary_position=-1;};
-    NoVP(ProductReview* pr){id = pr->getUserId()+""+pr->getProductId(); base = pr; binary_position=pr->getBinaryPosition();};
+
+    NoVP(){valorid="null";binary_position=-1;};
+    NoVP(ProductReview* pr){valorid = pr->getUserId()+""+pr->getProductId(); base = pr; binary_position=pr->getBinaryPosition();};
 
     //para testes
-    NoVP(std::string ID){ id = ID;};
+    NoVP(std::string ID){ valorid = ID;};
     
     ~NoVP(){};
 
     int getPosition();
-    std::string getId(){return id;}
+    std::string getId(){return valorid;}
     ProductReview* getBase(){return base;};
 };
 
