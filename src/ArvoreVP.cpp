@@ -109,6 +109,30 @@ void ArvoreVP::insere(ProductReview* pr) {
     Balanceamento_Insere(new_novp);
 }
 
+void ArvoreVP::insere(std::string str) {
+    std::string valorid = str;
+    NoVP* new_novp = new NoVP(valorid, COR::RED);
+    NoVP* novp = raiz;
+    NoVP* pai = vazio;
+    while (novp != vazio) {
+        pai = novp;
+        if (valorid.compare(novp->valorid) < 0)
+            novp = novp->left;
+        else
+            novp = novp->right;
+    }
+    new_novp->pai = pai;
+    if (pai == vazio) {
+        raiz = new_novp;
+        new_novp->cor = COR::BLACK;
+    } else if (valorid.compare(pai->valorid) < 0) {
+        pai->left = new_novp;
+    } else {
+        pai->right = new_novp;
+    }
+    Balanceamento_Insere(new_novp);
+}
+
 ProductReview* ArvoreVP::busca(std::string userId,std::string productId){
     std::string valorid = userId + productId;
     NoVP* novp = raiz;
@@ -128,7 +152,7 @@ ProductReview* ArvoreVP::busca(std::string userId,std::string productId){
     return nullptr; // valorid não foi encontrado
 }
 
-void ArvoreVP::Print() {
+void ArvoreVP::print() {
     In_Ordem(raiz);
 }
 
