@@ -58,7 +58,7 @@ void menuArvores()
 
 int main(int argc, char **argv)
 {
- /*  std::string id;
+  /* std::string id;
   int size;
   std::cin>>size;
   ArvoreB arvoreb(size);
@@ -67,10 +67,10 @@ int main(int argc, char **argv)
   
   
   
- // {"100","200","300","150","190","380","350","125"}; 
-  for(int i=0;i<inserir.size();i++){
+  std::vector<std::string> a={"100","200","300","150","190","380","350","125"}; 
+  for(int i=0;i<a.size();i++){
     //std::cout<<"Inserindo: "<<inserir[i]<<"\n";
-    arvoreb.insere(inserir[i]);
+    arvoreb.insere(a[i]);
     //arvoreb.print();
   }
   
@@ -81,12 +81,12 @@ int main(int argc, char **argv)
 
     arvoreb.insere(id);
     arvoreb.print();
-  }*/
+  } */
   
   
   
   
-    std::string path;
+     std::string path;
     if(argc>1)
     {
         std::string pa(argv[1]);
@@ -107,7 +107,7 @@ int main(int argc, char **argv)
     double timeForCreateBinary;
     std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
 
-    createBinary2(path,nReviews);
+    CreateBinary1000(path);
     nReviews = getSize();
 
     std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
@@ -129,7 +129,7 @@ int main(int argc, char **argv)
         getReview(i);
         std::cout<<"\n"<<"Insira o indice da review desejada:"<<"\n";
         std::cin>>i;
-    } 
+    }  
     
     
     //IMPORT

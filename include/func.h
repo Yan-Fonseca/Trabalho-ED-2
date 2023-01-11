@@ -374,4 +374,89 @@ void preArvoreB()
     }
 }
 
+void handle_error(const char* msg) {
+    perror(msg); 
+    exit(255);
+}
+
+
+void CreateBinary1000(std::string& path)
+{
+    static const auto BUFFER_SIZE = 16*1024;
+    
+    std::ifstream file(path+"ratings_Electronics.csv");
+
+    std::ofstream outfile(path+"ratings_Electronics.bin", std::ios::binary);
+
+    std::vector<std::string> irregularidades;
+
+    std::vector<std::string> lines;
+    std::string line;
+
+    char buffer[BUFFER_SIZE];
+
+    while (file) {
+        // Read data from file into buffer
+        file.read(buffer, BUFFER_SIZE);
+        // Get the number of bytes read
+        std::streamsize bytesRead = file.gcount();
+
+        if (bytesRead > 0) {
+            
+            int lastline = 0;
+            int linesize = 0;
+            int linenumber = 0;
+            std::string irreg;
+            for(int i = 0; i < BUFFER_SIZE; i++)
+            {
+                if(buffer[i]!='\n'){
+                    line.push_back(buffer[i]);
+                }
+                else{
+                    linesize=i-lastline;
+                    lastline=i;
+                    if(linesize>41){
+                        irreg= linenumber + "#" + (linesize-41);
+                        irreg = irreg+"#";
+                        irregularidades.push_back(irreg);
+                        irreg="";
+                    }
+                    lines.push_back(line);
+                    line="";
+                    linenumber++;
+                }
+            }
+
+            // Write the vector of strings to the binary file
+            for (const auto& lin : lines) {
+                if(lin.size()>41)
+                    outfile.write(lin.c_str(), lin.size());
+                else   
+                    outfile.write(lin.c_str(), 41);
+            }
+
+            // Close the binary file
+        }
+    }
+    char* hashtag;
+    *hashtag = (const char)'#';
+    outfile.write(hashtag,sizeof(char));
+
+    for (const auto& irr : irregularidades) {
+        outfile.write(irr.c_str(), irr.size());
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 #endif 
