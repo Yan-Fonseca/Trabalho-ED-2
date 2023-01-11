@@ -11,6 +11,8 @@ class ProductReview{
     std::string rating;
     std::string timestamp;
 
+    long int binary_position;
+
     std::vector<std::string> splitString(std::string str);
 
     public:
@@ -27,11 +29,15 @@ class ProductReview{
     std::string getTime(){return timestamp;};
     void print();
 
+    long int getBinaryPosition(){return binary_position;};
+
     //Setters
     void setUserId(std::string id){userId=id;};
     void setProductId(std::string id){productId=id;};
     void setRating(std::string rate){rating=rate;};
     void setTime(std::string time){timestamp=time;};
+
+    void setBinaryPosition(long int bp){binary_position=bp;};
 
     void setData(std::string info);
     void setNull();

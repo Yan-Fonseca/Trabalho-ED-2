@@ -1,4 +1,4 @@
-#ifndef HASH_H
+/* #ifndef HASH_H
 #define HASH_H
 
 #include "sort.h"
@@ -170,7 +170,7 @@ void StartQuickSort(RegistroHash array[], int lo, int hi)
             break;
     }
     return -1;
-} */
+} 
 
 //Assigns a numerical value to a string
  double valueString(std::string s)
@@ -220,10 +220,6 @@ RegistroHash* createTable(int n)
     {
         importsRH[q].productId=importsPR[q].getProductId();
     }
-    
-    /* std::cout<<"import:";
-    for(int j=0;j<n;j++)
-        std::cout<<importsRH[j].productId<<" "; */
 
     std::cout<<"\n";
     
@@ -334,6 +330,4 @@ void preHash()
 
 }
 
-
-
-#endif
+#endif */
