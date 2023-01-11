@@ -16,6 +16,7 @@ public:
     ~ArvoreVP();
     void Print();
     void insere(ProductReview *pr);
+    void insere(std::string pr);
     ProductReview* busca(std::string userId,std::string productId);
     void print();
     

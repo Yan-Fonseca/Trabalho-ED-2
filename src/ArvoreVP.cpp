@@ -84,7 +84,7 @@ void ArvoreVP::Balanceamento_Insere(NoVP*& novp) {
     raiz->cor = COR::BLACK;
 }
 
-
+/*
 void ArvoreVP::insere(ProductReview* pr) {
     std::string valorid = pr->getUserId()+""+pr->getProductId();
     NoVP* new_novp = new NoVP(valorid, COR::RED);
@@ -106,6 +106,57 @@ void ArvoreVP::insere(ProductReview* pr) {
     } else {
         pai->right = new_novp;
     }
+    Balanceamento_Insere(new_novp);
+}
+*/
+void ArvoreVP::insere(ProductReview* pr) {
+    std::string valorid2 = pr->getUserId()+""+pr->getProductId();
+    NoVP* new_novp = new NoVP(valorid2, COR::RED);
+    NoVP* novp_x = raiz;
+    NoVP* novp_y = vazio;
+    while (novp_x != vazio){
+        novp_y = novp_x;
+        if (new_novp->valorid < novp_x->valorid) {
+            novp_x = novp_x->left;
+        } else {
+            novp_x = novp_x->right;
+        }
+    }
+    new_novp->pai = novp_y;
+    if (novp_y == vazio) {
+        raiz = new_novp;
+    } else if (new_novp->valorid < novp_y->valorid) {
+        novp_y->left = new_novp;
+    } else {
+        novp_y->right = new_novp;
+    }
+    new_novp->left = vazio;
+    new_novp->right = vazio;
+    Balanceamento_Insere(new_novp);
+}
+
+void ArvoreVP::insere(std::string valorid2) {
+    NoVP* new_novp = new NoVP(valorid2, COR::RED);
+    NoVP* novp_x = raiz;
+    NoVP* novp_y = vazio;
+    while (novp_x != vazio) {
+        novp_y = novp_x;
+        if (new_novp->valorid < novp_x->valorid) {
+            novp_x = novp_x->left;
+        } else {
+            novp_x = novp_x->right;
+        }
+    }
+    new_novp->pai = novp_y;
+    if (novp_y == vazio) {
+        raiz = new_novp;
+    } else if (new_novp->valorid < novp_y->valorid) {
+        novp_y->left = new_novp;
+    } else {
+        novp_y->right = new_novp;
+    }
+    new_novp->left = vazio;
+    new_novp->right = vazio;
     Balanceamento_Insere(new_novp);
 }
 
