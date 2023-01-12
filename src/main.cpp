@@ -39,30 +39,42 @@ int main(int argc, char **argv)
     else path="../files/";
 
     std::cout << "Caminho do arquivo especificado:"<<path<<"\n";
-
-    setPath(path);
     
-    /*std::cout<<"\n|====== STARTING PRE PROCESSING ======|\n\n";
+    std::cout<<"\n|====== STARTING PRE PROCESSING ======|\n\n";
 
     std::cout<<"\n"<<"Quantas reviews devem ser analizadas?"<<"\n";
     std::cin>>nReviews;
     
 
     // Tempo para geração do arquivo binário
-    double timeForCreateBinary;
+    /*double timeForCreateBinary;
     std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
-
+*/
     createBinary(path,nReviews);
     nReviews = getSize();
 
-    std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
-    timeForCreateBinary=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
+    /*std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
+    timeForCreateBinary=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();*/
 
     
     std::cout<<"\n|====== PRE PROCESSING FINISHED ======|\n\n";
-    std::cout << "Tempo para gerar o arquivo binário: " << timeForCreateBinary << "\n\n";
+    //std::cout << "Tempo para gerar o arquivo binário: " << timeForCreateBinary << "\n\n";
 
-    */
+
+
+    double timeForImport;
+    std::chrono::high_resolution_clock::time_point init = std::chrono::high_resolution_clock::now();
+
+    int n;
+    std::cout << "Digite a quantidade de registro que gostaria de gerar: ";
+    std::cin >> n;
+    ProductReview *b = import(n);
+    
+    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+    timeForImport=std::chrono::duration_cast<std::chrono::duration<double>>(end - init).count();
+
+    std::cout << "Tempo de import: " << timeForImport << "\n";
+
     //GET REVIEW
     /* 
     double i=0;
@@ -117,14 +129,14 @@ int main(int argc, char **argv)
     std::cout << "==========================\n";
     std::cout << "Código: " << compressao << "\n";
     std::cout << "Mensagem descomprimida: " << descompressao << "\n";
-    std::cout << "==========================\n\n";*/
+    std::cout << "==========================\n\n";
 
     huffman::compress();
     std::cout << "Compressão de arquivo realizada com sucesso!\n";
     std::cout << "==========================\n";
 
     huffman::descompress();
-    std::cout << "Descompressão realizada com sucesso!\n";
+    std::cout << "Descompressão realizada com sucesso!\n";*/
     return 0;
 }
     

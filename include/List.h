@@ -11,17 +11,17 @@ namespace HashList {
     class Node
     {
     private:
-        std::string key;
+        long key;
         Node* prox;
     public:
-        Node(std::string key)
+        Node(long key)
         {
             this->key = key;
             this->prox = NULL;
         }
         ~Node() { }
     
-        std::string getkey() {return key;}
+        long getkey() {return key;}
         Node* getProx() {return this->prox;}
         void setProx(Node *p) {this->prox = p;}
     };
@@ -44,7 +44,7 @@ namespace HashList {
             return (this->first == NULL);
         }
 
-        void inserirNaLista(std::string key) {
+        void inserirNaLista(long key) {
             Node* new_node = new Node(key);
 
             if(new_node != NULL)
@@ -55,7 +55,7 @@ namespace HashList {
             }
         }
 
-        bool checkElement(std::string key) 
+        bool checkElement(long key) 
         {
             Node *tmp = this->first;
 
@@ -80,8 +80,8 @@ namespace HashList {
             }
         }
 
-        int hashFunction(std::string key) {
-            const int p = 53;
+        int hashFunction(long key) {
+            /*const int p = 53;
             int h = 0;
             long long p_power = 1;
             for(int i=0; i<key.size(); i++) {
@@ -89,10 +89,12 @@ namespace HashList {
                 p_power = (p_power * p) % TAM;
             }
 
-            return h;
+            return h;*/
+
+            return key % TAM;
         }
 
-        bool insertInHash (HashList::List table[], std::string key) 
+        bool insertInHash (HashList::List table[], long key) 
         { 
             int id = hashFunction(key);
             HashList::List aux = table[id];

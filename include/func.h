@@ -323,19 +323,23 @@ ProductReview* import(int n)
     {
         srand(i*time(0));
         rnd=rand()% nReviews;
-        std::string info = getReviewString(rnd);
-        b[i].setData(info);
+        if(HashList::insertInHash(table, rnd)) {
+            std::string info = getReviewString(rnd);
+            b[i].setData(info);
+        } else {
+            i--;
+        }
 
         // Lógica para utilizar a chave: Um usuário, teoricamente, não vai avaliar o mesmo produto duas vezes
         // Portanto, julgamos ser suficiente que a chave para a função do hash seja uma combinação do id do
         // usuário e o id do produto.
-        key = b[i].getProductId() + b[i].getUserId();
+        //key = b[i].getProductId() + b[i].getUserId();
 
         // A função de inserir na tabela retorna true se a chave foi inserida na tabela.
         // Caso retorne falso, significa que o ProductReview já foi importado e, portanto, o valor de i é
         // decrementado e o loop inicia novamente.
-        if(!HashList::insertInHash(table, key))
-            i--;
+        //if(!HashList::insertInHash(table, key))
+        //    i--;
         
     }
     
