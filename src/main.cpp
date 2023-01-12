@@ -83,7 +83,10 @@ int main(int argc, char **argv)
     arvoreb.insere(prod);
     arvoreb.print();
   }
-  
+    std::string str = "ASFALTAR" , str2 = "" ;  
+    ProductReview* prodtest = arvoreb.busca(str , str2);
+    std::cout<<"\n user: " << prodtest->getUserId() << "  prod: " << prodtest->getProductId()<<"\n";
+    
   
   
   
