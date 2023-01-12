@@ -125,8 +125,8 @@ int main(int argc, char **argv)
     std::cin>>i;
     while(i>=0)
     {
-        if(i>=nReviews){std::cout<<"Nao existem reviews com esse indice\n";std::cin>>i;continue;}
-        getReview(i);
+        //if(i>=nReviews){std::cout<<"Nao existem reviews com esse indice\n";std::cin>>i;continue;}
+        std::cout<<ReadBinaryLine(path, i);
         std::cout<<"\n"<<"Insira o indice da review desejada:"<<"\n";
         std::cin>>i;
     }  

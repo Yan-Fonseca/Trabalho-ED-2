@@ -9,6 +9,7 @@
 #include <time.h>
 #include <iomanip>
 #include <chrono>
+#include <map>
 
 
 int nReviews=0;
@@ -30,6 +31,7 @@ typedef struct
 std::vector<Irregular> IrregUser;
 std::vector<Irregular> IrregProduct; //Talvez tenham ProductIds irregulares??
 std::vector<Irregular> IrregTime;
+
 
 void getReview(int i)
 {
@@ -435,18 +437,71 @@ void CreateBinary1000(std::string& path)
                     outfile.write(lin.c_str(), 41);
             }
 
-            // Close the binary file
+            // Clear the vectors
+            lines.clear();
+            irregularidades.clear();
         }
     }
-    char* hashtag;
-    *hashtag = (const char)'#';
-    outfile.write(hashtag,sizeof(char));
+    char hashtag = '#';
+    outfile.write(&hashtag, sizeof(hashtag));
 
     for (const auto& irr : irregularidades) {
         outfile.write(irr.c_str(), irr.size());
     }
+    file.close();
+    outfile.close();
 }
 
+std::string ReadBinaryLine(std::string& path, int n)
+{
+    std::ifstream binFile(path+"ratings_Electronics.bin", std::ios::binary);
+    std::string line;
+    int offset = 0;
+
+    // Move the read pointer to the end of the file
+    binFile.seekg(-1, binFile.end);
+
+    // Initialize a variable to store the current character
+    char current = binFile.get();
+
+    // Initialize an empty string to store the irregularity information
+    std::string irregularInfo;
+    
+    // Keep reading characters until the '#' character is found
+    while(current != '#')
+    {
+        // Add the current character to the irregularity information string
+        irregularInfo = current + irregularInfo;
+        
+        // Move the read pointer one position back in the file
+        binFile.seekg(-2, binFile.cur);
+        
+        // Read the next character
+        current = binFile.get();
+    }
+
+    // Initialize a map to store the irregular lines information
+    std::map<int,int> irregularLines;
+    std::string token;
+    std::istringstream tokenStream(irregularInfo);
+    while (std::getline(tokenStream, token, '#')) {
+        if(token.empty() || !std::isdigit(token[0])) continue;
+        int lineNum = std::stoi(token);
+        std::getline(tokenStream, token, '#');
+        int sizeDiff = std::stoi(token);
+        irregularLines[lineNum] = sizeDiff;
+    }
+
+    // Check if the requested line is an irregular line
+    if (irregularLines.find(n) != irregularLines.end()) {
+        // If it is, set the offset to the appropriate value
+        offset = irregularLines[n];
+    }
+    binFile.seekg(n*41 + offset, binFile.beg);
+    std::getline(binFile, line, '\0');
+    binFile.close();
+    return line;
+}
 
 
 
