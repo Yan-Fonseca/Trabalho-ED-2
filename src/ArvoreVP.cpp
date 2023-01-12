@@ -3,7 +3,7 @@
 // construtor
 ArvoreVP::ArvoreVP() {
     vazio = new NoVP();
-    vazio->cor = COR::BLACK;
+    vazio->setcor(COR::BLACK);
     raiz = vazio;
 }
 
@@ -46,42 +46,42 @@ void ArvoreVP::RightRotate(NoVP* x) {
 
 void ArvoreVP::Balanceamento_Insere(NoVP*& novp) {
     NoVP *tio;
-    while (novp != raiz && novp->pai->cor == COR::RED) {
+    while (novp != raiz && novp->pai->getcor() == COR::RED) {
         if (novp->pai == novp->pai->pai->left) {
             tio = novp->pai->pai->right;
-            if (tio->cor == COR::RED) {
-                novp->pai->cor = COR::BLACK;
-                tio->cor = COR::BLACK;
-                novp->pai->pai->cor = COR::RED;
+            if (tio->getcor() == COR::RED) {
+                novp->pai->setcor(COR::BLACK);
+                tio->setcor(COR::BLACK);
+                novp->pai->pai->setcor(COR::RED);
                 novp = novp->pai->pai;
             } else {
                 if (novp == novp->pai->right) {
                     novp = novp->pai;
                     LeftRotate(novp);
                 }
-                novp->pai->cor = COR::BLACK;
-                novp->pai->pai->cor = COR::RED;
+                novp->pai->setcor(COR::BLACK);
+                novp->pai->pai->setcor(COR::RED);
                 RightRotate(novp->pai->pai);
             }
         } else {
             tio = novp->pai->pai->left;
-            if (tio->cor == COR::RED) {
-                novp->pai->cor = COR::BLACK;
-                tio->cor = COR::BLACK;
-                novp->pai->pai->cor = COR::RED;
+            if (tio->getcor() == COR::RED) {
+                novp->pai->setcor(COR::BLACK);
+                tio->setcor(COR::BLACK);
+                novp->pai->pai->setcor(COR::RED);
                 novp = novp->pai->pai;
             } else {
                 if (novp == novp->pai->left) {
                     novp = novp->pai;
                     RightRotate(novp);
                 }
-                novp->pai->cor = COR::BLACK;
-                novp->pai->pai->cor = COR::RED;
+                novp->pai->setcor(COR::BLACK);
+                novp->pai->pai->setcor(COR::RED);
                 LeftRotate(novp->pai->pai);
             }
         }
     }
-    raiz->cor = COR::BLACK;
+    raiz->setcor(COR::BLACK);
 }
 
 /*
@@ -116,7 +116,7 @@ void ArvoreVP::insere(ProductReview* pr) {
     NoVP* novp_y = vazio;
     while (novp_x != vazio){
         novp_y = novp_x;
-        if (new_novp->valorid < novp_x->valorid) {
+        if (new_novp->getId() < novp_x->getId()) {
             novp_x = novp_x->left;
         } else {
             novp_x = novp_x->right;
@@ -125,7 +125,7 @@ void ArvoreVP::insere(ProductReview* pr) {
     new_novp->pai = novp_y;
     if (novp_y == vazio) {
         raiz = new_novp;
-    } else if (new_novp->valorid < novp_y->valorid) {
+    } else if (new_novp->getId() < novp_y->getId()) {
         novp_y->left = new_novp;
     } else {
         novp_y->right = new_novp;
@@ -141,7 +141,7 @@ void ArvoreVP::insere(std::string valorid2) {
     NoVP* novp_y = vazio;
     while (novp_x != vazio) {
         novp_y = novp_x;
-        if (new_novp->valorid < novp_x->valorid) {
+        if (new_novp->getId() < novp_x->getId()) {
             novp_x = novp_x->left;
         } else {
             novp_x = novp_x->right;
@@ -150,7 +150,7 @@ void ArvoreVP::insere(std::string valorid2) {
     new_novp->pai = novp_y;
     if (novp_y == vazio) {
         raiz = new_novp;
-    } else if (new_novp->valorid < novp_y->valorid) {
+    } else if (new_novp->getId() < novp_y->getId()) {
         novp_y->left = new_novp;
     } else {
         novp_y->right = new_novp;
@@ -184,10 +184,10 @@ ProductReview* ArvoreVP::busca(std::string userId,std::string productId){
     NoVP* novp = raiz;
     ProductReview* Prod;
     while (novp != vazio) {
-        if (novp->valorid == valorid) {  // achou o valorid
+        if (novp->getId() == valorid) {  // achou o valorid
             Prod = new ProductReview(novp->getBase());
             return Prod;
-        } else if (valorid < novp->valorid) { // valorid é menor
+        } else if (valorid < novp->getId()) { // valorid é menor
             novp = novp->left;
         } else {  // valorid é maior
             novp = novp->right;
@@ -210,7 +210,7 @@ void ArvoreVP::In_Ordem(NoVP* raiz) {
         } else {
             no_imprime = stack.top();
             stack.pop();
-            std::cout << no_imprime-> valorid << std::endl;
+            std::cout << no_imprime->getId() << std::endl;
             no_imprime = no_imprime->right;
         }
     }

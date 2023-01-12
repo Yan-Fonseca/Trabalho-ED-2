@@ -14,10 +14,15 @@ class NoVP{
     private:
     long int binary_position;
     ProductReview* base;
-public:
-    NoVP *left, *right, *pai;
     std::string valorid;
     COR cor;
+public:
+    NoVP *left, *right, *pai;
+    std::string getid(){return valorid;};
+    COR getcor(){return cor;};
+    COR setcor(COR c){
+        cor = c;
+    }
     NoVP(std::string val, COR c) : valorid(val), cor(c), left(nullptr), right(nullptr), pai(nullptr) {}
 
 
