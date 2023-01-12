@@ -16,15 +16,24 @@ class NoVP{
     ProductReview* base;
     std::string valorid;
     COR cor;
-public:
     NoVP *left, *right, *pai;
-    std::string getid(){return valorid;};
-    COR getcor(){return cor;};
-    COR setcor(COR c){
+public:
+
+    void setPai(NoVP* node) { pai = node; }
+    NoVP* getPai() { return pai; }
+    void setLeft(NoVP* node) { left = node; }
+    NoVP* getLeft() { return left; }
+    void setRight(NoVP* node) { right = node; }
+    NoVP* getRight() { return right; }
+
+    std::string getId(){return valorid;}
+    ProductReview* getBase(){return base;};
+
+    COR getCor(){return cor;};
+    COR setCor(COR c){
         cor = c;
     }
     NoVP(std::string val, COR c) : valorid(val), cor(c), left(nullptr), right(nullptr), pai(nullptr) {}
-
 
     NoVP(){valorid="null";binary_position=-1;};
     NoVP(ProductReview* pr){valorid = pr->getUserId()+""+pr->getProductId(); base = pr; binary_position=pr->getBinaryPosition();};
@@ -35,8 +44,6 @@ public:
     ~NoVP(){};
 
     int getPosition();
-    std::string getId(){return valorid;}
-    ProductReview* getBase(){return base;};
 };
 
 #endif
