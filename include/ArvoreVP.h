@@ -15,10 +15,10 @@ public:
     ArvoreVP();
     ~ArvoreVP();
     void insere(ProductReview *pr);
-    void insere(std::string str);
     ProductReview* busca(std::string userId,std::string productId);
     void print();
-    
+    //para testes
+    void insere(std::string str);
 };
 
 #endif

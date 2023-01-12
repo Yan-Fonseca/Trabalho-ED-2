@@ -278,7 +278,7 @@ ProductReview* ArvoreVP::busca(std::string userId,std::string productId){
 
 void ArvoreVP::insere(ProductReview* pr) {
     std::string valorid2 = pr->getUserId()+""+pr->getProductId();
-    NoVP* new_novp = new NoVP(valorid2, COR::RED);
+    NoVP* new_novp = new NoVP(valorid2, COR::RED, pr);
     NoVP* novp_x = raiz;
     NoVP* novp_y = vazio;
     while (novp_x != vazio) {
@@ -302,8 +302,10 @@ void ArvoreVP::insere(ProductReview* pr) {
     Balanceamento_Insere(new_novp);
 }
 
+
+//só para test
 void ArvoreVP::insere(std::string valorid2){
-    NoVP* new_novp = new NoVP(valorid2, COR::RED);
+    NoVP* new_novp = new NoVP(valorid2, COR::RED, nullptr);
     NoVP* novp_x = raiz;
     NoVP* novp_y = vazio;
     while (novp_x != vazio) {
