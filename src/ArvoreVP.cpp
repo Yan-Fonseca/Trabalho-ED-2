@@ -7,7 +7,7 @@ ArvoreVP::ArvoreVP() {
     raiz = vazio;
 }
 
-// destructor
+// destrutor
 ArvoreVP::~ArvoreVP() {
     // desalocar memoria
 }
@@ -159,7 +159,7 @@ void ArvoreVP::insere(std::string valorid2) {
     new_novp->right = vazio;
     Balanceamento_Insere(new_novp);
 }
-
+/*
 ProductReview* ArvoreVP::busca(std::string userId,std::string productId){
     std::string valorid = userId + productId;
     NoVP* novp = raiz;
@@ -172,10 +172,27 @@ ProductReview* ArvoreVP::busca(std::string userId,std::string productId){
         }
         else if (valorid.compare(novp->valorid) < 0) // valorid é menor
             novp = novp->left;
-        else // valorid is maior
+        else // valorid é maior
             novp = novp->right;
     }
 
+    return nullptr; // valorid não foi encontrado
+}
+*/
+ProductReview* ArvoreVP::busca(std::string userId,std::string productId){
+    std::string valorid = userId + productId;
+    NoVP* novp = raiz;
+    ProductReview* Prod;
+    while (novp != vazio) {
+        if (novp->valorid == valorid) {  // achou o valorid
+            Prod = new ProductReview(novp->getBase());
+            return Prod;
+        } else if (valorid < novp->valorid) { // valorid é menor
+            novp = novp->left;
+        } else {  // valorid é maior
+            novp = novp->right;
+        }
+    }
     return nullptr; // valorid não foi encontrado
 }
 
@@ -206,13 +223,13 @@ void ArvoreVP::In_Ordem(NoVP* raiz) {
 NoVP* ArvoreVP::Search(std::string valorid) {
     NoVP* novp = raiz;
     while (novp != vazio) {
-        if (valorid.compare(novp->valorid) == 0) // found the valorid
+        if (valorid.compare(novp->valorid) == 0) // achou o valorid
             return novp;
-        else if (valorid.compare(novp->valorid) < 0) // valorid is smaller
+        else if (valorid.compare(novp->valorid) < 0) // valorid é menor
             novp = novp->left;
-        else // valorid is greater
+        else // valorid é maior
             novp = novp->right;
     }
-    return vazio; // valorid not found
+    return vazio; // valorid não foi encontrado
 }
 */
