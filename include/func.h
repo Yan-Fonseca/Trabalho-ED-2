@@ -382,18 +382,13 @@ void handle_error(const char* msg) {
 }
 
 
-void CreateBinary1000(std::string& path)
+void CreateBinaryFile(std::string& path)
 {
     static const auto BUFFER_SIZE = 16*1024;
-    
+
     std::ifstream file(path+"ratings_Electronics.csv");
 
     std::ofstream outfile(path+"ratings_Electronics.bin", std::ios::binary);
-
-    std::vector<std::string> irregularidades;
-
-    std::vector<std::string> lines;
-    std::string line;
 
     char buffer[BUFFER_SIZE];
 
@@ -404,105 +399,60 @@ void CreateBinary1000(std::string& path)
         std::streamsize bytesRead = file.gcount();
 
         if (bytesRead > 0) {
-            
-            int lastline = 0;
-            int linesize = 0;
-            int linenumber = 0;
-            std::string irreg;
             for(int i = 0; i < BUFFER_SIZE; i++)
             {
                 if(buffer[i]!='\n'){
-                    line.push_back(buffer[i]);
+                    outfile.write(&buffer[i], sizeof(char));
                 }
                 else{
-                    linesize=i-lastline;
-                    lastline=i;
-                    if(linesize>41){
-                        irreg= linenumber + "#" + (linesize-41);
-                        irreg = irreg+"#";
-                        irregularidades.push_back(irreg);
-                        irreg="";
-                    }
-                    lines.push_back(line);
-                    line="";
-                    linenumber++;
+                    char hashtag = '#';
+                    outfile.write(&hashtag, sizeof(hashtag));
                 }
             }
-
-            // Write the vector of strings to the binary file
-            for (const auto& lin : lines) {
-                if(lin.size()>41)
-                    outfile.write(lin.c_str(), lin.size());
-                else   
-                    outfile.write(lin.c_str(), 41);
-            }
-
-            // Clear the vectors
-            lines.clear();
-            irregularidades.clear();
         }
-    }
-    char hashtag = '#';
-    outfile.write(&hashtag, sizeof(hashtag));
-
-    for (const auto& irr : irregularidades) {
-        outfile.write(irr.c_str(), irr.size());
     }
     file.close();
     outfile.close();
 }
 
-std::string ReadBinaryLine(std::string& path, int n)
+void CreateOffsetFile(std::string& path)
 {
-    std::ifstream binFile(path+"ratings_Electronics.bin", std::ios::binary);
+    static const auto BUFFER_SIZE = 16*1024;
+
+    std::ifstream infile(path+"ratings_Electronics.bin", std::ios::binary);
+
+    std::ofstream outfile(path+"offset.txt");
+
     std::string line;
-    int offset = 0;
+    int lineCounter = 0;
+    int offsetCounter = 0;
+    char buffer[BUFFER_SIZE];
 
-    // Move the read pointer to the end of the file
-    binFile.seekg(-1, binFile.end);
+    while (infile) {
+        // Read data from binary file into buffer
+        infile.read(buffer, BUFFER_SIZE);
+        // Get the number of bytes read
+        std::streamsize bytesRead = infile.gcount();
 
-    // Initialize a variable to store the current character
-    char current = binFile.get();
-
-    // Initialize an empty string to store the irregularity information
-    std::string irregularInfo;
-    
-    // Keep reading characters until the '#' character is found
-    while(current != '#')
-    {
-        // Add the current character to the irregularity information string
-        irregularInfo = current + irregularInfo;
-        
-        // Move the read pointer one position back in the file
-        binFile.seekg(-2, binFile.cur);
-        
-        // Read the next character
-        current = binFile.get();
+        if (bytesRead > 0) {
+            for(int i = 0; i < BUFFER_SIZE; i++)
+            {
+                if(buffer[i] != '#'){
+                    line.push_back(buffer[i]);
+                }
+                else{
+                    int lineSize = line.size();
+                    offsetCounter += lineSize - 41;
+                    outfile << lineCounter + 1 << " . " << offsetCounter << std::endl;
+                    lineCounter++;
+                    line.clear();
+                }
+            }
+        }
     }
-
-    // Initialize a map to store the irregular lines information
-    std::map<int,int> irregularLines;
-    std::string token;
-    std::istringstream tokenStream(irregularInfo);
-    while (std::getline(tokenStream, token, '#')) {
-        if(token.empty() || !std::isdigit(token[0])) continue;
-        int lineNum = std::stoi(token);
-        std::getline(tokenStream, token, '#');
-        int sizeDiff = std::stoi(token);
-        irregularLines[lineNum] = sizeDiff;
-    }
-
-    // Check if the requested line is an irregular line
-    if (irregularLines.find(n) != irregularLines.end()) {
-        // If it is, set the offset to the appropriate value
-        offset = irregularLines[n];
-    }
-    binFile.seekg(n*41 + offset, binFile.beg);
-    std::getline(binFile, line, '\0');
-    binFile.close();
-    return line;
+    infile.close();
+    outfile.close();
 }
-
 
 
 

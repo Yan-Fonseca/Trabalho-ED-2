@@ -2,6 +2,7 @@
 #include "../include/sort.h"
 #include "../include/hash.h"
 #include "../include/huffman.h"
+#include "../include/reader.h"
 
 void menuArvores();
 
@@ -83,9 +84,7 @@ int main(int argc, char **argv)
     arvoreb.print();
   } */
   
-  
-  
-  
+
      std::string path;
     if(argc>1)
     {
@@ -94,25 +93,23 @@ int main(int argc, char **argv)
     }
     else path="../files/";
 
+    Reader reader(path);
+
     std::cout << "Caminho do arquivo especificado:"<<path<<"\n";
 
     
     std::cout<<"\n|====== STARTING PRE PROCESSING ======|\n\n";
-
-    std::cout<<"\n"<<"Quantas reviews devem ser analizadas?"<<"\n";
-    std::cin>>nReviews;
     
 
     // Tempo para geração do arquivo binário
     double timeForCreateBinary;
     std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
 
-    CreateBinary1000(path);
+    reader.createBinary();
     nReviews = getSize();
 
     std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
     timeForCreateBinary=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
-
     
     std::cout<<"\n|====== PRE PROCESSING FINISHED ======|\n\n";
     std::cout << "Tempo para gerar o arquivo binário: " << timeForCreateBinary << "\n\n";
@@ -126,7 +123,7 @@ int main(int argc, char **argv)
     while(i>=0)
     {
         //if(i>=nReviews){std::cout<<"Nao existem reviews com esse indice\n";std::cin>>i;continue;}
-        std::cout<<ReadBinaryLine(path, i);
+        std::cout<<reader.getReview(i);
         std::cout<<"\n"<<"Insira o indice da review desejada:"<<"\n";
         std::cin>>i;
     }  
@@ -172,6 +169,7 @@ int main(int argc, char **argv)
     std::cout << "Código: " << compressao << "\n";
     std::cout << "Mensagem descomprimida: " << descompressao << "\n";
  */
+    
     return 0;
 }
     
