@@ -19,11 +19,11 @@ class NoVP{
     NoVP *left, *right, *pai;
 public:
 
-    void setPai(NoVP* node) { pai = node; }
+    void setPai(NoVP* novp) { pai = novp; }
     NoVP* getPai() { return pai; }
-    void setLeft(NoVP* node) { left = node; }
+    void setLeft(NoVP* novp) { left = novp; }
     NoVP* getLeft() { return left; }
-    void setRight(NoVP* node) { right = node; }
+    void setRight(NoVP* novp) { right = novp; }
     NoVP* getRight() { return right; }
 
     std::string getId(){return valorid;}

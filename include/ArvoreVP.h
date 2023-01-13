@@ -21,8 +21,6 @@ public:
     void insere(ProductReview *pr);
     ProductReview* busca(std::string userId,std::string productId);
     void print();
-    //para testes
-    void insere(std::string str);
 };
 
 #endif

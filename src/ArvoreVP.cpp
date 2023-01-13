@@ -5,7 +5,7 @@
 ArvoreVP::ArvoreVP() {
     comp = 0; //numero de comparações
     vazio = new NoVP(); 
-    vazio->setCor(COR::BLACK); // Define a cor de "vazio" para BLACK
+    vazio->setCor(COR::BLACK); // Define a cor de "vazio" para preto
     raiz = vazio; // Define a raiz da árvore como "vazio"
 }
 // destrutor
@@ -109,7 +109,7 @@ void ArvoreVP::Balanceamento_Insere(NoVP*& novp) {
 void ArvoreVP::insere(ProductReview* pr) {
     std::string valorid2 = pr->getUserId()+pr->getProductId(); //string para concatenar o userId e o productId do ProductReview
     valorid2.erase(std::remove_if(valorid2.begin(), valorid2.end(), ' '), valorid2.end()); //remove todos os espaços em branco
-    NoVP* new_novp = new NoVP(valorid2, COR::RED, pr); // nó com o valorid2 sendo ele o id, de cor RED e um ponteiro para o objeto ProductReview recebido
+    NoVP* new_novp = new NoVP(valorid2, COR::RED, pr); // nó com o valorid2 sendo ele o id, de cor vermelho e um ponteiro para o objeto ProductReview recebido
     NoVP* novp = raiz; // Define o nó novp para a raiz da árvore
     NoVP* anterior = vazio; // Define um ponteiro anterior como nulo
     while (novp != vazio) { // cria um Loop até que o nó novp seja um ponteiro nulo
@@ -133,7 +133,7 @@ void ArvoreVP::insere(ProductReview* pr) {
         anterior->setRight(new_novp); //se n ele, define o filho direito do nó anterior para ser o novo nó (new_novp), pois seu id é maior
         }
     }
-    //Define os filhos esquerdo e direito do novo nó como nulos (vazio)
+    //Define os filhos esquerdo e direito do novo nó como nulos ("vazio" de cor preta)
     new_novp->setLeft(vazio);
     new_novp->setRight(vazio);
 
