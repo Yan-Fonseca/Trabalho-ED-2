@@ -1,6 +1,6 @@
 #include "../include/reader.h"
 
-Reader::Reader(std::string& p) : path(p) {}
+Reader::Reader(std::string& p,int m_size) : path(p) , mediumLineSize(m_size) {}
 
 void Reader::setPath(std::string& p) { path = p; }
 std::string Reader::getPath() { return path; }
@@ -8,116 +8,121 @@ std::string Reader::getPath() { return path; }
 void Reader::setOffsetMap(std::unordered_map<int, int>& o) { offsetMap = o; }
 std::unordered_map<int, int> Reader::getOffsetMap() { return offsetMap; }
 
-std::string Reader::getReview(int i)
+int Reader::getnLines(){ return nLines; }
+
+std::string Reader::getReview(int lineNumber)
 {
-    std::ifstream binaryFile(path+"ratings_Electronics.bin", std::ios::binary);
+    std::ifstream infile(path+"ratings_Electronics.bin", std::ios::binary);
     std::string line;
-    binaryFile.seekg(offsetMap[i]);
-    char c;
-    while (binaryFile.get(c) && c != '#') {
-        line += c;
+    int offset = 0;
+    int lineSize = mediumLineSize;
+    int position = lineSize * lineNumber;
+    for(auto& [line, offsetValue] : offsetMap)
+    {
+        if(line < lineNumber)
+        {
+            offset += offsetValue;
+        }
     }
-    binaryFile.close();
+    position += offset;
+    infile.seekg(position);
+
+    if (offsetMap.find(lineNumber) != offsetMap.end()) {
+        lineSize+=offsetMap.at(lineNumber);
+    }
+
+    char c;
+    while (infile.get(c) && c != '\n') {
+    line += c;
+    }
+
+    infile.close();
+
+    std::cout<<"pos:"<<position<<" os:"<<offset<<"\n";
+
     return line;
 }
 
-void Reader::ReadOffsetFile()
-{
-    std::ifstream offsetFile(path+"offset.txt");
-    std::string line;
-    while(std::getline(offsetFile, line))
-    {
-        int lineNumber = std::stoi(line.substr(0, line.find(".")));
-        int offset = std::stoi(line.substr(line.find(".") + 2));
-        offsetMap[lineNumber] = offset;
-    }
-    offsetFile.close();
-}
+void Reader::readBinary() {
 
-void Reader::CreateOffsetFile()
-{
-    static const auto BUFFER_SIZE = 16*1024;
-
-    std::ifstream infile(path+"ratings_Electronics.bin", std::ios::binary);
-
-    std::ofstream outfile(path+"offset.txt");
+    std::ifstream file(path+"ratings_Electronics.bin", std::ios::binary);
 
     std::string line;
-    int lineCounter = 0;
-    int offsetCounter = 0;
-    char buffer[BUFFER_SIZE];
 
-    while (infile) {
-        // Read data from binary file into buffer
-        infile.read(buffer, BUFFER_SIZE);
-        // Get the number of bytes read
-        std::streamsize bytesRead = infile.gcount();
-
-        if (bytesRead > 0) {
-            for(int i = 0; i < BUFFER_SIZE; i++)
-            {
-                if(buffer[i] != '#'){
-                    line.push_back(buffer[i]);
-                }
-                else{
-                    int lineSize = line.size();
-                    offsetCounter += lineSize - 41;
-                    outfile << lineCounter + 1 << " . " << offsetCounter << std::endl;
-                    lineCounter++;
-                    line.clear();
+    while (std::getline(file, line)) {
+        if (line[0] == '#') {
+            // This line contains the key-value pairs
+            int key = 0;
+            int value = 0;
+            bool readingKey = true;
+            for (int i = 1; i < line.length(); i++) {
+                if (line[i] == '!') {
+                    // Switch from reading key to reading value
+                    readingKey = false;
+                } else if (line[i] == '?') {
+                    // Save the key-value pair and reset for next pair
+                    offsetMap[key] = value;
+                    key = 0;
+                    value = 0;
+                    readingKey = true;
+                } else if (line[i] == '#') {
+                    offsetMap[key] = value;
+                    readingKey = false;
+                } else {
+                    // Add the digit to the key or value
+                    if (readingKey) {
+                        key = key * 10 + (line[i] - '0');
+                    } else {
+                        value = value * 10 + (line[i] - '0');
+                    }
                 }
             }
+            // Save the last key-value pair
+            nLines=value;
         }
     }
-    infile.close();
-    outfile.close();
-
-    ReadOffsetFile();
 }
 
 void Reader::createBinary()
 {
-    static const auto BUFFER_SIZE = 16*1024;
-
-    std::ifstream file(path+"aaa.txt");
-
+    std::ifstream file(path+"ratings_Electronics.csv");
     std::ofstream outfile(path+"ratings_Electronics.bin", std::ios::binary);
 
-    char buffer[BUFFER_SIZE];
+    std::string line;
+    int lineCounter = 0;
+    int offsetCounter = 0;
 
-    while (file) {
-
-        // Read data from file into buffer
-        file.read(buffer, BUFFER_SIZE);
-        // Get the number of bytes read
-        std::streamsize bytesRead = file.gcount();
-
-        int counter=0;
-        if (bytesRead > 0) {
-            for(int i = 0; i < BUFFER_SIZE; i++)
-            {
-                if(buffer[i]!='\n'){
-                    outfile.write(&buffer[i], sizeof(char));
-                }
-                else{
-                    if(counter<41){
-                        for(int j = counter; j<41 ; j++){
-                            char hashtag = '#';
-                            outfile.write(&hashtag, sizeof(hashtag));
-                        }
-                        counter=0;
-                        continue;
-                    }
-                    else{
-                        offsetMap
-                    }
-                }
-                counter++;
+    while (std::getline(file, line)) {
+        offsetCounter = line.size();
+        if(offsetCounter < mediumLineSize){
+            for(int j = offsetCounter; j < mediumLineSize - 1; j++){
+                line.push_back('*');
             }
+            offsetCounter = 0;
+            line.push_back('\n');
         }
+        else{
+            offsetMap[lineCounter] = offsetCounter - mediumLineSize +1;
+            offsetCounter = 0;
+            line.push_back('\n');
+        }
+        outfile << line;
+        lineCounter++;
     }
+    char hashtag = '#';
+    outfile << hashtag;
+    for(auto& [line, offset] : offsetMap)
+    {
+        std::string lineString = std::to_string(line);
+        std::string offsetString = std::to_string(offset);
+
+        outfile << lineString << "!" << offsetString << "?";
+    }
+    outfile << hashtag;
+
+    std::string lineCounterString = std::to_string(lineCounter);
+    outfile << lineCounterString ;
+
     file.close();
     outfile.close();
-
-    CreateOffsetFile();
 }

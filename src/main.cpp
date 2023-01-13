@@ -93,27 +93,38 @@ int main(int argc, char **argv)
     }
     else path="../files/";
 
-    Reader reader(path);
+    Reader reader(path,41);
 
     std::cout << "Caminho do arquivo especificado:"<<path<<"\n";
 
     
     std::cout<<"\n|====== STARTING PRE PROCESSING ======|\n\n";
     
+    std::ifstream test(path+"ratings_Electronics.bin");
 
-    // Tempo para geração do arquivo binário
-    double timeForCreateBinary;
-    std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
+    if(test.good()){
 
-    reader.createBinary();
-    nReviews = getSize();
+        std::cout<<"Binario ja existe\n";
+        test.close();
 
-    std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
-    timeForCreateBinary=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
-    
-    std::cout<<"\n|====== PRE PROCESSING FINISHED ======|\n\n";
-    std::cout << "Tempo para gerar o arquivo binário: " << timeForCreateBinary << "\n\n";
+        reader.readBinary();
+    }
+    else{
 
+      // Tempo para geração do arquivo binário
+      double timeForCreateBinary;
+      std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
+
+      reader.createBinary();
+      nReviews = getSize();
+
+      std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
+      timeForCreateBinary=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
+      
+      std::cout<<"\n|====== PRE PROCESSING FINISHED ======|\n\n";
+      std::cout << "Tempo para gerar o arquivo binário: " << timeForCreateBinary << "\n\n";
+
+    }
     //GET REVIEW
    
     double i=0;
@@ -127,6 +138,8 @@ int main(int argc, char **argv)
         std::cout<<"\n"<<"Insira o indice da review desejada:"<<"\n";
         std::cin>>i;
     }  
+
+    int nlines = reader.getnLines();
     
     
     //IMPORT

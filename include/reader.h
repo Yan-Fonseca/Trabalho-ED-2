@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <unordered_map>
+#include <map>
 #include <string>
 
 class Reader
@@ -8,18 +9,19 @@ class Reader
 private:
     std::string path;
     std::unordered_map<int, int> offsetMap;
-
+    int mediumLineSize;
+    int nLines;
 public:
-    Reader(std::string& p);
+    Reader(std::string& p,int m_size);
 
     void setPath(std::string& p);
     std::string getPath();
     void setOffsetMap(std::unordered_map<int, int>& o);
     std::unordered_map<int, int> getOffsetMap();
 
+    int getnLines();
 
-    void CreateOffsetFile();
     std::string getReview(int i);
-    void ReadOffsetFile();
     void createBinary();
+    void readBinary();
 };
