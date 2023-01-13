@@ -1,7 +1,5 @@
 #include "../include/ArvoreVP.h"
 #include <stack>
-#include <iostream>
-#include <string>
 #include <algorithm>
 // construtor
 ArvoreVP::ArvoreVP() {
@@ -14,6 +12,9 @@ ArvoreVP::ArvoreVP() {
 ArvoreVP::~ArvoreVP() {
     // desalocar memoria
 }
+
+
+
 void ArvoreVP::LeftRotate(NoVP* novp) {
     NoVP* aux = novp->getRight();
     novp->setRight(aux->getLeft());
@@ -94,7 +95,7 @@ void ArvoreVP::Balanceamento_Insere(NoVP*& novp) {
 void ArvoreVP::insere(ProductReview* pr) {
     std::string valorid2 = pr->getUserId()+pr->getProductId();
     std::cout<<"valorid2 antes: "<<valorid2;
-    valorid2.erase(remove(valorid2.begin(), valorid2.end(), ' '), valorid2.end());
+    valorid2.erase(std::remove_if(valorid2.begin(), valorid2.end(), ' '), valorid2.end());
     std::cout<<"valorid2: "<<valorid2<<"espa";
     NoVP* new_novp = new NoVP(valorid2, COR::RED, pr);
     NoVP* novp_x = raiz;
@@ -126,6 +127,7 @@ ProductReview* ArvoreVP::busca(std::string userId,std::string productId) {
     std::cout<<"sssss ";
     ProductReview* Prod;
     std::string valorid = userId + productId;
+    valorid.erase(std::remove_if(valorid.begin(), valorid.end(), ' '), valorid.end());
     std::cout<<"\n valorid: " << valorid;
     NoVP* novp = raiz;
     while (novp != vazio) {
