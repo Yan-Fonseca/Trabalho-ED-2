@@ -3,9 +3,9 @@
 #include <algorithm>
 // construtor
 ArvoreVP::ArvoreVP() {
-    vazio = new NoVP();
-    vazio->setCor(COR::BLACK);
-    raiz = vazio;
+    vazio = new NoVP(); 
+    vazio->setCor(COR::BLACK); // Define a cor de "vazio" para BLACK
+    raiz = vazio; // Define a raiz da árvore como "vazio"
 }
 // destrutor
 ArvoreVP::~ArvoreVP() {
@@ -13,20 +13,20 @@ ArvoreVP::~ArvoreVP() {
 }
 void ArvoreVP::LeftRotate(NoVP* novp) {
     NoVP* aux = novp->getRight();  //ponteiro "aux" para o filho direito do nó recebido
-    novp->setRight(aux->getLeft()); //Define o filho direito do nó recebido para o filho esquerdo de "aux"
-    if (aux->getLeft() != vazio) { // Se o filho esquerdo de "aux" não for um ponteiro nulo, defina o pai desse nó para ser o nó recebido
+    novp->setRight(aux->getLeft()); //Define o filho direito do nó recebido para ser o filho esquerdo de "aux"
+    if (aux->getLeft() != vazio) { // Se o filho esquerdo de "aux" não for um ponteiro nulo, define o pai desse nó para ser o nó recebido
         aux->getLeft()->setPai(novp);
     }
-    aux->setPai(novp->getPai()); // Definir o pai de "aux" para ser o pai do nó recebido
-    if (novp->getPai() == vazio) { // Se o pai do nó recebido for um ponteiro nulo, defina a raiz da árvore como "aux"
+    aux->setPai(novp->getPai()); // Define o pai de "aux" para ser o pai do nó recebido
+    if (novp->getPai() == vazio) { // Se o pai do nó recebido for um ponteiro nulo, define a raiz da árvore como "aux"
         raiz = aux;
-    } else if (novp == novp->getPai()->getLeft()) { // Caso contrário, se o nó recebido for um filho esquerdo, defina o filho esquerdo do pai do nó recebido como "aux"
+    } else if (novp == novp->getPai()->getLeft()) { // Caso contrário, se o nó recebido for um filho esquerdo, define o filho esquerdo do pai do nó recebido como "aux"
         novp->getPai()->setLeft(aux); 
-    } else {  // caso contrário, defina o filho direito como "aux"
+    } else {  // caso contrário, define o filho direito como "aux"
         novp->getPai()->setRight(aux);
     }
-    aux->setLeft(novp); // Defina o filho esquerdo de "aux" para ser o nó recebido
-    novp->setPai(aux);  // Defina o pai do nó recebido como "aux"
+    aux->setLeft(novp); // Define o filho esquerdo de "aux" para ser o nó recebido
+    novp->setPai(aux);  // Define o pai do nó recebido como "aux"
 }
 
 void ArvoreVP::RightRotate(NoVP* novp) {
