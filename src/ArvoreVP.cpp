@@ -30,21 +30,21 @@ void ArvoreVP::LeftRotate(NoVP* novp) {
 }
 
 void ArvoreVP::RightRotate(NoVP* novp) {
-    NoVP* aux = novp->getLeft();
-    novp->setLeft(aux->getRight());
-    if (aux->getRight() != vazio) {
+    NoVP* aux = novp->getLeft(); // ponteiro "aux" e para o filho esquerdo do nó recebido
+    novp->setLeft(aux->getRight());  // Define o filho esquerdo do nó recebido para ser o filho direito de "aux"
+    if (aux->getRight() != vazio) { // Se o filho direito de "aux" não for um ponteiro nulo, define o pai desse nó para ser o nó recebido
         aux->getRight()->setPai(novp);
     }
-    aux->setPai(novp->getPai());
-    if (novp->getPai() == vazio) {
+    aux->setPai(novp->getPai()); // Define o pai de "aux" para ser o pai do nó recebido
+    if (novp->getPai() == vazio) { // Se o pai do nó recebido for um ponteiro nulo, defina a raiz da árvore como "aux"
         raiz = aux;
-    } else if (novp == novp->getPai()->getRight()) {
+    } else if (novp == novp->getPai()->getRight()) { //Caso contrário, se o nó recebido for um filho direito, define o filho direito do pai do nó recebido como "aux"
         novp->getPai()->setRight(aux);
-    } else {
+    } else {  //caso contrário, define o filho esquerdo como "aux".
         novp->getPai()->setLeft(aux);
     }
-    aux->setRight(novp);
-    novp->setPai(aux);
+    aux->setRight(novp); // Define o filho direito de "aux" para ser o nó recebido
+    novp->setPai(aux); // Define o pai do nó recebido como "aux"
 }
 
 void ArvoreVP::Balanceamento_Insere(NoVP*& novp) {
