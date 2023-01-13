@@ -12,75 +12,77 @@ ArvoreVP::~ArvoreVP() {
     // desalocar memoria
 }
 void ArvoreVP::LeftRotate(NoVP* novp) {
-    NoVP* aux = novp->getRight();  //ponteiro "aux" para o filho direito do nó recebido
-    novp->setRight(aux->getLeft()); //Define o filho direito do nó recebido para ser o filho esquerdo de "aux"
-    if (aux->getLeft() != vazio) { // Se o filho esquerdo de "aux" não for um ponteiro nulo, define o pai desse nó para ser o nó recebido
+    NoVP* aux = novp->getRight();  //ponteiro auxiliar para o filho direito do nó recebido
+    novp->setRight(aux->getLeft()); //Define o filho direito do nó recebido para ser o filho esquerdo de auxiliar
+    if (aux->getLeft() != vazio) { // Se o filho esquerdo de auxiliar não for um ponteiro nulo, define o pai desse nó para ser o nó recebido
         aux->getLeft()->setPai(novp);
     }
-    aux->setPai(novp->getPai()); // Define o pai de "aux" para ser o pai do nó recebido
-    if (novp->getPai() == vazio) { // Se o pai do nó recebido for um ponteiro nulo, define a raiz da árvore como "aux"
+    aux->setPai(novp->getPai()); // Define o pai de auxiliar para ser o pai do nó recebido
+    if (novp->getPai() == vazio) { // Se o pai do nó recebido for um ponteiro nulo, define a raiz da árvore como auxiliar
         raiz = aux;
-    } else if (novp == novp->getPai()->getLeft()) { // Caso contrário, se o nó recebido for um filho esquerdo, define o filho esquerdo do pai do nó recebido como "aux"
+    } else if (novp == novp->getPai()->getLeft()) { // Caso contrário, se o nó recebido for um filho esquerdo, define o filho esquerdo do pai do nó recebido como auxiliar
         novp->getPai()->setLeft(aux); 
-    } else {  // caso contrário, define o filho direito como "aux"
+    } else {  // caso contrário, define o filho direito como auxiliar
         novp->getPai()->setRight(aux);
     }
-    aux->setLeft(novp); // Define o filho esquerdo de "aux" para ser o nó recebido
-    novp->setPai(aux);  // Define o pai do nó recebido como "aux"
+    aux->setLeft(novp); // Define o filho esquerdo de auxiliar para ser o nó recebido
+    novp->setPai(aux);  // Define o pai do nó recebido como auxiliar
 }
 
 void ArvoreVP::RightRotate(NoVP* novp) {
-    NoVP* aux = novp->getLeft(); // ponteiro "aux" e para o filho esquerdo do nó recebido
-    novp->setLeft(aux->getRight());  // Define o filho esquerdo do nó recebido para ser o filho direito de "aux"
-    if (aux->getRight() != vazio) { // Se o filho direito de "aux" não for um ponteiro nulo, define o pai desse nó para ser o nó recebido
+    NoVP* aux = novp->getLeft(); // ponteiro auxiliar e para o filho esquerdo do nó recebido
+    novp->setLeft(aux->getRight());  // Define o filho esquerdo do nó recebido para ser o filho direito de auxiliar
+    if (aux->getRight() != vazio) { // Se o filho direito de auxiliar não for um ponteiro nulo, define o pai desse nó para ser o nó recebido
         aux->getRight()->setPai(novp);
     }
-    aux->setPai(novp->getPai()); // Define o pai de "aux" para ser o pai do nó recebido
-    if (novp->getPai() == vazio) { // Se o pai do nó recebido for um ponteiro nulo, defina a raiz da árvore como "aux"
+    aux->setPai(novp->getPai()); // Define o pai de auxiliar para ser o pai do nó recebido
+    if (novp->getPai() == vazio) { // Se o pai do nó recebido for um ponteiro nulo, defina a raiz da árvore como auxiliar
         raiz = aux;
-    } else if (novp == novp->getPai()->getRight()) { //Caso contrário, se o nó recebido for um filho direito, define o filho direito do pai do nó recebido como "aux"
+    } else if (novp == novp->getPai()->getRight()) { //Caso contrário, se o nó recebido for um filho direito, define o filho direito do pai do nó recebido como auxiliar
         novp->getPai()->setRight(aux);
-    } else {  //caso contrário, define o filho esquerdo como "aux".
+    } else {  //caso contrário, define o filho esquerdo como auxiliar.
         novp->getPai()->setLeft(aux);
     }
-    aux->setRight(novp); // Define o filho direito de "aux" para ser o nó recebido
-    novp->setPai(aux); // Define o pai do nó recebido como "aux"
+    aux->setRight(novp); // Define o filho direito de auxiliar para ser o nó recebido
+    novp->setPai(aux); // Define o pai do nó recebido como auxiliar
 }
 
 void ArvoreVP::Balanceamento_Insere(NoVP*& novp) {
     NoVP* tio;
-    while (novp != raiz && novp->getPai()->getCor() == COR::RED) {
-        if (novp->getPai() == novp->getPai()->getPai()->getLeft()) {
-            tio = novp->getPai()->getPai()->getRight();
-            if (tio->getCor() == COR::RED) {
-                novp->getPai()->setCor(COR::BLACK);
-                tio->setCor(COR::BLACK);
-                novp->getPai()->getPai()->setCor(COR::RED);
-                novp = novp->getPai()->getPai();
+    while (novp != raiz && novp->getPai()->getCor() == COR::RED) { // verifica se o novp não é a raiz e se seu pai é vermelho
+        if (novp->getPai() == novp->getPai()->getPai()->getLeft()) {//verifica se o pai do novp é um filho esquerdo 
+            tio = novp->getPai()->getPai()->getRight(); // atribui o filho direito do avô como tio
+            if (tio->getCor() == COR::RED) { //se tio é vermelho
+                novp->getPai()->setCor(COR::BLACK); // colore o pai de preto
+                tio->setCor(COR::BLACK); // colore o tio de preto
+                novp->getPai()->getPai()->setCor(COR::RED);// colore o avô de vermelho
+                novp = novp->getPai()->getPai(); //move o novp para o avô
             } else {
-                if (novp == novp->getPai()->getRight()) {
-                    novp = novp->getPai();
-                    LeftRotate(novp);
+                if (novp == novp->getPai()->getRight()) { //se o tio é preto e o novp é o filho direito
+                    novp = novp->getPai(); // move o novp para o pai
+                    LeftRotate(novp); // realiza rotação à esquerda passando o novp 
                 }
-                novp->getPai()->setCor(COR::BLACK);
-                novp->getPai()->getPai()->setCor(COR::RED);
-                RightRotate(novp->getPai()->getPai());
+                //se o novp for filho esquerdo do pai
+                novp->getPai()->setCor(COR::BLACK); //colore o pai de preto
+                novp->getPai()->getPai()->setCor(COR::RED); //colore o avô de vermelho
+                RightRotate(novp->getPai()->getPai()); //realiza rotação à direita passando o avô de novp
             }
-        } else {
-            tio = novp->getPai()->getPai()->getLeft();
-            if (tio->getCor() == COR::RED) {
-                novp->getPai()->setCor(COR::BLACK);
-                tio->setCor(COR::BLACK);
-                novp->getPai()->getPai()->setCor(COR::RED);
-                novp = novp->getPai()->getPai();
+        } else { //se o pai do novp é um filho direito
+            tio = novp->getPai()->getPai()->getLeft(); //filho esquerdo do avô é o novo tio
+            if (tio->getCor() == COR::RED) { //se tio é vermelho
+                novp->getPai()->setCor(COR::BLACK); //colore o pai de preto
+                tio->setCor(COR::BLACK); //colore o tio de vermelho
+                novp->getPai()->getPai()->setCor(COR::RED); // colore o avô de vermelho
+                novp = novp->getPai()->getPai(); // move o novp para o avô
             } else {
-                if (novp == novp->getPai()->getLeft()) {
-                    novp = novp->getPai();
-                    RightRotate(novp);
+                if (novp == novp->getPai()->getLeft()) { //se o novp for filho esquerdo do pai
+                    novp = novp->getPai(); // move o novp para o pai
+                    RightRotate(novp); // realiza rotação à direita passando o novp 
                 }
-                novp->getPai()->setCor(COR::BLACK);
-                novp->getPai()->getPai()->setCor(COR::RED);
-                LeftRotate(novp->getPai()->getPai());
+                
+                novp->getPai()->setCor(COR::BLACK);//colore o pai de preto
+                novp->getPai()->getPai()->setCor(COR::RED);// colore o avô de vermelho
+                LeftRotate(novp->getPai()->getPai()); //realiza rotação à esquerda passando o avô de novp
             }
         }
     }
