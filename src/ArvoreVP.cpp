@@ -52,41 +52,41 @@ void ArvoreVP::Balanceamento_Insere(NoVP*& novp) {
     while (novp != raiz && novp->getPai()->getCor() == COR::RED) { // verifica se o novp não é a raiz e se seu pai é vermelho
         if (novp->getPai() == novp->getPai()->getPai()->getLeft()) {//verifica se o pai do novp é um filho esquerdo 
             tio = novp->getPai()->getPai()->getRight(); // atribui o filho direito do avô como tio
-            if (tio->getCor() == COR::RED) { //se tio é vermelho
-                novp->getPai()->setCor(COR::BLACK); // colore o pai de preto
-                tio->setCor(COR::BLACK); // colore o tio de preto
-                novp->getPai()->getPai()->setCor(COR::RED);// colore o avô de vermelho
+            if (tio->getCor() == COR::RED) { // Se o tio for vermelho, precisamos recolorir o pai e o tio para preto e o avô para vermelho
+                novp->getPai()->setCor(COR::BLACK); 
+                tio->setCor(COR::BLACK); 
+                novp->getPai()->getPai()->setCor(COR::RED);
                 novp = novp->getPai()->getPai(); //move o novp para o avô
-            } else {
-                if (novp == novp->getPai()->getRight()) { //se o tio é preto e o novp é o filho direito
-                    novp = novp->getPai(); // move o novp para o pai
+            } else { // Se o novp for um filho à direita, precisamos fazer uma rotação à esquerda
+                if (novp == novp->getPai()->getRight()) { 
+                    novp = novp->getPai();
                     LeftRotate(novp); // realiza rotação à esquerda passando o novp 
                 }
-                //se o novp for filho esquerdo do pai
-                novp->getPai()->setCor(COR::BLACK); //colore o pai de preto
-                novp->getPai()->getPai()->setCor(COR::RED); //colore o avô de vermelho
+                //Recolorir o pai para preto e o avô para vermelho
+                novp->getPai()->setCor(COR::BLACK); 
+                novp->getPai()->getPai()->setCor(COR::RED);
                 RightRotate(novp->getPai()->getPai()); //realiza rotação à direita passando o avô de novp
             }
-        } else { //se o pai do novp é um filho direito
+        } else { 
             tio = novp->getPai()->getPai()->getLeft(); //filho esquerdo do avô é o novo tio
-            if (tio->getCor() == COR::RED) { //se tio é vermelho
-                novp->getPai()->setCor(COR::BLACK); //colore o pai de preto
-                tio->setCor(COR::BLACK); //colore o tio de vermelho
-                novp->getPai()->getPai()->setCor(COR::RED); // colore o avô de vermelho
+            if (tio->getCor() == COR::RED) { // Se o tio for vermelho, precisamos recolorir o pai e o tio para preto e o avô para vermelho
+                novp->getPai()->setCor(COR::BLACK);
+                tio->setCor(COR::BLACK); 
+                novp->getPai()->getPai()->setCor(COR::RED); 
                 novp = novp->getPai()->getPai(); // move o novp para o avô
             } else {
                 if (novp == novp->getPai()->getLeft()) { //se o novp for filho esquerdo do pai
                     novp = novp->getPai(); // move o novp para o pai
                     RightRotate(novp); // realiza rotação à direita passando o novp 
                 }
-                
-                novp->getPai()->setCor(COR::BLACK);//colore o pai de preto
-                novp->getPai()->getPai()->setCor(COR::RED);// colore o avô de vermelho
+                //Recolorir o pai para preto e o avô para vermelho
+                novp->getPai()->setCor(COR::BLACK);
+                novp->getPai()->getPai()->setCor(COR::RED);
                 LeftRotate(novp->getPai()->getPai()); //realiza rotação à esquerda passando o avô de novp
             }
         }
     }
-    raiz->setCor(COR::BLACK);
+    raiz->setCor(COR::BLACK); //colore a raiz preto
 }
 
 
