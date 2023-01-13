@@ -147,12 +147,12 @@ ProductReview* ArvoreVP::busca(std::string userId,std::string productId) {
 }
 
 void ArvoreVP::print() {
-    In_Ordem(raiz);
+    In_Ordem(raiz); //chama função In_Ordem
 }
 void ArvoreVP::In_Ordem(NoVP* no_imprime) {
-    if (no_imprime != vazio) {
-        In_Ordem(no_imprime->getLeft()); 
-        std::cout << no_imprime->getId() << std::endl;
-        In_Ordem(no_imprime->getRight());
+    if (no_imprime != vazio) { // Se o nó recebido não for nulo
+        In_Ordem(no_imprime->getLeft()); // Chama recursivamente a função In_Ordem no filho esquerdo do nó recebido
+        std::cout << no_imprime->getId() << std::endl; // Imprime o id do nó recebido
+        In_Ordem(no_imprime->getRight()); // Chama recursivamente a função In_Ordem no filho direito do nó recebido
     }
 }
