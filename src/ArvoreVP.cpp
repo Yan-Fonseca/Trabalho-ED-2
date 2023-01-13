@@ -119,31 +119,21 @@ void ArvoreVP::insere(ProductReview* pr) {
 
 
 ProductReview* ArvoreVP::busca(std::string userId,std::string productId) {
-    std::cout<<"\n user: " << userId << "  prod: " << productId<<"\n";
-    std::cout<<"sssss ";
-    ProductReview* Prod;
-    std::string valorid = userId + productId;
-    valorid.erase(std::remove_if(valorid.begin(), valorid.end(), ' '), valorid.end());
-    std::cout<<"\n valorid: " << valorid;
-    NoVP* novp = raiz;
-    while (novp != vazio) {
-        std::cout<<"entro ";
-        std::cout<<"novp->getId():"<< novp->getId();
-        if (novp->getId() == valorid) {
-            std::cout<<"aaaaa ";
-            Prod = new ProductReview(novp->getBase());
-            std::cout<<"bbbb ";
+    ProductReview* Prod; // ponteiro para ProductReview definido como nulo
+    std::string valorid = userId + productId; //Concatena o userId e o productId
+    valorid.erase(std::remove_if(valorid.begin(), valorid.end(), ' '), valorid.end()); //remove espaços em branco da string
+    NoVP* novp = raiz; // Define o nó novp para a raiz da árvore
+    while (novp != vazio) { //Enquanto o nó novp não for um ponteiro nulo
+        if (novp->getId() == valorid) { // Se o id do nó novp for igual ao valorid
+            Prod = new ProductReview(novp->getBase()); //faz uma copia do ponteiro ProductReview contido no novp 
             return Prod;
-            std::cout<<"cccc ";
-        } else if (valorid < novp->getId()) {
-            novp = novp->getLeft();
-        } else {
-            novp = novp->getRight();
+        } else if (valorid < novp->getId()) { //se o valorid for menor que o id do nó novp vai pra esquerda
+            novp = novp->getLeft(); 
+        } else { //se for maior vai para a direita 
+            novp = novp->getRight(); 
         }
-        std::cout<<"saiu ";
     }
-    std::cout<<"aff ";
-    return nullptr;
+    return nullptr; //retorna nulo caso não encontre o valorid na arvore 
 }
 
 void ArvoreVP::print() {
@@ -151,8 +141,8 @@ void ArvoreVP::print() {
 }
 void ArvoreVP::In_Ordem(NoVP* no_imprime) {
     if (no_imprime != vazio) { // Se o nó recebido não for nulo
-        In_Ordem(no_imprime->getLeft()); // Chama recursivamente a função In_Ordem no filho esquerdo do nó recebido
+        In_Ordem(no_imprime->getLeft()); // Chama recursivamente a função In_Ordem para o filho esquerdo do nó recebido
         std::cout << no_imprime->getId() << std::endl; // Imprime o id do nó recebido
-        In_Ordem(no_imprime->getRight()); // Chama recursivamente a função In_Ordem no filho direito do nó recebido
+        In_Ordem(no_imprime->getRight()); // Chama recursivamente a função In_Ordem para o filho direito do nó recebido
     }
 }
