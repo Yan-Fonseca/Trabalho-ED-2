@@ -67,26 +67,30 @@ int main(int argc, char **argv)
   
 
  // {"100","200","300","150","190","380","350","125"}; 
-  for(int i=0;i<inserir.size();i++){
+  //for(int i=0;i<inserir.size();i++){
     
     //std::cout<<"Inserindo: "<<inserir[i]<<"\n";
-    arvoreb.insere(inserir[i]);
+   // arvoreb.insere(inserir[i]);
     //arvoreb.print();
-  }
+  //}
   
   while(id!="0"){
-    
+    arvoreb.print();
     std::cout<<"insert: ";
     std::cin>>id;
     std::cout<<"\n";
     ProductReview* prod = new ProductReview(id + ", , , ");
     arvoreb.insere(prod);
-    arvoreb.print();
-  }
-    std::string str = "ASFALTAR" , str2 = "" ;  
-    ProductReview* prodtest = arvoreb.busca(str , str2);
-    std::cout<<"\n user: " << prodtest->getUserId() << "  prod: " << prodtest->getProductId()<<"\n";
     
+  }
+    arvoreb.print();
+    std::cout<<"seg: ";
+    std::string str = "1" , str2 = "1" ;  
+    ProductReview* prodtest = arvoreb.busca(str , str2);
+    std::cout<<"ter: ";
+    std::cout<<"\n user: " << prodtest->getUserId() << "  prod: " << prodtest->getProductId()<<"\n";
+    std::cout<<"quar: ";
+  
   
   
   

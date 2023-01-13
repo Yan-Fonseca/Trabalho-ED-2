@@ -28,33 +28,14 @@ public:
 
     std::string getId(){return valorid;}
 
-    ProductReview* getBase(){
-        
-        return base;
-        
-    };
+    ProductReview* getBase(){return base;};
 
     COR getCor(){return cor;};
-    COR setCor(COR c){
-        cor = c;
-    }
+    void setCor(COR c){cor = c;}
 
     NoVP(std::string val, COR c,ProductReview* pr) : binary_position( pr->getBinaryPosition()), base(pr), valorid(val), cor(c), left(nullptr), right(nullptr), pai(nullptr) {}
-
-
     
     NoVP(){valorid="null";binary_position=-1;};
-
-    /*
-    NoVP(ProductReview* pr){
-        valorid = pr->getUserId()+""+pr->getProductId();
-        base = pr; 
-        binary_position= pr->getBinaryPosition();
-    };
-    */
-    //para testes
-    //NoVP(std::string ID){ valorid = ID;};
-    
     ~NoVP(){};
 
     int getPosition();
