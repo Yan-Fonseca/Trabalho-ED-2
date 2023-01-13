@@ -92,28 +92,28 @@ void ArvoreVP::insere(ProductReview* pr) {
     std::string valorid2 = pr->getUserId()+pr->getProductId(); //string para concatenar o userId e o productId do ProductReview
     valorid2.erase(std::remove_if(valorid2.begin(), valorid2.end(), ' '), valorid2.end()); //remove todos os espaços em branco
     NoVP* new_novp = new NoVP(valorid2, COR::RED, pr); // nó com o valorid2 sendo ele o id, de cor RED e um ponteiro para o objeto ProductReview recebido
-    NoVP* novp_x = raiz; // Define o nó novp_x para a raiz da árvore
-    NoVP* novp_y = vazio; // Define um ponteiro novp_y como nulo, para ser o nó anterior
-    while (novp_x != vazio) { // cria um Loop até que o nó novp_x seja um ponteiro nulo
-        novp_y = novp_x; // Define o novp_y para o nó novp_x
-        if (new_novp->getId() < novp_x->getId()) { // Verifica se o id do novo nó (new_novp) é menor que o id do nó novp_x
-            novp_x = novp_x->getLeft(); //caso seja, vai pra esquerda
-        } else { //se não ele vai pra direita
-            novp_x = novp_x->getRight(); 
+    NoVP* novp = raiz; // Define o nó novp para a raiz da árvore
+    NoVP* anterior = vazio; // Define um ponteiro anterior como nulo
+    while (novp != vazio) { // cria um Loop até que o nó novp seja um ponteiro nulo
+        anterior = novp; // Define o anterior para o nó novp
+        if (new_novp->getId() < novp->getId()) { // Verifica se o id do novo nó (new_novp) é menor que o id do nó novp
+            novp = novp->getLeft(); //caso seja, vai pra esquerda
+        } else { //se não ele vai pra direita, pois o id dele é maior
+            novp = novp->getRight(); 
         }
     }
-    new_novp->setPai(novp_y); // Define o pai do novo nó (new_novp) como o nó novp_y
-    if (novp_y == vazio) { // Se o nó novp_y for nulo, define a raiz da árvore como o novo nó (new_novp)
+    new_novp->setPai(anterior); // Define o pai do novo nó (new_novp) como o nó anterior
+    if (anterior == vazio) { // Se o nó anterior for nulo, define a raiz da árvore como o novo nó (new_novp)
         raiz = new_novp;
-    } else if (new_novp->getId() < novp_y->getId()) { // Verifica se o id do novo nó é menor que o id do nodo novp_y
-        novp_y->setLeft(new_novp); // caso seja, ele define o filho esquerdo do nó novp_y para ser o novo nó (new_novp)
+    } else if (new_novp->getId() < anterior->getId()) { // Verifica se o id do novo nó é menor que o id do nó anterior
+        anterior->setLeft(new_novp); // caso seja, ele define o filho esquerdo do nó anterior para ser o novo nó (new_novp)
     } else {
-        novp_y->setRight(new_novp); //se n ele, define o filho direito do nó novp_y para ser o novo nó (new_novp), pois seu id é maior
+        anterior->setRight(new_novp); //se n ele, define o filho direito do nó anterior para ser o novo nó (new_novp), pois seu id é maior
     }
     //Define os filhos esquerdo e direito do novo nó como nulos (vazio)
     new_novp->setLeft(vazio);
     new_novp->setRight(vazio);
-    
+
     //Chama a função balanceamento para manter as propriedades da árvore VP
     Balanceamento_Insere(new_novp);
 }
