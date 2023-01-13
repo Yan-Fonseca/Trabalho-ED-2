@@ -3,6 +3,7 @@
 #include <algorithm>
 // construtor
 ArvoreVP::ArvoreVP() {
+    comp = 0; //numero de comparações
     vazio = new NoVP(); 
     vazio->setCor(COR::BLACK); // Define a cor de "vazio" para BLACK
     raiz = vazio; // Define a raiz da árvore como "vazio"
@@ -14,16 +15,21 @@ ArvoreVP::~ArvoreVP() {
 void ArvoreVP::LeftRotate(NoVP* novp) {
     NoVP* aux = novp->getRight();  //ponteiro auxiliar para o filho direito do nó recebido
     novp->setRight(aux->getLeft()); //Define o filho direito do nó recebido para ser o filho esquerdo de auxiliar
+    comp++;
     if (aux->getLeft() != vazio) { // Se o filho esquerdo de auxiliar não for um ponteiro nulo, define o pai desse nó para ser o nó recebido
         aux->getLeft()->setPai(novp);
     }
     aux->setPai(novp->getPai()); // Define o pai de auxiliar para ser o pai do nó recebido
+    comp++;
     if (novp->getPai() == vazio) { // Se o pai do nó recebido for um ponteiro nulo, define a raiz da árvore como auxiliar
         raiz = aux;
-    } else if (novp == novp->getPai()->getLeft()) { // Caso contrário, se o nó recebido for um filho esquerdo, define o filho esquerdo do pai do nó recebido como auxiliar
+    } else{
+        comp++;
+        if (novp == novp->getPai()->getLeft()) { // Caso contrário, se o nó recebido for um filho esquerdo, define o filho esquerdo do pai do nó recebido como auxiliar
         novp->getPai()->setLeft(aux); 
-    } else {  // caso contrário, define o filho direito como auxiliar
+        }else {  // caso contrário, define o filho direito como auxiliar
         novp->getPai()->setRight(aux);
+        }
     }
     aux->setLeft(novp); // Define o filho esquerdo de auxiliar para ser o nó recebido
     novp->setPai(aux);  // Define o pai do nó recebido como auxiliar
@@ -32,16 +38,21 @@ void ArvoreVP::LeftRotate(NoVP* novp) {
 void ArvoreVP::RightRotate(NoVP* novp) {
     NoVP* aux = novp->getLeft(); // ponteiro auxiliar e para o filho esquerdo do nó recebido
     novp->setLeft(aux->getRight());  // Define o filho esquerdo do nó recebido para ser o filho direito de auxiliar
+    comp++;
     if (aux->getRight() != vazio) { // Se o filho direito de auxiliar não for um ponteiro nulo, define o pai desse nó para ser o nó recebido
         aux->getRight()->setPai(novp);
     }
     aux->setPai(novp->getPai()); // Define o pai de auxiliar para ser o pai do nó recebido
+    comp++;
     if (novp->getPai() == vazio) { // Se o pai do nó recebido for um ponteiro nulo, defina a raiz da árvore como auxiliar
         raiz = aux;
-    } else if (novp == novp->getPai()->getRight()) { //Caso contrário, se o nó recebido for um filho direito, define o filho direito do pai do nó recebido como auxiliar
+    }else{
+        comp++;
+        if (novp == novp->getPai()->getRight()) { //Caso contrário, se o nó recebido for um filho direito, define o filho direito do pai do nó recebido como auxiliar
         novp->getPai()->setRight(aux);
-    } else {  //caso contrário, define o filho esquerdo como auxiliar.
-        novp->getPai()->setLeft(aux);
+        }else {  //caso contrário, define o filho esquerdo como auxiliar.
+            novp->getPai()->setLeft(aux);
+        }
     }
     aux->setRight(novp); // Define o filho direito de auxiliar para ser o nó recebido
     novp->setPai(aux); // Define o pai do nó recebido como auxiliar
@@ -50,14 +61,17 @@ void ArvoreVP::RightRotate(NoVP* novp) {
 void ArvoreVP::Balanceamento_Insere(NoVP*& novp) {
     NoVP* tio;
     while (novp != raiz && novp->getPai()->getCor() == COR::RED) { // verifica se o novp não é a raiz e se seu pai é vermelho
+        comp++;
         if (novp->getPai() == novp->getPai()->getPai()->getLeft()) {//verifica se o pai do novp é um filho esquerdo 
             tio = novp->getPai()->getPai()->getRight(); // atribui o filho direito do avô como tio
+            comp++;
             if (tio->getCor() == COR::RED) { // Se o tio for vermelho, precisamos recolorir o pai e o tio para preto e o avô para vermelho
                 novp->getPai()->setCor(COR::BLACK); 
                 tio->setCor(COR::BLACK); 
                 novp->getPai()->getPai()->setCor(COR::RED);
                 novp = novp->getPai()->getPai(); //move o novp para o avô
-            } else { // Se o novp for um filho à direita, precisamos fazer uma rotação à esquerda
+            }else { // Se o novp for um filho à direita, precisamos fazer uma rotação à esquerda
+                comp++;
                 if (novp == novp->getPai()->getRight()) { 
                     novp = novp->getPai();
                     LeftRotate(novp); // realiza rotação à esquerda passando o novp 
@@ -67,14 +81,16 @@ void ArvoreVP::Balanceamento_Insere(NoVP*& novp) {
                 novp->getPai()->getPai()->setCor(COR::RED);
                 RightRotate(novp->getPai()->getPai()); //realiza rotação à direita passando o avô de novp
             }
-        } else { 
+        }else { 
             tio = novp->getPai()->getPai()->getLeft(); //filho esquerdo do avô é o novo tio
+            comp++;
             if (tio->getCor() == COR::RED) { // Se o tio for vermelho, precisamos recolorir o pai e o tio para preto e o avô para vermelho
                 novp->getPai()->setCor(COR::BLACK);
                 tio->setCor(COR::BLACK); 
                 novp->getPai()->getPai()->setCor(COR::RED); 
                 novp = novp->getPai()->getPai(); // move o novp para o avô
             } else {
+                comp++;
                 if (novp == novp->getPai()->getLeft()) { //se o novp for filho esquerdo do pai
                     novp = novp->getPai(); // move o novp para o pai
                     RightRotate(novp); // realiza rotação à direita passando o novp 
@@ -98,6 +114,7 @@ void ArvoreVP::insere(ProductReview* pr) {
     NoVP* anterior = vazio; // Define um ponteiro anterior como nulo
     while (novp != vazio) { // cria um Loop até que o nó novp seja um ponteiro nulo
         anterior = novp; // Define o anterior para o nó novp
+        comp++;
         if (new_novp->getId() < novp->getId()) { // Verifica se o id do novo nó (new_novp) é menor que o id do nó novp
             novp = novp->getLeft(); //caso seja, vai pra esquerda
         } else { //se não ele vai pra direita, pois o id dele é maior
@@ -105,12 +122,16 @@ void ArvoreVP::insere(ProductReview* pr) {
         }
     }
     new_novp->setPai(anterior); // Define o pai do novo nó (new_novp) como o nó anterior
+    comp++;
     if (anterior == vazio) { // Se o nó anterior for nulo, define a raiz da árvore como o novo nó (new_novp)
         raiz = new_novp;
-    } else if (new_novp->getId() < anterior->getId()) { // Verifica se o id do novo nó é menor que o id do nó anterior
-        anterior->setLeft(new_novp); // caso seja, ele define o filho esquerdo do nó anterior para ser o novo nó (new_novp)
-    } else {
+    }else{
+        comp++;
+        if (new_novp->getId() < anterior->getId()) { // Verifica se o id do novo nó é menor que o id do nó anterior
+            anterior->setLeft(new_novp); // caso seja, ele define o filho esquerdo do nó anterior para ser o novo nó (new_novp)
+        }else {
         anterior->setRight(new_novp); //se n ele, define o filho direito do nó anterior para ser o novo nó (new_novp), pois seu id é maior
+        }
     }
     //Define os filhos esquerdo e direito do novo nó como nulos (vazio)
     new_novp->setLeft(vazio);
@@ -127,13 +148,20 @@ ProductReview* ArvoreVP::busca(std::string userId,std::string productId) {
     valorid.erase(std::remove_if(valorid.begin(), valorid.end(), ' '), valorid.end()); //remove espaços em branco da string
     NoVP* novp = raiz; // Define o nó novp para a raiz da árvore
     while (novp != vazio) { //Enquanto o nó novp não for um ponteiro nulo
+        comp++;
         if (novp->getId() == valorid) { // Se o id do nó novp for igual ao valorid
+            comp++;
             Prod = new ProductReview(novp->getBase()); //faz uma copia do ponteiro ProductReview contido no novp 
             return Prod;
-        } else if (valorid < novp->getId()) { //se o valorid for menor que o id do nó novp vai pra esquerda
-            novp = novp->getLeft(); 
-        } else { //se for maior vai para a direita 
-            novp = novp->getRight(); 
+        } else{
+            comp++;
+            if (valorid < novp->getId()) { //se o valorid for menor que o id do nó novp vai pra esquerda
+                comp++;
+                novp = novp->getLeft(); 
+            } else { //se for maior vai para a direita 
+                comp++;
+                novp = novp->getRight(); 
+            }
         }
     }
     return nullptr; //retorna nulo caso não encontre o valorid na arvore 

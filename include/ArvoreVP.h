@@ -10,10 +10,14 @@ private:
     void RightRotate(NoVP* novp);
     void Balanceamento_Insere(NoVP*& novp);
     void In_Ordem(NoVP* raiz);
-
+    int comp;
 public:
     ArvoreVP();
     ~ArvoreVP();
+
+    int* getComp(){return &comp;};
+    void setComp(int c){comp = c;};
+    void addcomp(){comp++;};
     void insere(ProductReview *pr);
     ProductReview* busca(std::string userId,std::string productId);
     void print();
