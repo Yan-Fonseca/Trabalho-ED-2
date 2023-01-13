@@ -27,17 +27,10 @@ public:
     NoVP* getRight() { return right; }
 
     std::string getId(){return valorid;}
-
-    ProductReview* getBase(){
-        
-        return base;
-        
-    };
+    ProductReview* getBase(){ return base;};
 
     COR getCor(){return cor;};
-    COR setCor(COR c){
-        cor = c;
-    }
+    void setCor(COR c){cor = c;}
 
     NoVP(std::string val, COR c,ProductReview* pr) : binary_position( pr->getBinaryPosition()), base(pr), valorid(val), cor(c), left(nullptr), right(nullptr), pai(nullptr) {}
 

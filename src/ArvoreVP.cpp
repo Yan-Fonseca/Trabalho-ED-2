@@ -1,5 +1,8 @@
 #include "../include/ArvoreVP.h"
 #include <stack>
+#include <iostream>
+#include <string>
+#include <algorithm>
 // construtor
 ArvoreVP::ArvoreVP() {
     vazio = new NoVP();
@@ -277,7 +280,10 @@ ProductReview* ArvoreVP::busca(std::string userId,std::string productId){
 */
 
 void ArvoreVP::insere(ProductReview* pr) {
-    std::string valorid2 = pr->getUserId()+""+pr->getProductId();
+    std::string valorid2 = pr->getUserId()+pr->getProductId();
+    std::cout<<"valorid2 antes: "<<valorid2;
+    valorid2.erase(remove(valorid2.begin(), valorid2.end(), ' '), valorid2.end());
+    std::cout<<"valorid2: "<<valorid2<<"espa";
     NoVP* new_novp = new NoVP(valorid2, COR::RED, pr);
     NoVP* novp_x = raiz;
     NoVP* novp_y = vazio;
@@ -303,7 +309,7 @@ void ArvoreVP::insere(ProductReview* pr) {
 }
 
 
-//só para test
+/* só para test
 void ArvoreVP::insere(std::string valorid2){
     NoVP* new_novp = new NoVP(valorid2, COR::RED, nullptr);
     NoVP* novp_x = raiz;
@@ -328,21 +334,31 @@ void ArvoreVP::insere(std::string valorid2){
     new_novp->setRight(vazio);
     Balanceamento_Insere(new_novp);
 }
-
+*/
 ProductReview* ArvoreVP::busca(std::string userId,std::string productId) {
+    std::cout<<"\n user: " << userId << "  prod: " << productId<<"\n";
+    std::cout<<"sssss ";
     ProductReview* Prod;
     std::string valorid = userId + productId;
+    std::cout<<"\n valorid: " << valorid;
     NoVP* novp = raiz;
     while (novp != vazio) {
+        std::cout<<"entro ";
+        std::cout<<"novp->getId():"<< novp->getId();
         if (novp->getId() == valorid) {
+            std::cout<<"aaaaa ";
             Prod = new ProductReview(novp->getBase());
+            std::cout<<"bbbb ";
             return Prod;
+            std::cout<<"cccc ";
         } else if (valorid < novp->getId()) {
             novp = novp->getLeft();
         } else {
             novp = novp->getRight();
         }
+        std::cout<<"saiu ";
     }
+    std::cout<<"aff ";
     return nullptr;
 }
 

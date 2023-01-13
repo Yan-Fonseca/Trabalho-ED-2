@@ -74,20 +74,22 @@ int main(int argc, char **argv)
     //arvoreb.print();
   }
   
+  
   while(id!="0"){
-    
+    arvoreb.print();
     std::cout<<"insert: ";
     std::cin>>id;
     std::cout<<"\n";
     ProductReview* prod = new ProductReview(id + ", , , ");
     arvoreb.insere(prod);
-    arvoreb.print();
   }
-    std::string str = "ASFALTAR" , str2 = "" ;  
+    arvoreb.print();
+    std::cout<<"seg: ";
+    std::string str = "1" , str2 = "1" ;  
     ProductReview* prodtest = arvoreb.busca(str , str2);
+    std::cout<<"ter: ";
     std::cout<<"\n user: " << prodtest->getUserId() << "  prod: " << prodtest->getProductId()<<"\n";
-    
-  
+    std::cout<<"quar: ";
   
   
     /* std::string path;
