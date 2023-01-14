@@ -1,256 +1,226 @@
-//#include "../include/huffman.h"
-
-/*
-#ifndef HUFFMAN_H
-#define HUFFMAN_H
-
+#include "../include/huffman.h"
 #include <iostream>
-#include <string>
-#include "../include/func.h"
 
-namespace Node {
-    class node {
-        private:
-            char character;
-            int frequency;
-            node *left;
-            node *right;
-        public:
-            node(char character, int frequency) {
-                this->left = nullptr;
-                this->right = nullptr;
-                this->character = character;
-                this->frequency = frequency;
-            }
+namespace Node{
+    node::node(char character, int frequency) {
+        this->left = nullptr;
+        this->right = nullptr;
+        this->character = character;
+        this->frequency = frequency;
+    }
 
-            node(int frequency, Node::node *left, Node::node *right) {
-                this->left = left;
-                this->right = right;
-                this->frequency = frequency;
-            }
+    node::node(int frequency, Node::node *left, Node::node *right) {
+        this->left = left;
+        this->right = right;
+        this->frequency = frequency;
+    }
 
-            ~node() { }
+    node::~node() { }
 
-            char getCharacter() {
-                return this->character;
-            }
+    char node::getCharacter() {
+        return this->character;
+    }
 
-            int getFrequency() {
-                return this->frequency;
-            }
+    int node::getFrequency() {
+        return this->frequency;
+    }
 
-            node* getLeft() {
-                return this->left;
-            }
+    node* node::getLeft() {
+        return this->left;
+    }
 
-            node* getRight() {
-                return this->right;
-            }
-    };
+    node* node::getRight() {
+        return this->right;
+    }
 }
 
 
 namespace heap {
-    const int ASCII = 256;
-    
-    class minHeap {
-        private:
-            Node::node **vet;
-            int heapSize;
+    void minHeap::generateSize(int *table) {
+        int size = 0;
+        for(int i=0; i<ASCII; i++) {
+            if(table[i]!=0)
+                size++;
+        }
+        this->size = size;
+    }
 
-            int generateHeapSize(int *table) {
-                int size = 0;
-                for(int i=0; i<ASCII; i++) {
-                    if(table[i]!=0)
-                        size++;
-                }
-                return size;
+    void minHeap::trocar(int index, int small) {
+        Node::node *n;
+        n = this->vet[index];
+        this->vet[index] = this->vet[small];
+        this->vet[small] = n;
+    }
+
+    minHeap::minHeap(int *table) {
+        generateSize(table);
+        this->vet = new Node::node*[ASCII];
+        this->heapSize = 0;
+        Node::node *aux;
+        for(int i=0; i<ASCII; i++) {
+            if(table[i]>0) {
+                aux = new Node::node(i,table[i]);
+                insert(aux);
             }
+        }
+    }
+    minHeap::~minHeap() { }
 
-            void trocar(int index, int small) {
-                Node::node *n;
-                n = this->vet[index];
-                this->vet[index] = this->vet[small];
-                this->vet[small] = n;
+    Node::node* minHeap::getMinimum() {
+        return this->vet[0];
+    }
+
+    Node::node** minHeap::getVet() {
+        return this->vet;
+    }
+
+    int minHeap::getHeapSize() {
+        return this->heapSize;
+    }
+
+    int minHeap::getSize() {
+        return this->size;
+    }
+
+    void minHeap::minHeapify(int index) {
+        index++;
+        int small;
+        int left = 2*index - 1;
+        int right = 2*index;
+
+        if(left < this->heapSize && this->vet[left]->getFrequency() < this->vet[index-1]->getFrequency()) 
+            small = left;
+        else
+            small = index-1;
+        
+        if(right < this->heapSize && this->vet[right]->getFrequency() < this->vet[small]->getFrequency()) 
+            small = left;
+        
+        if(small!=index-1) {
+            trocar(index-1,small);
+            minHeapify(small);
+        }
+    }
+
+    Node::node* minHeap::extractMin() {
+        if(this->heapSize>=1) {
+            Node::node* small = this->vet[0];
+            this->vet[0] = this->vet[this->heapSize - 1];
+            this->heapSize = this->heapSize - 1;
+            minHeapify(0);
+
+            return small;
+        }
+
+        std::cout << "Erro ao extrair elemento da Heap: Heap sem elementos!\n";
+        return nullptr;
+    }
+
+    void minHeap::heapDecrease(int index) {
+        if(this->vet[index]!=nullptr) {
+            while(index>0 && this->vet[index/2]->getFrequency() > this->vet[index]->getFrequency()) {
+                trocar(index/2, index);
+                index = index/2;
             }
-        public:
-            minHeap(int *table) {
-                this->vet = new Node::node*[ASCII];
-                this->heapSize = 0;
-                Node::node *aux;
-                for(int i=0; i<ASCII; i++) {
-                    if(table[i]>0) {
-                        aux = new Node::node(i,table[i]);
-                        insert(aux);
-                    }
-                }
-            }
-            ~minHeap() { }
-
-            Node::node* getMinimum() {
-                return this->vet[0];
-            }
-
-            Node::node** getVet() {
-                return this->vet;
-            }
-
-            int getSize() {
-                return this->heapSize;
-            }
-
-            void minHeapify(int index) {
-                index++;
-                int small;
-                int left = 2*index - 1;
-                int right = 2*index;
-
-                if(left < this->heapSize && this->vet[left]->getFrequency() < this->vet[index-1]->getFrequency()) 
-                    small = left;
-                else
-                    small = index-1;
-                
-                if(right < this->heapSize && this->vet[right]->getFrequency() < this->vet[small]->getFrequency()) 
-                    small = left;
-                
-                if(small!=index-1) {
-                    trocar(index-1,small);
-                    minHeapify(small);
-                }
-            }
-
-            Node::node* extractMin() {
-                if(this->heapSize>=1) {
-                    Node::node* small = this->vet[0];
-                    this->vet[0] = this->vet[this->heapSize - 1];
-                    this->heapSize = this->heapSize - 1;
-                    minHeapify(0);
-
-                    return small;
-                }
-
-                std::cout << "Erro ao extrair elemento da Heap: Heap sem elementos!\n";
-                return nullptr;
-            }
-
-            void heapDecrease(int index) {
-                if(this->vet[index]!=nullptr) {
-                    while(index>0 && this->vet[index/2]->getFrequency() > this->vet[index]->getFrequency()) {
-                        trocar(index/2, index);
-                        index = index/2;
-                    }
-                }
-                else
-                    std::cout << "Erro! índice inválido!\n";
-            }
-            void insert(Node::node *n) {
-                this->heapSize++;
-                this->vet[this->heapSize - 1] = n;
-                heapDecrease(this->heapSize - 1);
-            }
-    };
+        }
+        else
+            std::cout << "Erro! índice inválido!\n";
+    }
+    void minHeap::insert(Node::node *n) {
+        this->heapSize++;
+        this->vet[this->heapSize - 1] = n;
+        heapDecrease(this->heapSize - 1);
+    }
 }
 
-
 namespace huffman {
-    const int ASCII = 256;
+    int huffmanTree::treeHeight(Node::node* n) {
+        int left;
+        int right;
 
-    class huffmanTree {
-        private:
-            Node::node *root;
-            int height;
-            heap::minHeap *heap_vet;
+        if(n == nullptr)
+            return -1;
+        else {
+            left = treeHeight(n->getLeft()) + 1;
+            right = treeHeight(n->getRight()) + 1;
 
-            int treeHeight(Node::node* n) {
-                int left;
-                int right;
+            if(right>left)
+                return right;
+            else
+                return left;
+        }
+    }
 
-                if(n == nullptr)
-                    return -1;
-                else {
-                    left = treeHeight(n->getLeft()) + 1;
-                    right = treeHeight(n->getRight()) + 1;
+    void huffmanTree::generateDictionaryAux(std::string *dict, Node::node *n, std::string path) {
+        std::string left;
+        std::string right;
 
-                    if(right>left)
-                        return right;
-                    else
-                        return left;
-                }
+        if(n->getLeft()==nullptr && n->getRight()==nullptr) {
+            dict[n->getCharacter()] = path; // Pode ocorrer erro aqui!
+        }                    
+        else {
+            left = path;
+            right = path;
+
+            left += "0";
+            right += "1";
+
+            generateDictionaryAux(dict, n->getLeft(), left);
+            generateDictionaryAux(dict, n->getRight(), right);
+        }
+    }
+
+    huffmanTree::huffmanTree(heap::minHeap *priority_queue) {
+        this->heap_vet = priority_queue;
+        int n = priority_queue->getHeapSize();
+        Node::node *left;
+        Node::node *right;
+        int frequency;
+
+        for(int i=0; i<n-1; i++) {
+            left = priority_queue->extractMin();
+            right = priority_queue->extractMin();
+            frequency = left->getFrequency() + right->getFrequency();
+
+            Node::node *no = new Node::node(frequency,left,right);
+            priority_queue->insert(no);
+        }
+
+        this->root = priority_queue->extractMin();
+        this->height = this->treeHeight(this->root);
+    }
+    huffmanTree::~huffmanTree() { }
+
+    Node::node* huffmanTree::getRoot() {
+        return this->root;
+    }
+
+    int huffmanTree::getHeight() {
+        return this->height;
+    }
+
+    void huffmanTree::print(Node::node* n) {
+        if(n!=nullptr) {
+            if(n->getRight()==nullptr && n->getLeft()==nullptr)
+                std::cout << n->getCharacter() << ": " << n->getFrequency() << "\n";
+            else {
+                print(n->getLeft());
+                print(n->getRight());
             }
+        }
+    }
 
-            void generateDictionaryAux(std::string *dict, Node::node *n, std::string path) {
-                std::string left;
-                std::string right;
+    std::string* huffmanTree::generateDictionary() {
+        std::string* dict = new std::string[ASCII];
+        std::string path = "";
+        generateDictionaryAux(dict, this->root, path);
 
-                if(n->getLeft()==nullptr && n->getRight()==nullptr) {
-                    dict[n->getCharacter()] = path; // Pode ocorrer erro aqui!
-                }                    
-                else {
-                    left = path;
-                    right = path;
+        return dict;
+    }
+    heap::minHeap* huffmanTree::getPriorityQueue() {
+        return this->heap_vet;
+    }
 
-                    left += "0";
-                    right += "1";
-
-                    generateDictionaryAux(dict, n->getLeft(), left);
-                    generateDictionaryAux(dict, n->getRight(), right);
-                }
-            }
-        public:
-            huffmanTree(heap::minHeap *priority_queue) {
-                this->heap_vet = priority_queue;
-                int n = priority_queue->getSize();
-                Node::node *left;
-                Node::node *right;
-                int frequency;
-
-                for(int i=0; i<n-1; i++) {
-                    left = priority_queue->extractMin();
-                    right = priority_queue->extractMin();
-                    frequency = left->getFrequency() + right->getFrequency();
-
-                    Node::node *no = new Node::node(frequency,left,right);
-                    priority_queue->insert(no);
-                }
-
-                this->root = priority_queue->extractMin();
-                this->height = this->treeHeight(this->root);
-            }
-            ~huffmanTree() { }
-
-            Node::node* getRoot() {
-                return this->root;
-            }
-
-            int getHeight() {
-                return this->height;
-            }
-
-            void print(Node::node* n) {
-                if(n!=nullptr) {
-                    if(n->getRight()==nullptr && n->getLeft()==nullptr)
-                        std::cout << n->getCharacter() << ": " << n->getFrequency() << "\n";
-                    else {
-                        print(n->getLeft());
-                        print(n->getRight());
-                    }
-                }
-            }
-
-            std::string* generateDictionary() {
-                std::string* dict = new std::string[ASCII];
-                std::string path = "";
-                generateDictionaryAux(dict, this->root, path);
-
-                return dict;
-            }
-            heap::minHeap *getPriorityQueue() {
-                return this->heap_vet;
-            }
-    };
-
-
-    // ======================ALGORITMOS DO NAMESPACE==========================
 
 
     void saveHuffmanTree_frequencyTable(int *table) {
@@ -303,12 +273,13 @@ namespace huffman {
         return *cipher;
     }
 
-    std::string decompress(std::string cipher, huffmanTree *tree) {
+    std::string decompress(std::string cipher, huffmanTree *tree, int final_bits) {
         Node::node *no = tree->getRoot();
         int i=0;
         std::string text = "";
+        int size = cipher.size();
 
-        while(cipher[i]!='\0') {
+        while(i < size - final_bits && cipher[i]!='\0') {
             if(cipher[i]=='0')
                 no = no->getLeft();
             else if(cipher[i]=='1')
@@ -336,7 +307,7 @@ namespace huffman {
 
         std::cout << "---------------------------------------\n";
         std::cout << "Fila de prioridade mínima:\n";
-        for(int i=0; i<priority_queue->getSize(); i++) {
+        for(int i=0; i<priority_queue->getHeapSize(); i++) {
             std::cout << priority_queue->getVet()[i]->getCharacter() << ": " << priority_queue->getVet()[i]->getFrequency() << "\n";
         }
         std::cout << "---------------------------------------\n";
@@ -359,20 +330,32 @@ namespace huffman {
         textFile.close();
 
         huffmanTree *tree = makeHuffmanTree(text);
-        int table[ASCII] = {0};
-        createFrequencyTable(text, table);
-        saveHuffmanTree_frequencyTable(table);
         code = compress(text,tree);
 
-        std::ofstream eraser(path+"reviewsComp.bin",std::ios::in | std::ios::binary); eraser.close(); //apaga o conteudo do arquivo
-        std::ofstream binary(path+"reviewsComp.bin",std::ios::in | std::ios::binary);
+        int size_of_table = tree->getPriorityQueue()->getSize();
+
+        std::ofstream eraser(path+"reviewsComp.bin",std::ios::out | std::ios::binary); 
+        eraser.close(); //apaga o conteudo do arquivo
+        std::ofstream binary(path+"reviewsComp.bin",std::ios::binary | std::ios::out | std::ios::app);
         int i=0;
         int shift = 7;
+
+        int table[ASCII] = {0}; 
+        createFrequencyTable(text,table);
 
         unsigned char byte = 0;
         unsigned char mask;
 
         if(binary) {
+            for(int i=0; i<ASCII; i++) {
+                if(table[i]>0) {
+                    std::cout << i << ": " << table[i] << "\n";
+                    binary.write(reinterpret_cast<const char*>(&i),1);
+                    binary.write(reinterpret_cast<const char*>(&table[i]),sizeof(int));
+                }
+            }
+            i = 0;
+            binary.write(reinterpret_cast<const char*>(&i),1);
             while(code[i]!='\0') {
                 mask = 1;
 
@@ -391,7 +374,7 @@ namespace huffman {
                 // Cada vez que shift fica menor que 0 significa que um byte foi completado, bastando agora 
                 // armazená-lo no arquivo compactado.
                 if(shift<0) {
-                    binary.write(reinterpret_cast<const char*>(&byte),sizeof(unsigned char));
+                    binary.write(reinterpret_cast<const char*>(&byte),1);
                     byte = 0;
                     shift = 7;
                 }
@@ -399,11 +382,16 @@ namespace huffman {
             }
 
             // Se o último byte do código gerado de huffman for "incompleto", preencher o resto da cadeia
-            // com 0 e armazenar o valor.
+            // e armazenar o byte final.
             if(shift!=7) {
-                binary.write(reinterpret_cast<const char*>(&byte),sizeof(unsigned char));
+                binary.write(reinterpret_cast<const char*>(&byte),1);
             }
         }
+
+        shift = shift-7;
+        binary.write(reinterpret_cast<const char*>(&shift),1);
+
+        std::cout << "Bits sobrando no final: " << shift << "\n";
 
         binary.close();
     }
@@ -414,73 +402,112 @@ namespace huffman {
         return byte & mask;
     }
 
+    std::string decode(std::string text) {
+        std::string cipher = "";
+        int textSize = text.size()-1;
+        char byte;
+        int index = 0, shift;
+        int size = text[textSize];
+
+        while(index < textSize) {
+            shift=7;
+            while (shift>=0) {
+                if(bit(text[index],shift)) {
+                    cipher += "1";
+                }
+                else {
+                    cipher += "0";
+                }
+                shift--;
+            }
+            index++;
+        }
+
+        return cipher;
+    }
+
+    int getFinalBits(std::string text) {
+        int byte = 0;
+        int mask = 1;
+        int aux;
+        std::string number = "";
+        number += text[text.size()-4];
+        number += text[text.size()-3];
+        number += text[text.size()-2];
+        number += text[text.size()-1];
+
+        for(int i=0; i<4; i++) {
+            if(number[i]=='1') {
+                aux = mask << 3 - i;
+                byte |= aux;
+            }
+        }
+
+        return byte;
+    }
+
     void descompress() {
         // Parte 1:
         // Fazendo a leitura da árvore de huffman.
-        std::ifstream file(path+"huffman.bin", std::ios::in | std::ios::binary);
         int table[ASCII] = {0};
-        int i;
+        char i;
+        int j=0;
+        int final_bits;
 
-        if(file.is_open()) {
-            file.seekg(0, file.beg);
-            while(file.good()) {
-                file.read(reinterpret_cast<char*>(&i), 1);
-                file.read(reinterpret_cast<char*>(&table[i]),sizeof(int));
-            }
+        std::ifstream file_cipher(path+"reviewsComp.bin", std::ios::in | std::ios::binary);
+
+        if(file_cipher.is_open()) {
+            file_cipher.seekg(0,file_cipher.beg);
+            do {
+                file_cipher.read(reinterpret_cast<char*>(&i), 1);
+                if(i==0)
+                    break;
+                file_cipher.read(reinterpret_cast<char*>(&table[i]),sizeof(int));
+            } while(i!=0);
         }
         else {
-            std::cout << "Ocorreu um erro na abertura do arquivo binário de huffman!\n";
+            std::cout << "Ocorreu um erro na abertura do arquivo binário!\n";
             exit(1);
         }
-        file.close();
 
+        std::cout << "Parte 1 concluída\n";
         // Parte 2:
         // Gerando a árvore de huffman
         heap::minHeap *priority_queue = new heap::minHeap(table);
         huffmanTree *tree = new huffmanTree(priority_queue);
         Node::node *n = tree->getRoot();
 
+        std::cout << "Parte 2 concluída\n";
+
         // Parte 3:
-        // descomprimindo o arquivo
-        std::ifstream file_cipher(path+"reviewsComp.bin", std::ios::in | std::ios::binary);
-        file_cipher.seekg(0,file_cipher.beg);
+        // Lendo o arquivo e transformando o código em binário para string.
         char byte;
         int shift;
         std::string text = "";
+        std::string cipher = "";
 
         if(file_cipher) {
             while(file_cipher.good()) {
-                shift = 7;
-                file_cipher.read(&byte,sizeof(char));
-                while (shift>=0)
-                {
-                    if(n->getLeft()==nullptr && n->getRight()==nullptr) {
-                        text += n->getCharacter();
-                        n = tree->getRoot();
-                    }
-                    if(bit(byte,shift)) {
-                        n = n->getRight();
-                    }
-                    else {
-                        n = n->getLeft();
-                    }
-
-                    shift--;
-                }
-                
+                file_cipher.read(&byte,1);
+                cipher += byte;
             }
         }
 
+        cipher = decode(cipher);
+        final_bits = getFinalBits(cipher);
+        std::cout << "Bits no final: " << final_bits << "\n";
+        text = decompress(cipher,tree,final_bits);
+
+        std::cout << "Parte 3 concluída\n";
         // Parte 4:
         // Salvando resultado da descompressão no arquivo reviewsDesc.txt
-
         std::ofstream eraser(path+"reviewsDesc.txt", std::ios::out);
         eraser.close(); // Limpar arquivo
         std::ofstream descompressed(path+"reviewsDesc.txt", std::ios::out);
 
         descompressed << text;
+        descompressed.close();
+
+        std::cout << "Parte 4 concluída\n";
     }
 }
-
-#endif
-*/
