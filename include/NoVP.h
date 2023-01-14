@@ -27,28 +27,27 @@ public:
     NoVP* getRight() { return right; }
 
     std::string getId(){return valorid;}
-    ProductReview* getBase(){ return base;}; //ponteiro pro nó do ProductReview
+    ProductReview* getBase(){ return base;} //ponteiro pro nó do ProductReview
 
-    COR getCor(){return cor;};
+    COR getCor(){return cor;}
     void setCor(COR c){cor = c;}
 
-    NoVP(std::string val, COR c,ProductReview* pr) : binary_position( pr->getBinaryPosition()), base(pr), valorid(val), cor(c), left(nullptr), right(nullptr), pai(nullptr) {}
+    NoVP(std::string val, COR c,ProductReview* pr){ //declara construtor
+        binary_position = pr->getBinaryPosition();
+        base = pr;
+        valorid = val;
+        cor = c;
+        left = nullptr;
+        right = nullptr;
+        pai = nullptr;
+    }
 
+    NoVP(){
+        valorid="null";
+        binary_position=-1;
+    }
 
-    
-    NoVP(){valorid="null";binary_position=-1;};
-
-    /*
-    NoVP(ProductReview* pr){
-        valorid = pr->getUserId()+""+pr->getProductId();
-        base = pr; 
-        binary_position= pr->getBinaryPosition();
-    };
-    */
-    //para testes
-    //NoVP(std::string ID){ valorid = ID;};
-    
-    ~NoVP(){};
+    ~NoVP(){}; //destrutor
 
     int getPosition();
 };
