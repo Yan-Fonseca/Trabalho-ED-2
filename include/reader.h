@@ -1,8 +1,16 @@
-#include <iostream>
+#ifndef READER_H
+#define READER_H
+
 #include <fstream>
 #include <unordered_map>
 #include <map>
 #include <string>
+#include <math.h>
+#include <time.h>
+#include <chrono>
+
+#include "ProductReview.h"
+#include "List.h"
 
 class Reader
 {
@@ -24,4 +32,7 @@ public:
     std::string getReview(int i);
     void createBinary();
     void readBinary();
+    ProductReview* import(int n);
 };
+
+#endif

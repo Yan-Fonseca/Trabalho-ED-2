@@ -1,9 +1,7 @@
 #ifndef NO_H
 #define NO_H
 
-#include <iostream>
-#include <string>
-#include "ProductReview.h"
+#include "Reader.h"
 
 class No
 {

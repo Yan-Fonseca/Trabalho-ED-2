@@ -42,6 +42,8 @@ std::vector<std::string> ProductReview::splitString(std::string str){
             } 
             continue;
         }
+        else if(str[i] == '*')
+            continue;
         current += str[i];
     }
     if(current.size() != 0)

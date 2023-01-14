@@ -3,7 +3,7 @@
 
 #include "ArvoreB.h"
 
-void preArvoreB()
+void preArvoreB(Reader reader)
 {
     int orders[2]={20,200};
 
@@ -15,7 +15,7 @@ void preArvoreB()
 
             ArvoreB* arvoreb = new ArvoreB(orders[k]);
 
-            ProductReview* imports = import(n);
+            ProductReview* imports = reader.import(n);
 
             std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
             for(int i = 0; i < n ; i++ ){
@@ -26,7 +26,7 @@ void preArvoreB()
 
             delete imports;
 
-            imports = import(b);
+            imports = reader.import(b);
 
             inicio = std::chrono::high_resolution_clock::now();
             for(int i = 0; i < b ; i++ ){

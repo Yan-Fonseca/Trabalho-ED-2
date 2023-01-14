@@ -1,4 +1,4 @@
-#include "../include/reader.h"
+#include "../include/Reader.h"
 
 Reader::Reader(std::string& p,int m_size) : path(p) , mediumLineSize(m_size) {}
 
@@ -125,4 +125,47 @@ void Reader::createBinary()
 
     file.close();
     outfile.close();
+}
+
+ProductReview* Reader::import(int n)
+{
+    // É criada uma tabela Hash para armazenar os os dados gerados aleatoriamente
+    // Optou-se por utilizar uma lista de listas encadeadas.
+    HashList::List table[HashList::getTAM()]; 
+    // TAM é o número primo 7919, um número suficientemente grande
+    // para comportar os dados.
+
+    // A tabela inicia todas as suas posições com um ponteiro para um nó encadeado.
+    HashList::initializeTable(table);
+
+    int rnd=0;
+    std::string key; // Chave para ser usada no hash.
+
+    ProductReview *b = new ProductReview[n];
+    
+    for(int i=0;i<n;i++)
+    {
+        srand(i*time(0));
+        rnd=rand()% nLines;
+        if(HashList::insertInHash(table, rnd)) {
+            std::string info = getReview(rnd);
+            b[i].setData(info);
+        } else {
+            i--;
+        }
+
+        // Lógica para utilizar a chave: Um usuário, teoricamente, não vai avaliar o mesmo produto duas vezes
+        // Portanto, julgamos ser suficiente que a chave para a função do hash seja uma combinação do id do
+        // usuário e o id do produto.
+        //key = b[i].getProductId() + b[i].getUserId();
+
+        // A função de inserir na tabela retorna true se a chave foi inserida na tabela.
+        // Caso retorne falso, significa que o ProductReview já foi importado e, portanto, o valor de i é
+        // decrementado e o loop inicia novamente.
+        //if(!HashList::insertInHash(table, key))
+        //    i--;
+        
+    }
+    
+    return b;
 }

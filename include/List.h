@@ -1,4 +1,5 @@
 #include "iostream"
+
 namespace HashList {
     #ifndef LIST
     #define LIST
@@ -11,17 +12,17 @@ namespace HashList {
     class Node
     {
     private:
-        std::string key;
+        long key;
         Node* prox;
     public:
-        Node(std::string key)
+        Node(long key)
         {
             this->key = key;
             this->prox = NULL;
         }
-        ~Node();
+        ~Node() { }
     
-        std::string getkey() {return key;}
+        long getkey() {return key;}
         Node* getProx() {return this->prox;}
         void setProx(Node *p) {this->prox = p;}
     };
@@ -39,73 +40,75 @@ namespace HashList {
         }
         ~List(){this->first = NULL;}
     
-    bool empty()
-    {
-        return (this->first == NULL);
-    }
-
-    void inserirNaLista(std::string key) {
-        Node* new_node = new Node(key);
-
-        if(new_node != NULL)
+        bool empty()
         {
-            new_node->setProx(this->first);
-            this->first = new_node;
-            this->tam++;
+            return (this->first == NULL);
         }
-    }
 
-    bool checkElement(std::string key) 
-    {
-        Node *tmp = this->first;
+        void inserirNaLista(long key) {
+            Node* new_node = new Node(key);
 
-        while(tmp != NULL && tmp->getkey() != key) 
+            if(new_node != NULL)
+            {
+                new_node->setProx(this->first);
+                this->first = new_node;
+                this->tam++;
+            }
+        }
+
+        bool checkElement(long key) 
         {
-            tmp = tmp->getProx();
-        }
-        
-        if (tmp != NULL)
-            return true;
-        
-        return false;
-    }
+            Node *tmp = this->first;
 
-    };
-    
-    void initializeTable (HashList::List table[]) 
-    {
-        for(int i = 0;i < TAM;i++) {
-            HashList::List* tmp = new HashList::List;
-            table[i] = *tmp;
-        }
-    }
-
-    int hashFunction(std::string key) {
-        const int p = 53;
-        int h = 0;
-        long long p_power = 1;
-        for(int i=0; i<key.size(); i++) {
-            h = (h + key[i]*p_power) % TAM;
-            p_power = (p_power * p) % TAM;
+            while(tmp != NULL && tmp->getkey() != key) 
+            {
+                tmp = tmp->getProx();
+            }
+            
+            if (tmp != NULL)
+                return true;
+            
+            return false;
         }
 
-        return h;
-    }
-
-    bool insertInHash (HashList::List table[], std::string key) 
-    { 
-        int id = hashFunction(key);
-        HashList::List aux = table[id];
+        };
         
-        if(!aux.checkElement(key))
+        void initializeTable (HashList::List table[]) 
         {
-            aux.inserirNaLista(key);
-            return true;
+            for(int i = 0;i < TAM;i++) {
+                HashList::List* tmp = new HashList::List;
+                table[i] = *tmp;
+            }
         }
 
-        return false;
+        int hashFunction(long key) {
+            /*const int p = 53;
+            int h = 0;
+            long long p_power = 1;
+            for(int i=0; i<key.size(); i++) {
+                h = (h + key[i]*p_power) % TAM;
+                p_power = (p_power * p) % TAM;
+            }
 
-    }
+            return h;*/
+
+            return key % TAM;
+        }
+
+        bool insertInHash (HashList::List table[], long key) 
+        { 
+            int id = hashFunction(key);
+            HashList::List aux = table[id];
+            
+            if(!aux.checkElement(key))
+            {
+                aux.inserirNaLista(key);
+                return true;
+            }
+
+            return false;
+
+        }
 
     #endif
-}
+}     
