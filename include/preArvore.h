@@ -1,7 +1,6 @@
 #ifndef PRE_ARVORE_H
 #define PRE_ARVORE_H
 
-#include "ArvoreB.h"
 #include "ArvoreVP.h"
 
 std::vector<long> execArvoreB(int order, int n, int b, ProductReview* imports, ProductReview* search)
@@ -37,7 +36,7 @@ std::vector<long> execArvoreB(int order, int n, int b, ProductReview* imports, P
     return stats;
 }
 
-std::vector<long> execArvoreVP( int n, ProductReview* imports, ProductReview* search)
+std::vector<long> execArvoreVP( int n, int b, ProductReview* imports, ProductReview* search)
 {
     std::vector<long int> stats(4); //time insert, comp insert, time search, comp search
 
@@ -53,7 +52,7 @@ std::vector<long> execArvoreVP( int n, ProductReview* imports, ProductReview* se
     stats.push_back(timeN);
     stats.push_back((long)arvorevp->getComp());
 
-    arvorevp->reserComp();
+    arvorevp->resetComp();
 
     inicio = std::chrono::high_resolution_clock::now();
     for(int i = 0; i < b ; i++ ){
@@ -73,10 +72,13 @@ std::vector<long> execArvoreVP( int n, ProductReview* imports, ProductReview* se
 void preArvore(Reader reader)
 {
     int orders[3]={20,200,1000};
-    int n = 1000000;
+    int n = 1000;
     int b = 100;
 
     std::ofstream file("../files/saida.txt");
+    if(file.fail()){
+        std::cout<<"Não foi possivel abrir";
+    }
 
     std::vector<std::string> tipos= {"Arvore B: \n","Arvore VP: \n"};
     for(std::string tipo : tipos){
@@ -93,8 +95,8 @@ void preArvore(Reader reader)
                 if(tipo!="Arvore VP: \n")
                     stats.push_back(execArvoreB(orders[k],n,b,imports,search));
                 else
-                    stats.push_back(execArvoreVP(n,imports,search));
-                file<<j<<": t i - "<<stats[j][0]<<" c i - "<<stats[j][1]<<" t b - "<<stats[j][2]<<" c b - "<<stats[j][3]<<"\n";
+                    stats.push_back(execArvoreVP(n,b,imports,search));
+                file<<j<<"- ti- "<<stats[j][0]<<" ci- "<<stats[j][1]<<" tb- "<<stats[j][2]<<" cb- "<<stats[j][3]<<"\n";
             }
             for(std::vector<long> stat : stats ){
                 medias[0] += stat[0];
@@ -117,6 +119,7 @@ void preArvore(Reader reader)
                 break;
         }
     }
+    file.close();
 }
 
 #endif 

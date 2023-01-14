@@ -21,6 +21,7 @@ public:
     void insere(ProductReview *pr);
     ProductReview* busca(std::string userId,std::string productId);
     void print();
+    void resetComp(){comp=0;};
 };
 
 #endif

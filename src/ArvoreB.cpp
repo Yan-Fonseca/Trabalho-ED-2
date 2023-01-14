@@ -13,8 +13,8 @@ void ArvoreB::insere(ProductReview* pr){
 
     Multinode* son = raiz;
     for(int i=0;i<depth;i++){
-        son = son->findSon(node->getId(),getComp());
-        if(son==nullptr)
+        son = son->findSon(node->getId());
+        if(son->getSon(0)==nullptr)
             break;
         else    
             if(i==depth-1)
