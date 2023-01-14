@@ -102,7 +102,7 @@ void preArvore(Reader reader)
                 if(tipo!="Arvore VP: \n")
                     stat = execArvoreB(orders[k],n,b,imports,search);
                 else
-                    ~//stat = execArvoreVP(n,imports,search);
+                    //stat = execArvoreVP(n,imports,search);
                 stats.push_back(stat);
             }
                 /*
