@@ -101,7 +101,7 @@ int main(int argc, char **argv)
   int nlines = reader.getnLines();
 
   //GET REVIEW
-
+/* 
   double i=0;
   ProductReview* pr;
 
@@ -116,7 +116,7 @@ int main(int argc, char **argv)
   delete pr;
   std::cout<<"\n"<<"Insira o indice da review desejada:"<<"\n";
   std::cin>>i;
-  }  
+  }   */
 
 
   //IMPORT

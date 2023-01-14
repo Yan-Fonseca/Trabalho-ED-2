@@ -23,13 +23,17 @@ std::vector<long> execArvoreB(int order, int n, int b, ProductReview* imports, P
 
     inicio = std::chrono::high_resolution_clock::now();
     for(int i = 0; i < b ; i++ ){
-        arvoreb->busca(search[i].getUserId(),search[i].getProductId());
+        arvoreb->busca(search[i].getUserId(),search[i].getProductId())->print();
     } 
     fim = std::chrono::high_resolution_clock::now();
     long int timeB=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
 
+    std::cout<<timeB;
+
     stats.push_back(timeB);
     stats.push_back((long)arvoreb->getComp()); 
+
+
 
     delete arvoreb;
 
@@ -80,7 +84,7 @@ void preArvore(Reader reader)
         std::cout<<"Não foi possivel abrir";
     }
 
-    std::vector<std::string> tipos= {"Arvore B: \n","Arvore VP: \n"};
+    std::vector<std::string> tipos= {"\nArvore B: \n","\nArvore VP: \n"};
     for(std::string tipo : tipos){
         file<<tipo;
         for(int k = 0; k < 3 ; k++ ){ //itera orders
@@ -96,7 +100,7 @@ void preArvore(Reader reader)
                     stats.push_back(execArvoreB(orders[k],n,b,imports,search));
                 else
                     stats.push_back(execArvoreVP(n,b,imports,search));
-                file<<j<<"- ti- "<<stats[j][0]<<" ci- "<<stats[j][1]<<" tb- "<<stats[j][2]<<" cb- "<<stats[j][3]<<"\n";
+                file<<j<<"| ti- "<<stats[j][0]<<" ci- "<<stats[j][1]<<" tb- "<<stats[j][2]<<" cb- "<<stats[j][3]<<"\n";
             }
             for(std::vector<long> stat : stats ){
                 medias[0] += stat[0];
@@ -109,11 +113,11 @@ void preArvore(Reader reader)
             medias[2]/=stats.size();
             medias[3]/=stats.size();
 
-            file<<"Medias:\n";
+            file<<"\nMedias:\n";
             file<<"Time insert: " << medias[0] <<"\n";
             file<<"Comp insert: " << medias[0] <<"\n";
             file<<"Time busca: " << medias[0] <<"\n";
-            file<<"Comp busca: " << medias[0] <<"\n";
+            file<<"Comp busca: " << medias[0] <<"\n\n";
 
             if(tipo=="Arvore VP: \n")
                 break;

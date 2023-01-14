@@ -63,12 +63,16 @@ void ProductReview::print(){
 
 void ProductReview::setData(std::string info)
 {
+
+    if(info=="")
+        return;
     std::vector<std::string> inf = splitString(info);
 
     setUserId(inf[0]);
     setProductId(inf[1]);
     setRating(inf[2]);
     setTime(inf[3]);
+    setBinaryPosition(stol(inf[4]));
 }
 
 void ProductReview::setNull()
@@ -77,4 +81,5 @@ void ProductReview::setNull()
     setProductId("-1");
     setRating("-1");
     setTime("-1");
+    setBinaryPosition(-1);
 }

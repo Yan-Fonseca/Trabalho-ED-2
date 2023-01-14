@@ -10,6 +10,8 @@ void ArvoreB::insere(ProductReview* pr){
 
     No* node = new No(pr);
 
+    //std::cout<<pr->getBinaryPosition()<<"\n";
+
 
     Multinode* son = raiz;
     for(int i=0;i<depth;i++){
