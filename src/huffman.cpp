@@ -1,5 +1,6 @@
 #include "../include/huffman.h"
 #include <iostream>
+#include <string>
 
 namespace Node{
     node::node(char character, int frequency) {
@@ -221,24 +222,8 @@ namespace huffman {
         return this->heap_vet;
     }
 
-
-
-    void saveHuffmanTree_frequencyTable(int *table) {
-        std::ofstream eraser(path+"huffman.bin",std::ios::out | std::ios::binary);
-        eraser.close(); // Limpar conteúdo de huffman.bin
-        std::ofstream file(path+"huffman.bin",std::ios::out | std::ios::binary);
-        
-        if(file) {
-            for(int i=0; i<ASCII; i++) {
-                if(table[i]>0) {
-                    file.write(reinterpret_cast<const char*>(&i),sizeof(unsigned char));
-                    file.write(reinterpret_cast<const char*>(&table[i]),sizeof(int));
-                }
-            }
-        }
-        file.close();
-    }
-
+    // FUNÇÕES DE MANIPULAÇÃO E COMPRESSÃO GERAIS DE HUFFMAN:
+    
     // Função responsável por criar a tabela de frequências dos caracteres na string
     void createFrequencyTable(std::string str, int *table) {
         int i=0;
@@ -248,6 +233,29 @@ namespace huffman {
         }
     }
 
+    // Função responsável por construir a árvore de Huffman em todos os casos
+    huffmanTree* makeHuffmanTree(std::string str) {
+        int frequencyTable[ASCII] = {0};
+        createFrequencyTable(str, frequencyTable);
+        heap::minHeap *priority_queue = new heap::minHeap(frequencyTable);
+
+        std::cout << "---------------------------------------\n";
+        std::cout << "Fila de prioridade mínima:\n";
+        for(int i=0; i<priority_queue->getHeapSize(); i++) {
+            std::cout << priority_queue->getVet()[i]->getCharacter() << ": " << priority_queue->getVet()[i]->getFrequency() << "\n";
+        }
+        std::cout << "---------------------------------------\n";
+
+        huffmanTree *tree = new huffmanTree(priority_queue);
+
+        std::cout << "Árvore de Huffman:\n";
+        tree->print(tree->getRoot());
+
+        return tree;
+    }
+
+
+    // Função responsável por codificar a string usando o dicionário
     std::string *encode(std::string *dict, std::string text) {
         std::string *code = new std::string;
         *code = "";
@@ -257,22 +265,47 @@ namespace huffman {
         return code;
     }
 
-    std::string compress(std::string str, huffmanTree* tree) {
-        std::string *dictionary = tree->generateDictionary();
-
-        std::cout << "---------------------------------------\n";
-        std::cout << "Dicionário de códigos para cada caractere:\n";
+    std::string encodeFrequencyTable(int *table) {
+        std::string encodedTable = "";
+        char aux;
+        
         for(int i=0; i<ASCII; i++) {
-            if(dictionary[i].length()!=0)
-                std::cout << i << ": " << dictionary[i] << "\n";
+            if(table[i]>=0) {
+                aux = i;
+                encodedTable += "|";
+                encodedTable += i;
+                encodedTable += std::to_string(table[i]);
+            }
+            i++;
         }
-        std::cout << "---------------------------------------\n";
 
-        std::string *cipher = encode(dictionary, str);
+        std::cout << encodedTable << std::endl;
 
-        return *cipher;
+        return encodedTable;
     }
 
+    std::string compressStr(std::string text) {
+        int table[ASCII] = {0};
+        createFrequencyTable(text, table);
+
+        huffmanTree *tree = makeHuffmanTree(text);
+        std::string *dict = tree->generateDictionary();
+        std::string *code = encode(dict, text);
+
+        std::string tableEncoded = encodeFrequencyTable(table);
+
+        std::string finalString = "";
+
+        finalString += *code;
+        finalString += "&";
+        finalString += tableEncoded;
+
+        std::cout << finalString << "\n";
+
+        return finalString;
+    }
+
+    // Função de descompressão/decodificação usada para o arquivo binário
     std::string decompress(std::string cipher, huffmanTree *tree, int final_bits) {
         Node::node *no = tree->getRoot();
         int i=0;
@@ -300,25 +333,60 @@ namespace huffman {
         return text;
     }
 
-    huffmanTree* makeHuffmanTree(std::string str) {
-        int frequencyTable[ASCII] = {0};
-        createFrequencyTable(str, frequencyTable);
-        heap::minHeap *priority_queue = new heap::minHeap(frequencyTable);
+    std::string decompressStr(std::string code) {
+        int i=0;
+        std::string cipher = "";
+        int table[ASCII] = {0};
+
+        while(code[i]!='&') {
+            cipher += code[i];
+            i++;
+        }
+        i++;
+
+        char index;
+        std::string aux = "";
+
+        while (code[i]!='\0')
+        {
+            if(code[i]=='|') {
+                i++;
+                index = code[i];
+                i++;
+            }
+            aux += code[i];
+            if(code[i+1]=='|') {
+                table[index] = atoi(aux.c_str());
+            }
+            i++;
+        }
+        
+        heap::minHeap *priority_queue = new heap::minHeap(table);
+        huffmanTree *tree = new huffmanTree(priority_queue);
+
+        std::string text = decompress(cipher, tree, 0);
+
+        return text;
+    }
+
+
+    // Compressão utilizada pela função de compressão do arquivo
+    std::string compress(std::string str, huffmanTree* tree) {
+        std::string *dictionary = tree->generateDictionary();
 
         std::cout << "---------------------------------------\n";
-        std::cout << "Fila de prioridade mínima:\n";
-        for(int i=0; i<priority_queue->getHeapSize(); i++) {
-            std::cout << priority_queue->getVet()[i]->getCharacter() << ": " << priority_queue->getVet()[i]->getFrequency() << "\n";
+        std::cout << "Dicionário de códigos para cada caractere:\n";
+        for(int i=0; i<ASCII; i++) {
+            if(dictionary[i].length()!=0)
+                std::cout << i << ": " << dictionary[i] << "\n";
         }
         std::cout << "---------------------------------------\n";
 
-        huffmanTree *tree = new huffmanTree(priority_queue);
+        std::string *cipher = encode(dictionary, str);
 
-        std::cout << "Árvore de Huffman:\n";
-        tree->print(tree->getRoot());
-
-        return tree;
+        return *cipher;
     }
+
 
     // Irá comprimir o conteúdo do arquivo reviewsOrig.txt
     void compress() {
@@ -396,12 +464,16 @@ namespace huffman {
         binary.close();
     }
 
+
+    // Verificar se um determinado bit de um byte é 0 ou 1
     int bit(char byte, int shift) {
         int mask = 1;
         byte >>= shift;
         return byte & mask;
     }
 
+
+    // Função responsável por pegar os bytes codificados e transformá-los em uma string
     std::string decode(std::string text) {
         std::string cipher = "";
         int textSize = text.size()-1;
@@ -426,6 +498,8 @@ namespace huffman {
         return cipher;
     }
 
+
+    // função responsável por decodificar o último byte do binário (o qual contém a quantidade de bits utilizáveis no penúltimo byte do arquivo)
     int getFinalBits(std::string text) {
         int byte = 0;
         int mask = 1;
@@ -446,6 +520,8 @@ namespace huffman {
         return byte;
     }
 
+
+    // Função geral para descomprimir o arquivo
     void descompress() {
         // Parte 1:
         // Fazendo a leitura da árvore de huffman.

@@ -30,7 +30,7 @@ void menu()
 
 int main(int argc, char **argv)
 {
-    std::string path;
+ /*   std::string path;
     if(argc>1)
     {
         std::string pa(argv[1]);
@@ -49,20 +49,20 @@ int main(int argc, char **argv)
     // Tempo para geração do arquivo binário
     /*double timeForCreateBinary;
     std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
-*/
+
     createBinary(path,nReviews);
     nReviews = getSize();
-
+*/
     /*std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
     timeForCreateBinary=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();*/
 
     
-    std::cout<<"\n|====== PRE PROCESSING FINISHED ======|\n\n";
+    //std::cout<<"\n|====== PRE PROCESSING FINISHED ======|\n\n";
     //std::cout << "Tempo para gerar o arquivo binário: " << timeForCreateBinary << "\n\n";
 
 
 
-    double timeForImport;
+    /*double timeForImport;
     std::chrono::high_resolution_clock::time_point init = std::chrono::high_resolution_clock::now();
 
     int n;
@@ -73,7 +73,7 @@ int main(int argc, char **argv)
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
     timeForImport=std::chrono::duration_cast<std::chrono::duration<double>>(end - init).count();
 
-    std::cout << "Tempo de import: " << timeForImport << "\n";
+    std::cout << "Tempo de import: " << timeForImport << "\n";*/
 
     //GET REVIEW
     /* 
@@ -137,6 +137,7 @@ int main(int argc, char **argv)
 
     huffman::descompress();
     std::cout << "Descompressão realizada com sucesso!\n";*/
+
     return 0;
 }
     
