@@ -1,8 +1,11 @@
+#ifndef PRODUCTREVIEW
+#define PRODUCTREVIEW
+
 #include <iostream>
 #include <vector>
 #include <string>
 
-class ProductReview{
+class ProductReview {
 
     private:
 
@@ -42,3 +45,5 @@ class ProductReview{
     void setData(std::string info);
     void setNull();
 };
+
+#endif

@@ -4,7 +4,7 @@ project(EDII)
 set(ROOT_DIR "${PROJECT_SOURCE_DIR}/") # Editar mais tarde se necessário
 
 # Arquivos de configuração dos diretórios
-file(GLOB source_files src/ProductReview.cpp include/*.h src/ArvoreB.cpp src/ArvoreVP.cpp src/reader.cpp src/List.cpp src/Multinode.cpp)
+file(GLOB source_files src/ProductReview.cpp include/*.h src/ArvoreB.cpp src/ArvoreVP.cpp src/reader.cpp src/List.cpp src/Multinode.cpp src/huffman.cpp)
 add_library(edll ${source_files})
 target_include_directories(edll PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
