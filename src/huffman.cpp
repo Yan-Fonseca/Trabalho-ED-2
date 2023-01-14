@@ -225,7 +225,7 @@ namespace huffman {
     // FUNÇÕES DE MANIPULAÇÃO E COMPRESSÃO GERAIS DE HUFFMAN:
     
     // Função responsável por criar a tabela de frequências dos caracteres na string
-    void createFrequencyTable(std::string str, int *table) {
+    void Operator::createFrequencyTable(std::string str, int *table) {
         int i=0;
         while(str[i]!='\0') {
             table[str[i]]++;
@@ -234,7 +234,7 @@ namespace huffman {
     }
 
     // Função responsável por construir a árvore de Huffman em todos os casos
-    huffmanTree* makeHuffmanTree(std::string str) {
+    huffmanTree* Operator::makeHuffmanTree(std::string str) {
         int frequencyTable[ASCII] = {0};
         createFrequencyTable(str, frequencyTable);
         heap::minHeap *priority_queue = new heap::minHeap(frequencyTable);
@@ -256,7 +256,7 @@ namespace huffman {
 
 
     // Função responsável por codificar a string usando o dicionário
-    std::string *encode(std::string *dict, std::string text) {
+    std::string* Operator::encode(std::string *dict, std::string text) {
         std::string *code = new std::string;
         *code = "";
         for(int i=0; text[i]!='\0'; i++) {
@@ -265,7 +265,7 @@ namespace huffman {
         return code;
     }
 
-    std::string encodeFrequencyTable(int *table) {
+    std::string Operator::encodeFrequencyTable(int *table) {
         std::string encodedTable = "";
         char aux;
         
@@ -284,7 +284,7 @@ namespace huffman {
         return encodedTable;
     }
 
-    std::string compressStr(std::string text) {
+    std::string Operator::compressStr(std::string text) {
         int table[ASCII] = {0};
         createFrequencyTable(text, table);
 
@@ -306,7 +306,7 @@ namespace huffman {
     }
 
     // Função de descompressão/decodificação usada para o arquivo binário
-    std::string decompress(std::string cipher, huffmanTree *tree, int final_bits) {
+    std::string Operator::decompress(std::string cipher, huffmanTree *tree, int final_bits) {
         Node::node *no = tree->getRoot();
         int i=0;
         std::string text = "";
@@ -333,7 +333,7 @@ namespace huffman {
         return text;
     }
 
-    std::string decompressStr(std::string code) {
+    std::string Operator::decompressStr(std::string code) {
         int i=0;
         std::string cipher = "";
         int table[ASCII] = {0};
@@ -371,7 +371,7 @@ namespace huffman {
 
 
     // Compressão utilizada pela função de compressão do arquivo
-    std::string compress(std::string str, huffmanTree* tree) {
+    std::string Operator::compress(std::string str, huffmanTree* tree) {
         std::string *dictionary = tree->generateDictionary();
 
         std::cout << "---------------------------------------\n";
@@ -389,7 +389,7 @@ namespace huffman {
 
 
     // Irá comprimir o conteúdo do arquivo reviewsOrig.txt
-    void compress() {
+    void Operator::compress() {
         //std::string path = getPath();
         std::ifstream textFile(path+"reviewsOrig.txt",std::ios::in);
         std::string text;
@@ -466,7 +466,7 @@ namespace huffman {
 
 
     // Verificar se um determinado bit de um byte é 0 ou 1
-    int bit(char byte, int shift) {
+    int Operator::bit(char byte, int shift) {
         int mask = 1;
         byte >>= shift;
         return byte & mask;
@@ -474,7 +474,7 @@ namespace huffman {
 
 
     // Função responsável por pegar os bytes codificados e transformá-los em uma string
-    std::string decode(std::string text) {
+    std::string Operator::decode(std::string text) {
         std::string cipher = "";
         int textSize = text.size()-1;
         char byte;
@@ -500,7 +500,7 @@ namespace huffman {
 
 
     // função responsável por decodificar o último byte do binário (o qual contém a quantidade de bits utilizáveis no penúltimo byte do arquivo)
-    int getFinalBits(std::string text) {
+    int Operator::getFinalBits(std::string text) {
         int byte = 0;
         int mask = 1;
         int aux;
@@ -522,7 +522,7 @@ namespace huffman {
 
 
     // Função geral para descomprimir o arquivo
-    void descompress() {
+    void Operator::descompress() {
         // Parte 1:
         // Fazendo a leitura da árvore de huffman.
         int table[ASCII] = {0};

@@ -5,6 +5,22 @@
 
 void menuArvores(Reader r);
 
+void huffmanF() {
+  std::string texto = "abracadabra";
+  std::string compressao;
+  std::string descompressao;
+
+  huffman::Operator *ope = new huffman::Operator();
+
+  compressao = ope->compressStr(texto);
+
+  std::cout << "Resultado da compressão: " << compressao << "\n";
+
+  descompressao = ope->decompressStr(compressao);
+
+  std::cout << "Resultado da descompressão: " << descompressao << "\n";
+}
+
 void menu(Reader r)
 {
     int input=-1;
@@ -21,7 +37,7 @@ void menu(Reader r)
     menuArvores(r);
     break;
   case 2:
-    //preHash();
+    huffmanF();
     break;
   case 0:
     return;

@@ -80,19 +80,30 @@ namespace huffman {
             heap::minHeap *getPriorityQueue();
     };
 
-    void createFrequencyTable(std::string str, int *table);
-    huffmanTree* makeHuffmanTree(std::string str);
-    std::string *encode(std::string *dict, std::string text);
-    std::string encodeFrequencyTable(int *table);
-    std::string compressStr(std::string text);
-    std::string decompress(std::string cipher, huffmanTree *tree, int final_bits);
-    std::string decompressStr(std::string code);
-    std::string compress(std::string str, huffmanTree* tree);
-    void compress();
-    int bit(char byte, int shift);
-    std::string decode(std::string text);
-    int getFinalBits(std::string text);
-    void descompress();
+    class Operator {
+        private:
+        public:
+            Operator() { }
+            ~Operator() { }
+
+            void createFrequencyTable(std::string str, int *table);
+            huffmanTree* makeHuffmanTree(std::string str);
+            std::string *encode(std::string *dict, std::string text);
+
+            std::string encodeFrequencyTable(int *table);
+            std::string compressStr(std::string text);
+            std::string decompress(std::string cipher, huffmanTree *tree, int final_bits);
+
+            std::string decompressStr(std::string code);
+            std::string compress(std::string str, huffmanTree* tree);
+            void compress();
+
+            int bit(char byte, int shift);
+            std::string decode(std::string text);
+            int getFinalBits(std::string text);
+
+            void descompress();
+    };
 }
 
 #endif
