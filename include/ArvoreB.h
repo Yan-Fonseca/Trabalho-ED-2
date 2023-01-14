@@ -22,7 +22,7 @@ public:
     void setComp(int c){comp = c;};
     void print();
     void print(Multinode* raiz,std::string rank);
-    void reserComp(){comp=0;};
+    void resetComp(){comp=0;};
 };
 
 #endif

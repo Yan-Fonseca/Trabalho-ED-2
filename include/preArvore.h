@@ -2,6 +2,7 @@
 #define PRE_ARVORE_H
 
 #include "ArvoreB.h"
+#include "ArvoreVP.h"
 
 std::vector<long> execArvoreB(int order, int n, int b, ProductReview* imports, ProductReview* search)
 {
@@ -19,7 +20,7 @@ std::vector<long> execArvoreB(int order, int n, int b, ProductReview* imports, P
     stats.push_back(timeN);
     stats.push_back((long)arvoreb->getComp());
 
-    arvoreb->reserComp();
+    arvoreb->resetComp();
 
     inicio = std::chrono::high_resolution_clock::now();
     for(int i = 0; i < b ; i++ ){
@@ -38,7 +39,35 @@ std::vector<long> execArvoreB(int order, int n, int b, ProductReview* imports, P
 
 std::vector<long> execArvoreVP( int n, ProductReview* imports, ProductReview* search)
 {
+    std::vector<long int> stats(4); //time insert, comp insert, time search, comp search
 
+    ArvoreVP* arvorevp = new ArvoreVP();
+
+    std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
+    for(int i = 0; i < n ; i++ ){
+        arvorevp->insere(&(imports[i]));
+    }        
+    std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
+    long int timeN=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count(); 
+
+    stats.push_back(timeN);
+    stats.push_back((long)arvorevp->getComp());
+
+    arvorevp->reserComp();
+
+    inicio = std::chrono::high_resolution_clock::now();
+    for(int i = 0; i < b ; i++ ){
+        arvorevp->busca(search[i].getUserId(),search[i].getProductId());
+    } 
+    fim = std::chrono::high_resolution_clock::now();
+    long int timeB=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
+
+    stats.push_back(timeB);
+    stats.push_back((long)arvorevp->getComp()); 
+
+    delete arvorevp;
+
+    return stats;
 }
 
 void preArvore(Reader reader)
