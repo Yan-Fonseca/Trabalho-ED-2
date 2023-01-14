@@ -41,7 +41,4 @@ class ProductReview{
 
     void setData(std::string info);
     void setNull();
-
-    
-
 };
