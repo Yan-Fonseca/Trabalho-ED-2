@@ -1,4 +1,4 @@
-#include "../include/Reader.h"
+#include "../include/reader.h"
 
 Reader::Reader(std::string& p,int m_size) : path(p) , mediumLineSize(m_size) {}
 
