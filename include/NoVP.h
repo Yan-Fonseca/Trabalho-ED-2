@@ -27,8 +27,8 @@ public:
     NoVP* getRight() { return right; }
 
     std::string getId(){return valorid;}
-
-    ProductReview* getBase(){return base;};
+    
+    ProductReview* getBase(){ return base;}; //ponteiro pro nó do ProductReview
 
     COR getCor(){return cor;};
     void setCor(COR c){cor = c;}
