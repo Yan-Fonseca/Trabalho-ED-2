@@ -10,6 +10,7 @@ ProductReview::ProductReview(std::string info)
     setProductId(inf[1]);
     setRating(inf[2]);
     setTime(inf[3]);
+    setBinaryPosition(stol(inf[4]));
 }
 
 ProductReview::ProductReview(ProductReview* pr)
@@ -35,7 +36,7 @@ std::vector<std::string> ProductReview::splitString(std::string str){
     std::vector<std::string> result;
     std::string current = ""; 
     for(unsigned int i = 0; i < str.size(); i++){
-        if(str[i] == ','){
+        if(str[i] == ','||str[i] == '$'){
             if(current != ""){
                 result.push_back(current);
                 current = "";
@@ -55,7 +56,7 @@ void ProductReview::print(){
 
     std::cout<<"-------------\nReview:\n";
 
-    std::cout<<"\n UserId: "<<getUserId()<<"\n ProductId: "<<getProductId()<<"\n Rating: "<<getRating()<<"\n Timestamp: "<<getTime();
+    std::cout<<"\n UserId: "<<getUserId()<<"\n ProductId: "<<getProductId()<<"\n Rating: "<<getRating()<<"\n Timestamp: "<<getTime()<<"\n Bin.Position: "<<getBinaryPosition();
 
     std::cout<<"\n-------------\n";
 }

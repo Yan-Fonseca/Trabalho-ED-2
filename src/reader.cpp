@@ -35,10 +35,13 @@ std::string Reader::getReview(int lineNumber)
     while (infile.get(c) && c != '\n') {
     line += c;
     }
+    
+    line = line + "$";
+    line.append(std::to_string(position)) ;
 
     infile.close();
 
-    std::cout<<"pos:"<<position<<" os:"<<offset<<"\n";
+    //std::cout<<"pos:"<<position<<" os:"<<offset<<"\n";
 
     return line;
 }
@@ -127,7 +130,7 @@ void Reader::createBinary()
     outfile.close();
 }
 
-ProductReview* Reader::import(int n)
+ ProductReview* Reader::import(int n)
 {
     // É criada uma tabela Hash para armazenar os os dados gerados aleatoriamente
     // Optou-se por utilizar uma lista de listas encadeadas.
@@ -168,4 +171,4 @@ ProductReview* Reader::import(int n)
     }
     
     return b;
-}
+} 
