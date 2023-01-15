@@ -94,7 +94,7 @@ void compressTest(int method)
 
     std::string str = "std::string qualquer";
     std::string comp = comprime(str, method);
-    std::string orig = ope->descomprime(comp, method);
+    std::string orig = descomprime(comp, method);
 
     std::cout << "String comprimida: " << comp << std::endl;
     std::cout << "String descomprimida: " << orig << std::endl << std::endl;
@@ -164,7 +164,7 @@ int main(int argc, char *argv[])
                     break;
                 case 4:
                     delete arv_b;
-                    arv_b = new ArvoreB();
+                    arv_b = new ArvoreB(50);
                     treeTest(arv_b, vet, n);
                     break;
                 case 5:

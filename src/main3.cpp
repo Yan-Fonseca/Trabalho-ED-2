@@ -1,4 +1,4 @@
-//#include "../include/sort.h"
+/* //#include "../include/sort.h"
 #include "../include/hash.h"
 #include "../include/huffman.h"
 #include "../include/preArvore.h"
@@ -19,7 +19,7 @@ void huffmanF(Reader r) {
   descompressao = ope->decompressStr(compressao);
 
   std::cout << "Resultado da descompressão: " << descompressao << "\n";
-*/
+
   huffman::Operator *ope = new huffman::Operator(&r);
 
   ope->performanceMetrics(5000,10);
@@ -126,3 +126,4 @@ int main(int argc, char **argv)
   return 0;
 }
     
+ */
