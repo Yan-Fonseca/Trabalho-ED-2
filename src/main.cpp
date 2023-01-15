@@ -93,7 +93,7 @@ int main(int argc, char **argv)
     std::cout<<"\n";
     arvoreb.insere(id);
     arvoreb.print();
-  } */
+  } 
 
 
 

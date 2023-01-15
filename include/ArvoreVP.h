@@ -2,7 +2,7 @@
 #define ARVOREVP_H
 
 #include "NoVP.h"
-//a
+
 class ArvoreVP {
 private:
     NoVP *raiz, *vazio;
@@ -15,9 +15,9 @@ public:
     ArvoreVP();
     ~ArvoreVP();
 
-    int* getComp(){return &comp;};
-    void setComp(int c){comp = c;};
-    void addcomp(){comp++;};
+    int* getComp(){return &comp;}
+    void setComp(int c){comp = c;}
+    void addcomp(){comp++;}
     void insere(ProductReview *pr);
     ProductReview* busca(std::string userId,std::string productId);
     void print();
