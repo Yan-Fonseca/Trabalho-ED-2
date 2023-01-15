@@ -1,0 +1,13 @@
+Taxas de compressão do Huffman: 
+Quantidade de registros a serem analisados: 5000
+Taxa de compressão [0]: -0.00758281
+Taxa de compressão [1]: 0.0342207
+Taxa de compressão [2]: -0.0185966
+Taxa de compressão [3]: 0.0403154
+Taxa de compressão [4]: -0.0172054
+Taxa de compressão [5]: -0.0393536
+Taxa de compressão [6]: 0.0399985
+Taxa de compressão [7]: 0.0345937
+Taxa de compressão [8]: 0.0351625
+Taxa de compressão [9]: -0.00682657
+Média de compressão para 10 execuções: 0.00947257

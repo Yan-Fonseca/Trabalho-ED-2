@@ -156,7 +156,7 @@ void Reader::createBinary(std::string path)
  ProductReview* Reader::import(int n)
 {
     bool save = false;
-    if(n>1000){
+    if(n>10000){
         saveFile();
         save= true;
     }
