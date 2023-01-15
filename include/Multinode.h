@@ -12,16 +12,15 @@ private:
     std::vector<Multinode*> sons;
     bool isFolha;
     int contains=0; //n de nodes atual
-    int* comp;
+    long* comp;
 
     void autoBalance( );
     void balanceRaiz( );
     void balanceFolha( );
 
 public:
-    Multinode();
-    Multinode(int s,int* c);
-    Multinode(int s,Multinode* d,int* c);
+    Multinode(int s,long* c);
+    Multinode(int s,Multinode* d,long* c);
     ~Multinode();
 
     int getContains(){return contains;}

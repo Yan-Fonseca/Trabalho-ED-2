@@ -1,6 +1,6 @@
 #include "../include/Multinode.h"
 
-Multinode::Multinode(int s,int* c){
+Multinode::Multinode(int s,long* c){
     
     comp = c;
     dad=nullptr;
@@ -17,7 +17,7 @@ Multinode::Multinode(int s,int* c){
     sons.push_back(nullptr);
 }
 
-Multinode::Multinode(int s,Multinode* d,int* c){
+Multinode::Multinode(int s,Multinode* d,long* c){
     
     comp = c;
     dad = d;
@@ -41,14 +41,17 @@ void Multinode::setSon(Multinode* mn, int index){
         mn->setDad(this);
 }
 
-Multinode::~Multinode(){
-    for(int i=0;i<contains;i++){
-        delete nodes[i];
-        delete sons[i];
+Multinode::~Multinode() {
+    for(auto son : sons) {
+        if (son != nullptr) {
+            delete son;
+        }
     }
-    delete sons[contains];
-    nodes.clear();
-    sons.clear();
+    for(auto node : nodes) {
+        if (node != nullptr) {
+            delete node;
+        }
+    }
 }
 
 void Multinode::remove(No node){

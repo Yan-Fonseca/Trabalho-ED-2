@@ -5,8 +5,8 @@
 
 void menuArvores(Reader r);
 
-void huffmanF(Reader r) {
-  /*std::string texto = "o rato roeu a roupa do rei de roma";
+/*void huffmanF(Reader r) {
+  std::string texto = "o rato roeu a roupa do rei de roma";
   std::string compressao;
   std::string descompressao;
 
@@ -18,12 +18,12 @@ void huffmanF(Reader r) {
 
   descompressao = ope->decompressStr(compressao);
 
-  std::cout << "Resultado da descompressão: " << descompressao << "\n";*/
+  std::cout << "Resultado da descompressão: " << descompressao << "\n";
 
-  huffman::Operator *ope = new huffman::Operator(&r);
+  //huffman::Operator *ope = new huffman::Operator(&r);
 
   ope->performanceMetrics(10000,10);
-}
+} */
 
 void menu(Reader r)
 {
@@ -41,7 +41,7 @@ void menu(Reader r)
     menuArvores(r);
     break;
   case 2:
-    huffmanF(r);
+    //huffmanF(r);
     break;
   case 0:
     return;
@@ -78,30 +78,6 @@ void menuArvores(Reader r)
 
 int main(int argc, char **argv)
 {
-  /* std::string id;
-  int size;
-  std::cin>>size;
-
-  ArvoreB arvoreb(size);
-  
-  std::vector<std::string> a={"100","200","300","150","190","380","350","125"}; 
-  for(int i=0;i<a.size();i++){
-    //std::cout<<"Inserindo: "<<inserir[i]<<"\n";
-    arvoreb.insere(a[i]);
-    //arvoreb.print();
-  }
-  
-  while(id!="0"){
-    std::cout<<"insert: ";
-    std::cin>>id;
-    std::cout<<"\n";
-    arvoreb.insere(id);
-    arvoreb.print();
-  }  */
-
-
-
-
 
   std::string path;
   if(argc>1)
@@ -145,42 +121,6 @@ int main(int argc, char **argv)
 
   int nlines = reader.getnLines();
 
-  //GET REVIEW
-/* 
-  double i=0;
-  ProductReview* pr;
-
-  std::cout<<"\n"<<"Insira o indice da review desejada:"<<"\n";
-  std::cin>>i;
-  while(i>=0)
-  {
-  if(i>=nlines){std::cout<<"Nao existem reviews com esse indice\n";std::cin>>i;continue;}
-  //std::cout<<reader.getReview(i);
-  pr = new ProductReview(reader.getReview(i));
-  pr->print();
-  delete pr;
-  std::cout<<"\n"<<"Insira o indice da review desejada:"<<"\n";
-  std::cin>>i;
-  }   */
-
-
-  //IMPORT
-/* 
-  double n=0;
-  ProductReview* rreviews;
-
-  std::cout<<"\n\nPegador de reviews aleatorias\nQuantas reviews voce quer pegar?\n";
-  std::cin>>n;
-  std::cout<<"n: "<<n<<"\n";
-  rreviews=reader.import(n);
-
-  std::cout<<"\n Resultados:\n";
-  for(int j=0;j<n;j++)
-  {
-  rreviews[j].print();
-  }  */
-
-  //preArvore(reader);
   menu(reader);
 
   return 0;

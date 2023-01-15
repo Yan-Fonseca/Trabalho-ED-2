@@ -46,6 +46,29 @@ std::string Reader::getReview(int lineNumber)
     return line;
 }
 
+std::string Reader::getBinReview(int lineNumber)
+{
+    std::string line;
+    int offset = 0;
+    int lineSize = mediumLineSize;
+    int position = lineSize * lineNumber;
+    for(auto& [line, offsetValue] : offsetMap)
+    {
+        if(line < lineNumber)
+        {
+            offset += offsetValue;
+        }
+    }
+    position += offset;
+    char *p = bin_data + position;
+    while (*p != '\n' && p < bin_data + bin_size) {
+        line += *p++;
+    }
+    line = line + "$";
+    line.append(std::to_string(position));
+    return line;
+}
+
 void Reader::readBinary() {
 
     std::ifstream file(path+"ratings_Electronics.bin", std::ios::binary);
@@ -132,6 +155,12 @@ void Reader::createBinary(std::string path)
 
  ProductReview* Reader::import(int n)
 {
+    bool save = false;
+    if(n>1000){
+        saveFile();
+        save= true;
+    }
+
     // É criada uma tabela Hash para armazenar os os dados gerados aleatoriamente
     // Optou-se por utilizar uma lista de listas encadeadas.
     HashList::List table[HashList::getTAM()]; 
@@ -145,19 +174,53 @@ void Reader::createBinary(std::string path)
     std::string key; // Chave para ser usada no hash.
 
     ProductReview *b = new ProductReview[n];
-    
-    for(int i=0;i<n;i++)
-    {
-        srand(i*time(0));
-        rnd=rand()% nLines;
-        if(HashList::insertInHash(table, rnd)) {
-            std::string info = getReview(rnd);
-            b[i].setData(info);
-        } else {
-            i--;
+    if(save)
+        for(int i=0;i<n;i++)
+        {
+            srand(i*time(0));
+            rnd=rand()% nLines;
+            if(HashList::insertInHash(table, rnd)) {
+                std::string info = getBinReview(rnd);
+                b[i].setData(info);
+            } else {
+                i--;
+            }
+            
+        }
+    else
+        for(int i=0;i<n;i++)
+        {
+            srand(i*time(0));
+            rnd=rand()% nLines;
+            if(HashList::insertInHash(table, rnd)) {
+                std::string info = getReview(rnd);
+                b[i].setData(info);
+            } else {
+                i--;
+            }
+            
         }
         
-    }
-    
     return b;
 } 
+
+void Reader::saveFile()
+{
+    std::ifstream file(path+"ratings_Electronics.bin", std::ios::binary);
+    if (!file.is_open()) {
+        throw std::runtime_error("Failed to open file " + path + "ratings_Electronics.bin");
+    }
+    // Get the size of the file
+    file.seekg(0, file.end);  
+    int size = file.tellg();
+    file.seekg(0, file.beg);
+
+    // Allocate memory to store the contents of the file
+    bin_data = new char[size];
+
+    bin_size = size;
+
+    // Read the entire contents of the file into memory
+    file.read(bin_data, size);
+    file.close();
+}

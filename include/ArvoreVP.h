@@ -11,6 +11,7 @@ private:
     void Balanceamento_Insere(NoVP*& novp);
     void In_Ordem(NoVP* raiz);
     int comp;
+    void desalocar_memoria(NoVP* novp);
 public:
     ArvoreVP();
     ~ArvoreVP();
