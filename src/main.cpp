@@ -74,6 +74,31 @@ void menuArvores(Reader r)
 
 int main(int argc, char **argv)
 {
+  /* std::string id;
+  int size;
+  std::cin>>size;
+
+  ArvoreB arvoreb(size);
+  
+  std::vector<std::string> a={"100","200","300","150","190","380","350","125"}; 
+  for(int i=0;i<a.size();i++){
+    //std::cout<<"Inserindo: "<<inserir[i]<<"\n";
+    arvoreb.insere(a[i]);
+    //arvoreb.print();
+  }
+  
+  while(id!="0"){
+    std::cout<<"insert: ";
+    std::cin>>id;
+    std::cout<<"\n";
+    arvoreb.insere(id);
+    arvoreb.print();
+  } */
+
+
+
+
+
   std::string path;
   if(argc>1)
   {
@@ -104,7 +129,7 @@ int main(int argc, char **argv)
   double timeForCreateBinary;
   std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
 
-  reader.createBinary();
+  reader.createBinary(path);
 
   std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
   timeForCreateBinary=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
@@ -151,8 +176,8 @@ int main(int argc, char **argv)
   rreviews[j].print();
   }  */
 
-
-  menu(reader);
+  preArvore(reader);
+  //menu(reader);
 
   return 0;
 }
