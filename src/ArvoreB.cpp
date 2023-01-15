@@ -1,7 +1,7 @@
 #include "../include/ArvoreB.h"
 
 ArvoreB::ArvoreB(int size){
-    raiz = new Multinode(size-1);
+    raiz = new Multinode(size-1,&comp);
     depth=0;
     comp=0;
 }
@@ -22,9 +22,9 @@ void ArvoreB::insere(ProductReview* pr){
             if(i==depth-1)
                 std::cout<<"Error ArvoreB::insere\n";
     }
-    son->insert(node,true,getComp());
+    son->insert(node,true);
     
-    depth=getDepth(getComp());
+    depth=getDepth( );
 
 }
 
@@ -32,7 +32,6 @@ void ArvoreB::insere(ProductReview* pr){
 void ArvoreB::insere(std::string id){
 
     No* node = new No(id);
-
 
     Multinode* son = raiz;
     for(int i=0;i<depth;i++){
@@ -43,9 +42,9 @@ void ArvoreB::insere(std::string id){
             if(i==depth-1)
                 std::cout<<"Error ArvoreB::insere\n";
     }
-    son->insert(node,true,getComp());
+    son->insert(node,true);
     
-    depth=getDepth(getComp());
+    depth=getDepth();
 
 }
 
@@ -79,52 +78,33 @@ ProductReview* ArvoreB::busca(std::string userId, std::string productId){
     return pr;
 }
 
-int ArvoreB::getDepth(int* comp){
+int ArvoreB::getDepth(){
     int d=0;
     Multinode* son=raiz;
     while(son!=nullptr){
         d++;
         son=son->getSon(0);
-        *comp++;
-    }
+        addComp();
     return d-1;
+    }
 }
 
 void ArvoreB::print(){
-    int i;
-    std::cout<<"Arvore B: \n";
-    // Imprime a raizo atual
-    for (i = 0; i < raiz->getContains(); i++) {
-        std::cout << raiz->getNode(i)->getId() << " ";
-    }
-    std::cout<<" - raiz";
-
-    // Imprime os filhos se existirem
-    for(i = 0; i <= raiz->getContains(); i++){
-        Multinode* son = raiz->getSon(i);
-        if (son!=nullptr)
-            print(son,std::to_string(i));
-    }
-    std::cout<<"\n\n";
-
+    print(raiz);
 }
 
 
-void ArvoreB::print(Multinode* mn,std::string rank){
+void ArvoreB::print(Multinode* mn){
     int i;
-    std::cout<<"\n";
+    if (mn == nullptr) return;
 
-    // Imprime o Multinode atual
+    print(mn->getSon(0));
+
     for (i = 0; i < mn->getContains(); i++) {
         std::cout << mn->getNode(i)->getId() << " ";
     }
-    std::cout<<" - filho "<<rank;
 
-    // Imprime os filhos se existirem
-    Multinode* son=mn;
-    for(i = 0; (i <= mn->getContains())&&(son!=nullptr); i++){
-        Multinode* son = mn->getSon(i);
-        if (son!=nullptr)
-            print(son,rank+"."+std::to_string(i));
+    for (i = 1; i <= mn->getContains(); i++) {
+        print(mn->getSon(i));
     }
 }

@@ -30,7 +30,7 @@ public:
     int getnLines();
 
     std::string getReview(int i);
-    void createBinary();
+    void createBinary(std::string path);
     void readBinary();
     ProductReview* import(int n);
 };

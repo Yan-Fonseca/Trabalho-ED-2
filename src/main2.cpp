@@ -1,4 +1,4 @@
-#include "../include/hash.h"
+/* #include "../include/hash.h"
 #include "../include/huffman.h"
 #include "../include/preArvore.h"
 
@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
         std::string path(argv[1]);
         Reader reader(path , 41);
 
-        reader.createBinary();
+        reader.createBinary(path);
         
         int registerIdx;
         std::cout << "Digite um indice de registro (-1 para sair): ";
@@ -186,4 +186,4 @@ int main(int argc, char *argv[])
     }
 
     return 0;
-} 
+}  */

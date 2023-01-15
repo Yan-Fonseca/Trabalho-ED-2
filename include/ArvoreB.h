@@ -17,12 +17,14 @@ public:
     void insere(ProductReview *pr);
     void insere(std::string id);
     ProductReview* busca(std::string userId, std::string productId);
-    int getDepth(int* comp);
-    int* getComp(){return &comp;};
+    int getDepth();
+    int getComp(){return comp;};
     void setComp(int c){comp = c;};
     void print();
-    void print(Multinode* raiz,std::string rank);
+    void print(Multinode* raiz);
     void resetComp(){comp=0;};
+
+    void addComp(){comp = comp + 1;}
 };
 
 #endif
