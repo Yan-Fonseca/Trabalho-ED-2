@@ -62,15 +62,15 @@ void ArvoreVP::Balanceamento_Insere(NoVP*& novp) {
     NoVP* tio;
     while (novp != raiz && novp->getPai()->getCor() == COR::RED) { // verifica se o novp não é a raiz e se seu pai é vermelho
         comp++;
-        if (novp->getPai() == novp->getPai()->getPai()->getLeft()) {//verifica se o pai do novp é um filho esquerdo 
+        if (novp->getPai() == novp->getPai()->getPai()->getLeft()) {//verifica se o pai do novp é um filho esquerdo do avó
             tio = novp->getPai()->getPai()->getRight(); // atribui o filho direito do avô como tio
             comp++;
-            if (tio->getCor() == COR::RED) { // Se o tio for vermelho, precisamos recolorir o pai e o tio para preto e o avô para vermelho
+            if (tio->getCor() == COR::RED) { // Se o tio for vermelho, é preciso recolorir o pai e o tio para preto e o avô para vermelho
                 novp->getPai()->setCor(COR::BLACK); 
                 tio->setCor(COR::BLACK); 
                 novp->getPai()->getPai()->setCor(COR::RED);
                 novp = novp->getPai()->getPai(); //move o novp para o avô
-            }else { // Se o novp for um filho à direita, precisamos fazer uma rotação à esquerda
+            }else { // Se o novp for um filho à direita, é preciso fazer uma rotação à esquerda
                 comp++;
                 if (novp == novp->getPai()->getRight()) { 
                     novp = novp->getPai();
@@ -82,9 +82,9 @@ void ArvoreVP::Balanceamento_Insere(NoVP*& novp) {
                 RightRotate(novp->getPai()->getPai()); //realiza rotação à direita passando o avô de novp
             }
         }else { 
-            tio = novp->getPai()->getPai()->getLeft(); //filho esquerdo do avô é o novo tio
+            tio = novp->getPai()->getPai()->getLeft(); //filho esquerdo do avô é o tio
             comp++;
-            if (tio->getCor() == COR::RED) { // Se o tio for vermelho, precisamos recolorir o pai e o tio para preto e o avô para vermelho
+            if (tio->getCor() == COR::RED) { // Se o tio for vermelho, é preciso recolorir o pai e o tio para preto e o avô para vermelho
                 novp->getPai()->setCor(COR::BLACK);
                 tio->setCor(COR::BLACK); 
                 novp->getPai()->getPai()->setCor(COR::RED); 
