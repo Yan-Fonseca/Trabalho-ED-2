@@ -91,17 +91,31 @@ void preArvore(Reader reader)
             if(tipo!="Arvore VP: \n")
                 file<<"m = "<<orders[k];
 
+            //std::vector<long> stats;
+            //std::vector<std::vector<long>> stats;
             std::vector<std::vector<long>> stats;
-            std::vector<double> medias = {0,0,0,0};
-            for(int j = 0; j < 3; j++ ){ // tem que rodar 3 vezes
+            for(int j = 0; j < 3; j++ ){ //tem que rodar 3 vezes
+
                 ProductReview* imports = reader.import(n);
                 ProductReview* search = reader.import(b);
+                std::vector<long> stat;
+                if(tipo!="Arvore VP: \n")
+                    stat = execArvoreB(orders[k],n,b,imports,search);
+                else
+                    //stat = execArvoreVP(n,imports,search);
+                stats.push_back(stat);
+            }
+                /*
                 if(tipo!="Arvore VP: \n")
                     stats.push_back(execArvoreB(orders[k],n,b,imports,search));
                 else
-                    stats.push_back(execArvoreVP(n,b,imports,search));
-                file<<j<<"| ti- "<<stats[j][0]<<" ci- "<<stats[j][1]<<" tb- "<<stats[j][2]<<" cb- "<<stats[j][3]<<"\n";
-            }
+                    stats.push_back(execArvoreVP(n,imports,search));
+                    file<<j<<": t i - "<<stats[j][0]<<" c i - "<<stats[j][1]<<" t b - "<<stats[j][2]<<" c b - "<<stats[j][3]<<"\n";
+                */
+            
+
+            std::vector<double> medias = {0,0,0,0};
+
             for(std::vector<long> stat : stats ){
                 medias[0] += stat[0];
                 medias[1] += stat[1];
@@ -113,11 +127,11 @@ void preArvore(Reader reader)
             medias[2]/=stats.size();
             medias[3]/=stats.size();
 
-            file<<"\nMedias:\n";
+            file<<"Medias:\n";
             file<<"Time insert: " << medias[0] <<"\n";
-            file<<"Comp insert: " << medias[0] <<"\n";
-            file<<"Time busca: " << medias[0] <<"\n";
-            file<<"Comp busca: " << medias[0] <<"\n\n";
+            file<<"Comp insert: " << medias[1] <<"\n";
+            file<<"Time busca: " << medias[2] <<"\n";
+            file<<"Comp busca: " << medias[3] <<"\n";
 
             if(tipo=="Arvore VP: \n")
                 break;
