@@ -22,7 +22,7 @@ void huffmanF(Reader r) {
 
   huffman::Operator *ope = new huffman::Operator(&r);
 
-  ope->performanceMetrics(5000,3);
+  ope->performanceMetrics(10000,10);
 }
 
 void menu(Reader r)
@@ -100,7 +100,7 @@ int main(int argc, char **argv)
   }  */
 
 
-
+*/
 
 
   std::string path;
@@ -180,8 +180,8 @@ int main(int argc, char **argv)
   rreviews[j].print();
   }  */
 
-  preArvore(reader);
-  //menu(reader);
+  //preArvore(reader);
+  menu(reader);
 
   return 0;
 }
