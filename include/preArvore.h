@@ -37,7 +37,7 @@ std::vector<long double > execArvoreB(int order, int n, int b, ProductReview* im
     int com = arvoreb->getComp();
     stats.push_back(com);
 
-    delete arvoreb;
+    //delete arvoreb;
 
     std::cout<<"test delete\n";
 
@@ -104,13 +104,13 @@ void preArvore(Reader reader)
     int reps = 1;
 
     file<<"\nArvore B: \n";
-    if(0==1){
+    if(1==1){
     for(int k = 0 ; k<2 ; k++){//itera orders
 
         std::vector<std::vector<long double>> stats;
 
         for(int i = 0; i < reps ; i++ ){ 
-            file<<"m = "<<orders[k]<<"\n";
+            file<<"\nm = "<<orders[k]<<"\n";
 
             
 
