@@ -270,13 +270,12 @@ namespace huffman {
         char aux;
         
         for(int i=0; i<ASCII; i++) {
-            if(table[i]>=0) {
+            if(table[i]>0) {
                 aux = i;
                 encodedTable += "|";
-                encodedTable += i;
+                encodedTable += aux;
                 encodedTable += std::to_string(table[i]);
             }
-            i++;
         }
 
         std::cout << encodedTable << std::endl;
@@ -350,12 +349,13 @@ namespace huffman {
         while (code[i]!='\0')
         {
             if(code[i]=='|') {
+                aux = "";
                 i++;
                 index = code[i];
                 i++;
             }
             aux += code[i];
-            if(code[i+1]=='|') {
+            if(code[i+1]=='|' || code[i+1]=='\0') {
                 table[index] = atoi(aux.c_str());
             }
             i++;

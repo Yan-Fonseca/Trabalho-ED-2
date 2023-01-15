@@ -2,6 +2,7 @@
 #define PRE_ARVORE_H
 
 #include "ArvoreVP.h"
+#include "ArvoreB.h"
 
 std::vector<long> execArvoreB(int order, int n, int b, ProductReview* imports, ProductReview* search)
 {

@@ -121,7 +121,7 @@ int main(int argc, char **argv)
   std::cout<<"Binario ja existe\n";
   test.close();
 
-  reader.readBinary();
+  //reader.readBinary();
   }
   else{
 
