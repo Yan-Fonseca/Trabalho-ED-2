@@ -1,4 +1,4 @@
-/* #include "../include/hash.h"
+#include "../include/hash.h"
 #include "../include/huffman.h"
 #include "../include/preArvore.h"
 
@@ -49,8 +49,8 @@ ProductReview* randomTest(int n)
     {
         std::string u("STR");
         u += 'a'+rand()%('z'-'a');
-        vet[i].userId = u; // ou essa linha ou a de baixo pode ser usada, dependendo de como foi implementado (a de baixo é preferencial)
-        //vet[i].setUserId(u);
+        //vet[i].userId = u; // ou essa linha ou a de baixo pode ser usada, dependendo de como foi implementado (a de baixo é preferencial)
+        vet[i].setUserId(u);
     }
 
     return vet;
@@ -111,14 +111,16 @@ int main(int argc, char *argv[])
         // OBS.: TODOS OS ARQUIVOS USADOS NO PROGRAMA (TANTO DE ENTRADA QUANTO DE SAÍDA) DEVEM ESTAR LOCALIZADOS NO DIRETÓRIO FORNECIDO
         // PELO USUÁRIO COMO ARGUMENTO DA LINHA DE COMANDO
         std::string path(argv[1]);
-        createBinary(path);
+        Reader reader(path , 41);
 
+        reader.createBinary();
+        
         int registerIdx;
         std::cout << "Digite um indice de registro (-1 para sair): ";
         std::cin >> registerIdx;
         while (registerIdx != -1)
         {
-            getReview(registerIdx);
+            reader.getReview(registerIdx);
             std::cout << "Digite outro indice de registro (-1 para sair): ";
             std::cin >> registerIdx;
         }
@@ -151,7 +153,7 @@ int main(int argc, char *argv[])
                     std::cout << "Quantos registros deseja importar? ";
                     std::cin >> n;
                     delete [] vet;
-                    vet = import(n);
+                    vet = reader.import(n);
                     printPrompt(vet, n);
                     break;
                 case 3:
@@ -184,4 +186,4 @@ int main(int argc, char *argv[])
     }
 
     return 0;
-} */
+} 

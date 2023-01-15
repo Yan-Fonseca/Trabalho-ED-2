@@ -104,6 +104,8 @@ void preArvore(Reader reader)
                 else
                     //stat = execArvoreVP(n,imports,search);
                 stats.push_back(stat);
+                
+                file<<j<<": t i - "<<stats[j][0]<<" c i - "<<stats[j][1]<<" t b - "<<stats[j][2]<<" c b - "<<stats[j][3]<<"\n";
             }
                 /*
                 if(tipo!="Arvore VP: \n")
@@ -113,7 +115,7 @@ void preArvore(Reader reader)
                     file<<j<<": t i - "<<stats[j][0]<<" c i - "<<stats[j][1]<<" t b - "<<stats[j][2]<<" c b - "<<stats[j][3]<<"\n";
                 */
             
-
+            
             std::vector<double> medias = {0,0,0,0};
 
             for(std::vector<long> stat : stats ){
