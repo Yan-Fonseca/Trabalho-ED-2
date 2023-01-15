@@ -11,7 +11,15 @@ private:
     ProductReview* base;
 public:
     No(){id="null";binary_position=-1;};
-    No(ProductReview* pr){id = pr->getUserId()+""+pr->getProductId(); base = pr; binary_position=pr->getBinaryPosition();};
+    No(ProductReview* pr){
+        if(pr==nullptr){
+        std::cerr<<"No Constructor Error: Null Pointer .\n";
+        return;
+        }
+        id = pr->getUserId()+""+pr->getProductId();
+        base = pr;
+        binary_position=pr->getBinaryPosition();
+    };
 
     //para testes
     No(std::string ID){ id = ID;};
