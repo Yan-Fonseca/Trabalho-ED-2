@@ -1,11 +1,14 @@
 #ifndef PRE_ARVORE_H
 #define PRE_ARVORE_H
 
+#include <iomanip>
 #include "ArvoreVP.h"
 #include "ArvoreB.h"
 
 std::vector<long double > execArvoreB(int order, int n, int b, ProductReview* imports, ProductReview* search)
 {
+    std::cout<<"execArvoreB()\n\n";
+
     std::vector<long double > stats;
 
     ArvoreB* arvoreb = new ArvoreB(order);
@@ -43,6 +46,8 @@ std::vector<long double > execArvoreB(int order, int n, int b, ProductReview* im
 
 std::vector<long double > execArvoreVP( int n, int b, ProductReview* imports, ProductReview* search)
 {
+    std::cout<<"execArvoreVP()\n\n";
+
     std::vector<long double > stats;
 
     ArvoreVP* arvorevp = new ArvoreVP();
@@ -53,6 +58,7 @@ std::vector<long double > execArvoreVP( int n, int b, ProductReview* imports, Pr
     }        
     std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
     long double timeN=std::chrono::duration_cast<std::chrono::duration<long double >>(fim - inicio).count(); 
+    std::cout<<timeN;
 
     stats.push_back(timeN);
 
@@ -67,95 +73,135 @@ std::vector<long double > execArvoreVP( int n, int b, ProductReview* imports, Pr
     } 
     fim = std::chrono::high_resolution_clock::now();
     long double timeB=std::chrono::duration_cast<std::chrono::duration<long double >>(fim - inicio).count();
+    std::cout<<timeB;
+    
     stats.push_back(timeB);
     int com = arvorevp->getComp();
     stats.push_back(com);
 
-    //delete arvorevp;
+    delete arvorevp;
+
+    std::cout<<"test delete vp\n";
 
     return stats;
 }
 
 void preArvore(Reader reader)
 {
-    reader.saveFile();
-    std::cout<<"preArvore\n";
+    std::cout<<"\npreArvore()\n\n";
     int orders[3]={20,200};
     int n = 1000000;
     int b = 100;
+
+    ProductReview* imports = reader.import(n);
+    ProductReview* search = reader.import(b);
 
     std::ofstream file("../files/saida.txt");
     if(file.fail()){
         std::cout<<"Não foi possivel abrir";
     }
 
-    std::vector<std::string> tipos= {"\nArvore B: \n","\nArvore VP: \n"};
-    for(std::string tipo : tipos){
-        file<<tipo;
-        for(int k = 0; k < 2 ; k++ ){ //itera orders
-            if(tipo!="Arvore VP: \n")
-                file<<"m = "<<orders[k]<<"\n";
+    int reps = 1;
 
-            //std::vector<long> stats;
-            //std::vector<std::vector<long>> stats;
-            std::vector<std::vector<long double>> stats;
-            for(int j = 0; j < 2; j++ ){ //tem que rodar 3 vezes
+    file<<"\nArvore B: \n";
+    if(0==1){
+    for(int k = 0 ; k<2 ; k++){//itera orders
 
-                ProductReview* imports = reader.import(n);
-                ProductReview* search = reader.import(b);
+        std::vector<std::vector<long double>> stats;
 
-                std::vector<long double > stat;
-                if(tipo!="Arvore VP: \n")
-                    stat = execArvoreB(orders[k],n,b,imports,search);
-                else
-                    stat = execArvoreVP(n,b,imports,search);
-                stats.push_back(stat);
+        for(int i = 0; i < reps ; i++ ){ 
+            file<<"m = "<<orders[k]<<"\n";
 
-                std::cout<<"test 1\n";
-
-                file<<j<<": ti - ";
-                file<<stats[j][0];
-                file<<" ci - ";
-                file<<stats[j][1];
-                file<<" tb - ";
-                file<<stats[j][2];
-                file<<" cb - ";
-                file<<stats[j][3]<<"\n";
-
-                std::cout<<"test 2\n";
-            }
-                /*
-                if(tipo!="Arvore VP: \n")
-                    stats.push_back(execArvoreB(orders[k],n,b,imports,search));
-                else
-                    stats.push_back(execArvoreVP(n,imports,search));
-                    file<<j<<": t i - "<<stats[j][0]<<" c i - "<<stats[j][1]<<" t b - "<<stats[j][2]<<" c b - "<<stats[j][3]<<"\n";
-                */
             
-            
-            std::vector<long double > medias = {0,0,0,0};
 
-            for(std::vector<long double > stat : stats ){
-                medias[0] += stat[0];
-                medias[1] += stat[1];
-                medias[2] += stat[2];
-                medias[3] += stat[3];
-            }
-            medias[0]/=stats.size();
-            medias[1]/=stats.size();
-            medias[2]/=stats.size();
-            medias[3]/=stats.size();
+            std::vector<long double > stat;
 
-            file<<"Medias:\n";
-            file<<"Time insert: " << medias[0] <<"\n";
-            file<<"Comp insert: " << medias[1] <<"\n";
-            file<<"Time busca: " << medias[2] <<"\n";
-            file<<"Comp busca: " << medias[3] <<"\n";
+            stat = execArvoreB(orders[k],n,b,imports,search);
+            stats.push_back(stat);
 
-            if(tipo=="Arvore VP: \n")
-                break;
+            std::cout<<"test B1\n";
+
+            file<<i<<": ti - ";
+            file<<stats[i][0];
+            file<<" ci - ";
+            file << std::setprecision(std::numeric_limits<long double>::digits10 + 1) <<stats[i][1];
+            file<<" tb - ";
+            file<<stats[i][2];
+            file<<" cb - ";
+            file<<std::setprecision(std::numeric_limits<long double>::digits10 + 1) <<stats[i][3]<<"\n";
+
+            std::cout<<"test B2\n";
+        }   
+
+        std::vector<long double > medias = {0,0,0,0};
+
+        for(std::vector<long double > stat : stats ){
+            medias[0] += stat[0];
+            medias[1] += stat[1];
+            medias[2] += stat[2];
+            medias[3] += stat[3];
         }
+        medias[0]/=stats.size();
+        medias[1]/=stats.size();
+        medias[2]/=stats.size();
+        medias[3]/=stats.size();
+
+        file<<"Medias:\n";
+        file<<"Time insert: " << medias[0] <<"\n";
+        file<<"Comp insert: " <<std::setprecision(std::numeric_limits<long double>::digits10 + 1) << medias[1] <<"\n";
+        file<<"Time busca: " << medias[2] <<"\n";
+        file<<"Comp busca: " <<std::setprecision(std::numeric_limits<long double>::digits10 + 1) << medias[3] <<"\n";
     }
+    }
+//------
+
+    file<<"\nArvore VP: \n";
+    for(int q = 0; q<1; q++){ //só para organização do código
+
+    std::vector<std::vector<long double>> stats;
+
+        for(int i = 0; i < reps ; i++ ){ 
+
+            std::vector<long double > stat;
+
+            stat = execArvoreVP(n,b,imports,search);
+            stats.push_back(stat);
+
+            std::cout<<"test VP1\n";
+
+            file<<i<<": ti - ";
+            file<<stats[i][0];
+            file<<" ci - ";
+            file<<std::setprecision(std::numeric_limits<long double>::digits10 + 1) <<stats[i][1];
+            file<<" tb - ";
+            file<<stats[i][2];
+            file<<" cb - ";
+            file<<std::setprecision(std::numeric_limits<long double>::digits10 + 1) <<stats[i][3]<<"\n";
+
+            std::cout<<"test VP2\n";
+        }
+
+        std::vector<long double > medias = {0,0,0,0};
+
+        for(auto stat : stats ){
+            medias[0] += stat[0];
+            medias[1] += stat[1];
+            medias[2] += stat[2];
+            medias[3] += stat[3];
+        }
+        medias[0]/=stats.size();
+        medias[1]/=stats.size();
+        medias[2]/=stats.size();
+        medias[3]/=stats.size();
+
+        file<<"Medias:\n";
+        file<<"Time insert: " << medias[0] <<"\n";
+        file<<"Comp insert: " <<std::setprecision(std::numeric_limits<long double>::digits10 + 1) << medias[1] <<"\n";
+        file<<"Time busca: " << medias[2] <<"\n";
+        file<<"Comp busca: " <<std::setprecision(std::numeric_limits<long double>::digits10 + 1) << medias[3] <<"\n";
+
+    }
+
     file.close();
 }
 
