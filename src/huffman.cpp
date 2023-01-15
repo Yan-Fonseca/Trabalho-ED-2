@@ -200,8 +200,8 @@ namespace huffman {
     }
 
     huffmanTree::~huffmanTree() {
-        Node::node *n = this->getRoot();
-        deleteTree(n);
+        //Node::node *n = this->getRoot();
+        //deleteTree(n);
     }
 
     Node::node* huffmanTree::getRoot() {
@@ -601,8 +601,8 @@ namespace huffman {
     }
 
     float Operator::compressionTax(std::string text, std::string code) {
-        float sizeText = text.size()*8;
-        float sizeCode = code.size();
+        float sizeText = text.size();
+        float sizeCode = code.size()/8;
 
         return (sizeText - sizeCode)/sizeText;
     }
