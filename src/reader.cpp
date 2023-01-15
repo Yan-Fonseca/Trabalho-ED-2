@@ -1,14 +1,14 @@
 #include "../include/reader.h"
 
-Reader::Reader(std::string& p,int m_size) : path(p) , mediumLineSize(m_size) {}
+Reader::Reader(std::string& p,int m_size){path=p;mediumLineSize=m_size;};
 
-void Reader::setPath(std::string& p) { path = p; }
-std::string Reader::getPath() { return path; }
+void Reader::setPath(std::string& p) {path = p;}
+std::string Reader::getPath() {return path;}
 
-void Reader::setOffsetMap(std::unordered_map<int, int>& o) { offsetMap = o; }
-std::unordered_map<int, int> Reader::getOffsetMap() { return offsetMap; }
+void Reader::setOffsetMap(std::unordered_map<int, int>& o) {offsetMap = o;}
+std::unordered_map<int, int> Reader::getOffsetMap() {return offsetMap;}
 
-int Reader::getnLines(){ return nLines; }
+int Reader::getnLines(){return nLines;}
 
 std::string Reader::getReview(int lineNumber)
 {
@@ -86,7 +86,7 @@ void Reader::readBinary() {
     }
 }
 
-void Reader::createBinary()
+void Reader::createBinary(std::string path)
 {
     std::ifstream file(path+"ratings_Electronics.csv");
     std::ofstream outfile(path+"ratings_Electronics.bin", std::ios::binary);

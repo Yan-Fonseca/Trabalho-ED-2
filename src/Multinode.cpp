@@ -1,7 +1,8 @@
 #include "../include/Multinode.h"
 
-Multinode::Multinode(int s){
+Multinode::Multinode(int s,int* c){
     
+    comp = c;
     dad=nullptr;
     setOrder(s);
     setContains(0);
@@ -16,14 +17,9 @@ Multinode::Multinode(int s){
     sons.push_back(nullptr);
 }
 
-void Multinode::setSon(Multinode* mn, int index){
-    sons[index]=mn;
-    if(mn!=nullptr)
-        mn->setDad(this);
-}
-
-Multinode::Multinode(int s,Multinode* d){
+Multinode::Multinode(int s,Multinode* d,int* c){
     
+    comp = c;
     dad = d;
     setOrder(s);
     setContains(0);
@@ -39,6 +35,11 @@ Multinode::Multinode(int s,Multinode* d){
     sons.push_back(nullptr);
 }
 
+void Multinode::setSon(Multinode* mn, int index){
+    sons[index]=mn;
+    if(mn!=nullptr)
+        mn->setDad(this);
+}
 
 Multinode::~Multinode(){
     for(int i=0;i<contains;i++){
@@ -56,9 +57,9 @@ void Multinode::remove(No node){
 void Multinode::remove(int index){
     
 }
-void Multinode::insert_son(Multinode* son,int* comp){
+void Multinode::insert_son(Multinode* son ){
 
-    *comp++;
+    addComp();;
     if(son==nullptr){
         return;
     }
@@ -66,7 +67,7 @@ void Multinode::insert_son(Multinode* son,int* comp){
     std::string maiorId = son->getNode(son->getContains()-1)->getId();
 
     for(int i=0;i<contains;i++){
-        *comp++;
+        addComp();;
         if(maiorId.compare(nodes[i]->getId())<=0){
             sons[i]=son;
             return;
@@ -91,31 +92,21 @@ Multinode* Multinode::getSon(int i){
         return nullptr;
 }
 
-Multinode* Multinode::findSon(std::string id,int* comp){
+Multinode* Multinode::findSon(std::string id ){
     
-    *comp++;
+    addComp();;
     if(sons[0]==nullptr)
         return nullptr;
     for(int i=0;i<contains;i++){
-        *comp++;
+        addComp();;
         if(id.compare(nodes[i]->getId())<=0)
             return sons[i];
     }
     return sons[contains];
 }
 
-Multinode* Multinode::findSon(std::string id){
-    
-    if(sons[0]==nullptr)
-        return nullptr;
-    for(int i=0;i<contains;i++){
-        if(id.compare(nodes[i]->getId())<=0)
-            return sons[i];
-    }
-    return sons[contains];
-}
 
-void Multinode::insert(No* node,bool balance,int* comp){
+void Multinode::insert(No* node,bool balance ){
 
     if(contains==0){
         nodes[0]=node;
@@ -128,30 +119,30 @@ void Multinode::insert(No* node,bool balance,int* comp){
 
     //std::cout<<nodes[0]->getId()<<" "<<nodes[contains-1]->getId()<<"\n";
 
-    *comp++;
+    addComp();;
     if(id.compare(nodes[0]->getId())<=0)
-        insertSort(node,0,balance,comp);
+        insertSort(node,0,balance);
 
     else{
-        *comp++;
+        addComp();;
         if(id.compare(nodes[contains-1]->getId())>0)
-            insertSort(node,contains,balance,comp);
+            insertSort(node,contains,balance);
 
         else for(int i=1;i<contains;i++){
-            *comp++;
+            addComp();;
             if(id.compare(nodes[i-1]->getId())>=0 && id.compare(nodes[i]->getId())<=0){
-                insertSort(node,i,balance,comp);
+                insertSort(node,i,balance);
                 break;
             }
         }
     }
 }
 
-void Multinode::insertSort(No* node,int index,bool balance,int* comp){
+void Multinode::insertSort(No* node,int index,bool balance ){
     
     No* aux;
 
-    *comp++;
+    addComp();
     if(index==contains){
         nodes[index]=node;
     }
@@ -161,9 +152,9 @@ void Multinode::insertSort(No* node,int index,bool balance,int* comp){
             aux = nodes[i];
             nodes[i] = node;
             node = aux;
-            *comp++;
+            addComp();;
         }
-        *comp++;
+        addComp();;
         if(i==contains){
             nodes[i]=node;
             
@@ -173,35 +164,35 @@ void Multinode::insertSort(No* node,int index,bool balance,int* comp){
     contains++;
 
     if(balance)
-        autoBalance(comp);
+        autoBalance();
 }
 
-void Multinode::autoBalance(int* comp){
+void Multinode::autoBalance( ){
 
-    *comp++;
+    addComp();
     if (order>contains)
         return;
     
     else
     {
         if(isFolha)
-            balanceFolha(comp);
+            balanceFolha();
         else
-            balanceRaiz(comp);
+            balanceRaiz();
     }
 }
 
-void Multinode::balanceRaiz(int* comp){
+void Multinode::balanceRaiz( ){
 
     int meio = (contains-1)/2; 
 
     int cesq=0,cdir=0;
 
-    Multinode* esq = new Multinode(order,this);
-    Multinode* dir = new Multinode(order,this);
+    Multinode* esq = new Multinode(order,this,comp);
+    Multinode* dir = new Multinode(order,this,comp);
 
     for(int i=0;i<order;i++){
-        *comp++;
+        addComp();;
         if(i<meio){
             esq->setNode(nodes[i],i);
             esq->setSon(sons[i],i);
@@ -211,7 +202,7 @@ void Multinode::balanceRaiz(int* comp){
         }
             
         else{
-            *comp++;
+            addComp();;
             if(i>meio){
                 dir->setNode(nodes[i],i-meio-1);
                 dir->setSon(sons[i],i-meio-1);
@@ -247,7 +238,7 @@ Multinode** Multinode::getSons(){
     return s;
 }
 
-void Multinode::balanceFolha(int* comp){
+void Multinode::balanceFolha( ){
 
     Multinode** oldSons = dad->getSons();
 
@@ -256,12 +247,12 @@ void Multinode::balanceFolha(int* comp){
 
     int cesq=0,cdir=0;
 
-    Multinode* esq = new Multinode(order,dad);
-    Multinode* dir = new Multinode(order,dad);
+    Multinode* esq = new Multinode(order,dad,comp);
+    Multinode* dir = new Multinode(order,dad,comp);
 
 
    for(int i=0;i<order;i++){
-        *comp++;
+        addComp();;
         if(i<meio){
             esq->setNode(nodes[i],i);
             esq->setSon(sons[i],i);
@@ -271,7 +262,7 @@ void Multinode::balanceFolha(int* comp){
         }
             
         else{
-            *comp++;
+            addComp();;
             if(i>meio){
                 dir->setNode(nodes[i],i-meio-1);
                 dir->setSon(sons[i],i-meio-1);
@@ -291,22 +282,22 @@ void Multinode::balanceFolha(int* comp){
     esq->setContains(cesq);
     dir->setContains(cdir);
 
-    dad->insert(nodes[meio],false,comp);
+    dad->insert(nodes[meio],false);
     dad->removeSon(this);
 
     for(int j=0;(j<order)&&(oldSons[j]!=nullptr);j++){
-        *comp++;
+        addComp();;
         if(oldSons[j]==this)
             continue;
         else
-            dad->insert_son(oldSons[j],comp);
+            dad->insert_son(oldSons[j]);
     }
-    dad->insert_son(esq,comp);
-    dad->insert_son(dir,comp);
+    dad->insert_son(esq);
+    dad->insert_son(dir);
     
     nodes[meio]=nullptr;
 
-    dad->autoBalance(comp);
+    dad->autoBalance();
 
     //delete this;
 

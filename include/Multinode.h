@@ -12,15 +12,16 @@ private:
     std::vector<Multinode*> sons;
     bool isFolha;
     int contains=0; //n de nodes atual
+    int* comp;
 
-    void autoBalance(int* comp);
-    void balanceRaiz(int* comp);
-    void balanceFolha(int* comp);
+    void autoBalance( );
+    void balanceRaiz( );
+    void balanceFolha( );
 
 public:
     Multinode();
-    Multinode(int s);
-    Multinode(int s,Multinode* d);
+    Multinode(int s,int* c);
+    Multinode(int s,Multinode* d,int* c);
     ~Multinode();
 
     int getContains(){return contains;}
@@ -28,7 +29,6 @@ public:
     No* getNode(int i);
     Multinode* getSon(int i);
     Multinode** getSons();
-    Multinode* findSon(std::string id,int* comp);
     Multinode* findSon(std::string id);
     bool getIsFolha(){return isFolha;}
 
@@ -39,12 +39,14 @@ public:
     void setSon(Multinode* mn, int index);
     void setDad(Multinode* mn){dad=mn;};
 
-    void insert(No* node,bool balance,int* comp);
+    void insert(No* node,bool balance );
     void remove(No node);
     void remove(int index);
     void removeSon(Multinode* s);
-    void insert_son(Multinode* son,int* comp);
-    void insertSort(No* node,int index,bool balance,int* comp);
+    void insert_son(Multinode* son );
+    void insertSort(No* node,int index,bool balance );
+
+    void addComp(){*comp = *comp + 1;}
 };
 
 #endif
