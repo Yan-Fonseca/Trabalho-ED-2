@@ -190,7 +190,19 @@ namespace huffman {
         this->root = priority_queue->extractMin();
         this->height = this->treeHeight(this->root);
     }
-    huffmanTree::~huffmanTree() { }
+
+    void huffmanTree::deleteTree(Node::node* n) {
+        if(n != nullptr) {
+            deleteTree(n->getLeft());
+            deleteTree(n->getRight());
+            delete n;
+        }
+    }
+
+    huffmanTree::~huffmanTree() {
+        Node::node *n = this->getRoot();
+        deleteTree(n);
+    }
 
     Node::node* huffmanTree::getRoot() {
         return this->root;
@@ -589,8 +601,8 @@ namespace huffman {
     }
 
     float Operator::compressionTax(std::string text, std::string code) {
-        float sizeText = text.size();
-        float sizeCode = code.size()/8;
+        float sizeText = text.size()*8;
+        float sizeCode = code.size();
 
         return (sizeText - sizeCode)/sizeText;
     }

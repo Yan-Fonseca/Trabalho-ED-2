@@ -69,6 +69,7 @@ namespace huffman {
 
             int treeHeight(Node::node* n);
             void generateDictionaryAux(std::string *dict, Node::node *n, std::string path);
+            void deleteTree(Node::node* n);
         public:
             huffmanTree(heap::minHeap *priority_queue);
             ~huffmanTree();
@@ -99,13 +100,13 @@ namespace huffman {
 
             std::string decompressStr(std::string code);
             std::string compress(std::string str, huffmanTree* tree);
-            void compress();
+            void compress(); // Comprime o arquivo
 
             int bit(char byte, int shift);
             std::string decode(std::string text);
             int getFinalBits(std::string text);
 
-            void descompress();
+            void descompress(); //descomprime o binário
             float compressionTax(std::string text, std::string code);
             void performanceMetrics(int n, int m);
     };
