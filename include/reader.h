@@ -19,6 +19,8 @@ private:
     std::unordered_map<int, int> offsetMap;
     int mediumLineSize;
     int nLines;
+    char* bin_data;
+    long bin_size;
 public:
     Reader(std::string& p,int m_size);
 
@@ -30,9 +32,13 @@ public:
     int getnLines();
 
     std::string getReview(int i);
+    std::string getBinReview(int i);
     void createBinary(std::string path);
     void readBinary();
     ProductReview* import(int n);
+
+    void saveFile();
+    void deleteBinFile(){delete[] bin_data;};
 };
 
 #endif

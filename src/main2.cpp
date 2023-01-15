@@ -92,8 +92,8 @@ void compressTest(int method)
     std::cout << "Testando strings..." << std::endl;
 
     std::string str = "std::string qualquer";
-    std::string comp = comprime(str, method);
-    std::string orig = descomprime(comp, method);
+    std::string comp = ope->comprime(str, method);
+    std::string orig = ope->descomprime(comp, method);
 
     std::cout << "String comprimida: " << comp << std::endl;
     std::cout << "String descomprimida: " << orig << std::endl << std::endl;

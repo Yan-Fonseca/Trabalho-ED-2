@@ -6,6 +6,11 @@ ArvoreB::ArvoreB(int size){
     comp=0;
 }
 
+ArvoreB::~ArvoreB(){
+    raiz->~Multinode();
+    delete raiz;
+};
+
 void ArvoreB::insere(ProductReview* pr){
 
     No* node = new No(pr);
@@ -56,20 +61,26 @@ ProductReview* ArvoreB::busca(std::string userId, std::string productId){
 
     for(int i=0;i<depth;i++){
         son = son->findSon(id);
+        addComp();
         if(son->getSon(0)==nullptr)
             break;
-        else    
+        else {
+            addComp();
             if(i==depth-1)
                 std::cout<<"Error ArvoreB::insere\n";
+        }   
+            
     }
     bool found = false;
     int i;
     for(i = 0; i< son->getContains(); i++){
+        addComp();
         if(id == son->getNode(i)->getId()){
             found=true;
             break;
         } 
     }
+    addComp();
     if(!found)
         return nullptr;
     
@@ -78,8 +89,8 @@ ProductReview* ArvoreB::busca(std::string userId, std::string productId){
     return pr;
 }
 
-int ArvoreB::getDepth(){
-    int d=0;
+long ArvoreB::getDepth(){
+    long d=0;
     Multinode* son=raiz;
     while(son!=nullptr){
         d++;
