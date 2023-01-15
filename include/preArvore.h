@@ -77,8 +77,8 @@ std::vector<long> execArvoreVP( int n, int b, ProductReview* imports, ProductRev
 void preArvore(Reader reader)
 {
     int orders[3]={20,200,1000};
-    int n = 1000;
-    int b = 100;
+    int n = 10;
+    int b = 10;
 
     std::ofstream file("../files/saida.txt");
     if(file.fail()){
@@ -99,6 +99,8 @@ void preArvore(Reader reader)
 
                 ProductReview* imports = reader.import(n);
                 ProductReview* search = reader.import(b);
+
+                std::cout<<"pu";
                 std::vector<long> stat;
                 if(tipo!="Arvore VP: \n")
                     stat = execArvoreB(orders[k],n,b,imports,search);
