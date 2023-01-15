@@ -588,7 +588,7 @@ namespace huffman {
         std::cout << "Parte 4 concluída\n";
     }
 
-    float compressionTax(std::string text, std::string code) {
+    float Operator::compressionTax(std::string text, std::string code) {
         float sizeText = text.size();
         float sizeCode = code.size()/8;
 

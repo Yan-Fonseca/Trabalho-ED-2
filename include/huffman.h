@@ -106,6 +106,7 @@ namespace huffman {
             int getFinalBits(std::string text);
 
             void descompress();
+            float compressionTax(std::string text, std::string code);
             void performanceMetrics(int n, int m);
     };
 }
