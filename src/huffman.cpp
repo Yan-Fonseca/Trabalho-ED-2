@@ -390,7 +390,7 @@ namespace huffman {
 
     // Irá comprimir o conteúdo do arquivo reviewsOrig.txt
     void Operator::compress() {
-        //std::string path = getPath();
+        std::string path = getReader()->getPath();
         std::ifstream textFile(path+"reviewsOrig.txt",std::ios::in);
         std::string text;
         std::string code;
@@ -525,6 +525,7 @@ namespace huffman {
     void Operator::descompress() {
         // Parte 1:
         // Fazendo a leitura da árvore de huffman.
+        std::string path = getReader()->getPath();
         int table[ASCII] = {0};
         char i;
         int j=0;

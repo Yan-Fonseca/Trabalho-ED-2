@@ -5,12 +5,12 @@
 
 void menuArvores(Reader r);
 
-void huffmanF() {
+void huffmanF(Reader r) {
   std::string texto = "abracadabra";
   std::string compressao;
   std::string descompressao;
 
-  huffman::Operator *ope = new huffman::Operator();
+  huffman::Operator *ope = new huffman::Operator(&r);
 
   compressao = ope->compressStr(texto);
 
@@ -37,7 +37,7 @@ void menu(Reader r)
     menuArvores(r);
     break;
   case 2:
-    huffmanF();
+    huffmanF(r);
     break;
   case 0:
     return;

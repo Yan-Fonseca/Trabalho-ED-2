@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <string>
-#include "../include/func.h"
+#include "../include/reader.h"
 
 namespace Node {
     class node {
@@ -82,9 +82,12 @@ namespace huffman {
 
     class Operator {
         private:
+            Reader *reader;
         public:
-            Operator() { }
+            Operator(Reader *r) { this->reader = r; }
             ~Operator() { }
+
+            Reader* getReader() { return this->reader;}
 
             void createFrequencyTable(std::string str, int *table);
             huffmanTree* makeHuffmanTree(std::string str);
