@@ -16,7 +16,7 @@ ProductReview::ProductReview(std::string info)
 ProductReview::ProductReview(ProductReview* pr)
 {
     if(pr==nullptr){
-        std::cout<<"Product Review Null Pointer Constructor.\n";
+        std::cerr<<"Product Review Constructor Error: Null Pointer .\n";
         return;
     }
         
