@@ -587,4 +587,66 @@ namespace huffman {
 
         std::cout << "Parte 4 concluída\n";
     }
+
+    float compressionTax(std::string text, std::string code) {
+        float sizeText = text.size();
+        float sizeCode = code.size()/8;
+
+        return (sizeText - sizeCode)/sizeText;
+    }
+
+    void Operator::performanceMetrics(int n, int m) {
+        std::string path = this->getReader()->getPath();
+        std::ofstream eraser(path + "saida.txt", std::ios::out);
+        eraser.close();
+        std::ofstream saida(path + "saida.txt", std::ios::app);
+
+        saida << "Taxas de compressão do Huffman: \n";
+        saida << "Quantidade de registros a serem analisados: " << n << "\n";
+
+        std::string text = "";
+        std::string code;
+        float compression[m];
+        float media=0;
+
+        ProductReview *vet;
+
+        int table[ASCII] = {0};
+        heap::minHeap *priority_queue;
+        huffmanTree *tree;
+
+        for(int i=0; i<m; i++) {
+            vet = this->getReader()->import(n);
+            for(int j=0; j<n; j++) {
+                text += vet[j].getUserId();
+                text += vet[j].getProductId();
+                text += vet[j].getRating();
+                text += vet[j].getTime();
+            }
+
+            createFrequencyTable(text, table);
+            priority_queue = new heap::minHeap(table);
+            tree = new huffmanTree(priority_queue);
+            code = compress(text,tree);
+
+            compression[i] = compressionTax(text,code);
+
+            saida << "Taxa de compressão [" << i << "]: " << compression[i] << "\n";
+
+            text = "";
+            code = "";
+            for(int f=0; f<ASCII; f++) {
+                table[f] = 0;
+            }
+        }
+
+        for(int i=0; i<m; i++) {
+            media += compression[i];
+        }
+        media = media / m;
+
+        saida << "Média de compressão para " << m << " execuções: " << media << "\n";
+
+        saida.close();
+    }
 }

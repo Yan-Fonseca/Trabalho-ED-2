@@ -6,7 +6,7 @@
 void menuArvores(Reader r);
 
 void huffmanF(Reader r) {
-  std::string texto = "abracadabra";
+  /*std::string texto = "o rato roeu a roupa do rei de roma";
   std::string compressao;
   std::string descompressao;
 
@@ -18,7 +18,11 @@ void huffmanF(Reader r) {
 
   descompressao = ope->decompressStr(compressao);
 
-  std::cout << "Resultado da descompressão: " << descompressao << "\n";
+  std::cout << "Resultado da descompressão: " << descompressao << "\n";*/
+
+  huffman::Operator *ope = new huffman::Operator(&r);
+
+  ope->performanceMetrics(5000,3);
 }
 
 void menu(Reader r)
@@ -96,7 +100,7 @@ int main(int argc, char **argv)
   std::cout<<"Binario ja existe\n";
   test.close();
 
-  //reader.readBinary();
+  reader.readBinary();
   }
   else{
 
@@ -104,7 +108,7 @@ int main(int argc, char **argv)
   double timeForCreateBinary;
   std::chrono::high_resolution_clock::time_point inicio = std::chrono::high_resolution_clock::now();
 
-  reader.createBinary();
+  reader.createBinary(path);
 
   std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
   timeForCreateBinary=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
