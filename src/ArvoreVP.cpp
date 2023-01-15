@@ -10,8 +10,19 @@ ArvoreVP::ArvoreVP() {
 }
 // destrutor
 ArvoreVP::~ArvoreVP() {
-    // desalocar memoria
+    desalocar_memoria(raiz);
+    raiz = vazio;
 }
+
+void ArvoreVP::desalocar_memoria(NoVP* novp) {
+    if (novp == vazio) {
+        return;
+    }
+    desalocar_memoria(novp->getLeft());
+    desalocar_memoria(novp->getRight());
+    delete novp;
+}
+
 void ArvoreVP::LeftRotate(NoVP* novp) {
     NoVP* aux = novp->getRight();  //ponteiro auxiliar para o filho direito do nó recebido
     novp->setRight(aux->getLeft()); //Define o filho direito do nó recebido para ser o filho esquerdo de auxiliar
