@@ -5,8 +5,8 @@
 
 void menuArvores(Reader r);
 
-/*void huffmanF(Reader r) {
-  std::string texto = "o rato roeu a roupa do rei de roma";
+void huffmanF(Reader r) {
+/*  std::string texto = "o rato roeu a roupa do rei de roma";
   std::string compressao;
   std::string descompressao;
 
@@ -19,11 +19,11 @@ void menuArvores(Reader r);
   descompressao = ope->decompressStr(compressao);
 
   std::cout << "Resultado da descompressão: " << descompressao << "\n";
+*/
+  huffman::Operator *ope = new huffman::Operator(&r);
 
-  //huffman::Operator *ope = new huffman::Operator(&r);
-
-  ope->performanceMetrics(10000,10);
-} */
+  ope->performanceMetrics(5000,10);
+}
 
 void menu(Reader r)
 {
@@ -41,7 +41,7 @@ void menu(Reader r)
     menuArvores(r);
     break;
   case 2:
-    //huffmanF(r);
+    huffmanF(r);
     break;
   case 0:
     return;

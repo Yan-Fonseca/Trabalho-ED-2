@@ -86,6 +86,7 @@ namespace huffman {
             Reader *reader;
         public:
             Operator(Reader *r) { this->reader = r; }
+            Operator() { this->reader = nullptr; }
             ~Operator() { }
 
             Reader* getReader() { return this->reader;}
