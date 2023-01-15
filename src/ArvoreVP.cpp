@@ -108,7 +108,7 @@ void ArvoreVP::Balanceamento_Insere(NoVP*& novp) {
 
 void ArvoreVP::insere(ProductReview* pr) {
     std::string valorid2 = pr->getUserId()+pr->getProductId(); //string para concatenar o userId e o productId do ProductReview
-    valorid2.erase(std::remove_if(valorid2.begin(), valorid2.end(), ' '), valorid2.end()); //remove todos os espaços em branco
+    valorid2.erase(std::remove(valorid2.begin(), valorid2.end(), ' '), valorid2.end()); //remove todos os espaços em branco
     NoVP* new_novp = new NoVP(valorid2, COR::RED, pr); // nó com o valorid2 sendo ele o id, de cor vermelho e um ponteiro para o objeto ProductReview recebido
     NoVP* novp = raiz; // Define o nó novp para a raiz da árvore
     NoVP* anterior = vazio; // Define um ponteiro anterior como nulo
@@ -145,7 +145,7 @@ void ArvoreVP::insere(ProductReview* pr) {
 ProductReview* ArvoreVP::busca(std::string userId,std::string productId) {
     ProductReview* Prod; // ponteiro para ProductReview definido como nulo
     std::string valorid = userId + productId; //Concatena o userId e o productId
-    valorid.erase(std::remove_if(valorid.begin(), valorid.end(), ' '), valorid.end()); //remove espaços em branco da string
+    valorid.erase(std::remove(valorid.begin(), valorid.end(), ' '), valorid.end()); //remove espaços em branco da string
     NoVP* novp = raiz; // Define o nó novp para a raiz da árvore
     while (novp != vazio) { //Enquanto o nó novp não for um ponteiro nulo
         comp++;

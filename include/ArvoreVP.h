@@ -2,7 +2,7 @@
 #define ARVOREVP_H
 
 #include "NoVP.h"
-//a
+
 class ArvoreVP {
 private:
     NoVP *raiz, *vazio;
