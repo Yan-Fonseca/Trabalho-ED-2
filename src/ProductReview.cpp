@@ -64,8 +64,10 @@ void ProductReview::print(){
 void ProductReview::setData(std::string info)
 {
 
-    if(info=="")
+    if(info==""){
+        std::cerr<<"Product Review setData Error: Empty string .\n";
         return;
+    }
     std::vector<std::string> inf = splitString(info);
 
     setUserId(inf[0]);

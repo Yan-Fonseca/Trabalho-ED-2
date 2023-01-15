@@ -4,9 +4,9 @@
 #include "ArvoreVP.h"
 #include "ArvoreB.h"
 
-std::vector<long> execArvoreB(int order, int n, int b, ProductReview* imports, ProductReview* search)
+std::vector<double> execArvoreB(int order, int n, int b, ProductReview* imports, ProductReview* search)
 {
-    std::vector<long int> stats(4); //time insert, comp insert, time search, comp search
+    std::vector<double> stats;
 
     ArvoreB* arvoreb = new ArvoreB(order);
 
@@ -15,35 +15,33 @@ std::vector<long> execArvoreB(int order, int n, int b, ProductReview* imports, P
         arvoreb->insere(&(imports[i]));
     }        
     std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
-    long int timeN=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count(); 
-
+    double timeN=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count(); 
+    std::cout<<timeN<<"    ";
     stats.push_back(timeN);
-    stats.push_back((long)arvoreb->getComp());
+    int comp = arvoreb->getComp();
+    stats.push_back(comp);
 
     arvoreb->resetComp();
 
     inicio = std::chrono::high_resolution_clock::now();
     for(int i = 0; i < b ; i++ ){
-        arvoreb->busca(search[i].getUserId(),search[i].getProductId())->print();
+        arvoreb->busca(search[i].getUserId(),search[i].getProductId());
     } 
     fim = std::chrono::high_resolution_clock::now();
-    long int timeB=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
-
+    double timeB=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
     std::cout<<timeB;
-
     stats.push_back(timeB);
-    stats.push_back((long)arvoreb->getComp()); 
-
-
+    comp = arvoreb->getComp();
+    stats.push_back(comp);
 
     delete arvoreb;
 
     return stats;
 }
 
-std::vector<long> execArvoreVP( int n, int b, ProductReview* imports, ProductReview* search)
+std::vector<double> execArvoreVP( int n, int b, ProductReview* imports, ProductReview* search)
 {
-    std::vector<long int> stats(4); //time insert, comp insert, time search, comp search
+    std::vector<double> stats;
 
     ArvoreVP* arvorevp = new ArvoreVP();
 
@@ -52,10 +50,12 @@ std::vector<long> execArvoreVP( int n, int b, ProductReview* imports, ProductRev
         arvorevp->insere(&(imports[i]));
     }        
     std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
-    long int timeN=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count(); 
+    double timeN=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count(); 
 
     stats.push_back(timeN);
-    stats.push_back((long)arvorevp->getComp());
+
+    int comp = arvorevp->getComp();
+    stats.push_back(comp);
 
     arvorevp->resetComp();
 
@@ -64,10 +64,10 @@ std::vector<long> execArvoreVP( int n, int b, ProductReview* imports, ProductRev
         arvorevp->busca(search[i].getUserId(),search[i].getProductId());
     } 
     fim = std::chrono::high_resolution_clock::now();
-    long int timeB=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
-
+    double timeB=std::chrono::duration_cast<std::chrono::duration<double>>(fim - inicio).count();
     stats.push_back(timeB);
-    stats.push_back((long)arvorevp->getComp()); 
+    comp = arvorevp->getComp();
+    stats.push_back(comp);
 
     delete arvorevp;
 
@@ -76,9 +76,10 @@ std::vector<long> execArvoreVP( int n, int b, ProductReview* imports, ProductRev
 
 void preArvore(Reader reader)
 {
-    int orders[3]={20,200,1000};
-    int n = 10;
-    int b = 10;
+    std::cout<<"preArvore\n";
+    int orders[3]={20,200};
+    int n = 500000;
+    int b = 100;
 
     std::ofstream file("../files/saida.txt");
     if(file.fail()){
@@ -88,27 +89,26 @@ void preArvore(Reader reader)
     std::vector<std::string> tipos= {"\nArvore B: \n","\nArvore VP: \n"};
     for(std::string tipo : tipos){
         file<<tipo;
-        for(int k = 0; k < 3 ; k++ ){ //itera orders
+        for(int k = 0; k < 2 ; k++ ){ //itera orders
             if(tipo!="Arvore VP: \n")
-                file<<"m = "<<orders[k];
+                file<<"m = "<<orders[k]<<"\n";
 
             //std::vector<long> stats;
             //std::vector<std::vector<long>> stats;
-            std::vector<std::vector<long>> stats;
+            std::vector<std::vector<double>> stats;
             for(int j = 0; j < 3; j++ ){ //tem que rodar 3 vezes
 
                 ProductReview* imports = reader.import(n);
                 ProductReview* search = reader.import(b);
 
-                std::cout<<"pu";
-                std::vector<long> stat;
+                std::vector<double> stat;
                 if(tipo!="Arvore VP: \n")
                     stat = execArvoreB(orders[k],n,b,imports,search);
                 else
-                    //stat = execArvoreVP(n,imports,search);
+                    stat = execArvoreVP(n,b,imports,search);
                 stats.push_back(stat);
                 
-                file<<j<<": t i - "<<stats[j][0]<<" c i - "<<stats[j][1]<<" t b - "<<stats[j][2]<<" c b - "<<stats[j][3]<<"\n";
+                file<<j<<": ti - "<<stats[j][0]<<" ci - "<<stats[j][1]<<" tb - "<<stats[j][2]<<" cb - "<<stats[j][3]<<"\n";
             }
                 /*
                 if(tipo!="Arvore VP: \n")
@@ -121,7 +121,7 @@ void preArvore(Reader reader)
             
             std::vector<double> medias = {0,0,0,0};
 
-            for(std::vector<long> stat : stats ){
+            for(std::vector<double> stat : stats ){
                 medias[0] += stat[0];
                 medias[1] += stat[1];
                 medias[2] += stat[2];

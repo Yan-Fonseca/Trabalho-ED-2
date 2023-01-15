@@ -15,7 +15,7 @@ public:
     ArvoreVP();
     ~ArvoreVP();
 
-    int* getComp(){return &comp;}
+    int getComp(){return comp;}
     void insere(ProductReview *pr);
     ProductReview* busca(std::string userId,std::string productId);
     void print();
