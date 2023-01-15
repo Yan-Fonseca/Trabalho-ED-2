@@ -1,4 +1,5 @@
 #include "../include/Multinode.h"
+#include <stack>
 
 Multinode::Multinode(int s,long* c){
     
@@ -42,15 +43,17 @@ void Multinode::setSon(Multinode* mn, int index){
 }
 
 Multinode::~Multinode() {
-    for(auto son : sons) {
-        if (son != nullptr) {
-            delete son;
+    std::stack<Multinode*> stack;
+    stack.push(this);
+    while (!stack.empty()) {
+        Multinode* node = stack.top();
+        stack.pop();
+        for (int i = 0; i < node->sons.size(); i++) {
+            if (node->sons[i] != nullptr) {
+                stack.push(node->sons[i]);
+            }
         }
-    }
-    for(auto node : nodes) {
-        if (node != nullptr) {
-            delete node;
-        }
+        delete node;
     }
 }
 
