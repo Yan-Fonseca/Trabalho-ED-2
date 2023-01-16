@@ -2,6 +2,20 @@
 #include "../include/compressao.h"
 #include "../include/preArvore.h"
 
+void statsHuffman(Reader *r) {
+    int n, m;
+    huffman::Operator *ope = new huffman::Operator(r);
+
+    std::cout << "===================ESTATISTICAS DE HUFFMAN===================\n";
+    std::cout << "Digite a quantidade de registros a serem comprimidos: ";
+    std::cin >> n;
+    std::cout << "Digite a quantidade de iteracoes/compressoes a serem efetuadas: ";
+    std::cin >> m;
+
+    ope->performanceMetrics(n,m);
+
+    std::cout << "\nCONCLUIDO!Confire o arquivo saida.txt para ver os resultados\n";
+}
 
 void printPrompt(ProductReview *vet, int n)
 {
@@ -140,6 +154,7 @@ int main(int argc, char *argv[])
                 << "[6] LZ77 (NÂO DESENVOLVIDO)" << std::endl
                 << "[7] LZW  (NÂO DESENVOLVIDO)"<< std::endl
                 << "[8] Gerar Estatísticas das Arvores" << std::endl
+                << "[9] Gerar Estatísticas de Huffman" << std::endl
                 << "[0] Sair" << std::endl;
 
             std::cout << "Digite uma opcao de menu: ";
@@ -180,6 +195,9 @@ int main(int argc, char *argv[])
                     break;
                 case 8:
                     preArvore(reader);
+                    break;
+                case 9:
+                    statsHuffman(&reader);
                     break;
                 default:
                     break;
