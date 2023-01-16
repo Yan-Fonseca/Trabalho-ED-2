@@ -171,6 +171,7 @@ namespace huffman {
         }
     }
 
+    // algoritmo de huffman
     huffmanTree::huffmanTree(heap::minHeap *priority_queue) {
         this->heap_vet = priority_queue;
         int n = priority_queue->getHeapSize();
@@ -308,7 +309,7 @@ namespace huffman {
         std::string finalString = "";
 
         finalString += *code;
-        finalString += "&";
+        finalString += "&"; // Caractere para final de cadeia
         finalString += tableEncoded;
 
         //std::cout << finalString << "\n";
@@ -323,6 +324,7 @@ namespace huffman {
         std::string text = "";
         int size = cipher.size();
 
+        // Leva em conta os bits "lixo" que ficam no último byte do código
         while(i < size - final_bits && cipher[i]!='\0') {
             if(cipher[i]=='0')
                 no = no->getLeft();
