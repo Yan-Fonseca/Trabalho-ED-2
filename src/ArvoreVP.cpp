@@ -37,9 +37,9 @@ void ArvoreVP::LeftRotate(NoVP* novp) {
     } else{
         comp++;
         if (novp == novp->getPai()->getLeft()) { // Caso contrário, se o nó recebido for um filho esquerdo, define o filho esquerdo do pai do nó recebido como auxiliar
-        novp->getPai()->setLeft(aux); 
+            novp->getPai()->setLeft(aux); 
         }else {  // caso contrário, define o filho direito como auxiliar
-        novp->getPai()->setRight(aux);
+            novp->getPai()->setRight(aux);
         }
     }
     aux->setLeft(novp); // Define o filho esquerdo de auxiliar para ser o nó recebido
@@ -60,7 +60,7 @@ void ArvoreVP::RightRotate(NoVP* novp) {
     }else{
         comp++;
         if (novp == novp->getPai()->getRight()) { //Caso contrário, se o nó recebido for um filho direito, define o filho direito do pai do nó recebido como auxiliar
-        novp->getPai()->setRight(aux);
+            novp->getPai()->setRight(aux);
         }else {  //caso contrário, define o filho esquerdo como auxiliar.
             novp->getPai()->setLeft(aux);
         }
@@ -141,7 +141,7 @@ void ArvoreVP::insere(ProductReview* pr) {
         if (new_novp->getId() < anterior->getId()) { // Verifica se o id do novo nó é menor que o id do nó anterior
             anterior->setLeft(new_novp); // caso seja, ele define o filho esquerdo do nó anterior para ser o novo nó (new_novp)
         }else {
-        anterior->setRight(new_novp); //se n ele, define o filho direito do nó anterior para ser o novo nó (new_novp), pois seu id é maior
+            anterior->setRight(new_novp); //se n ele, define o filho direito do nó anterior para ser o novo nó (new_novp), pois seu id é maior
         }
     }
     //Define os filhos esquerdo e direito do novo nó como nulos ("vazio" de cor preta)
