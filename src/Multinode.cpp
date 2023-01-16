@@ -55,12 +55,6 @@ Multinode::~Multinode() {
     }
 }
 
-void Multinode::remove(No node){
-    
-}
-void Multinode::remove(int index){
-    
-}
 void Multinode::insert_son(Multinode* son ){
 
     addComp();;

@@ -19,7 +19,7 @@ Reader::Reader(std::string& p,int m_size)
         std::cout<<"Criação concluida\n";
     }
 
-};
+}
 
 void Reader::setPath(std::string& p) {path = p;}
 std::string Reader::getPath() {return path;}
@@ -138,7 +138,7 @@ void Reader::readBinary() {
             int key = 0;
             int value = 0;
             bool readingKey = true;
-            for (int i = 1; i < line.length(); i++) {
+            for (unsigned int i = 1; i < line.length(); i++) {
                 if (line[i] == '!') {
                     // Switch from reading key to reading value
                     readingKey = false;

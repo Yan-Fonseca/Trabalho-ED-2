@@ -9,7 +9,7 @@ ArvoreB::ArvoreB(int size){
 ArvoreB::~ArvoreB(){
     raiz->~Multinode();
     delete raiz;
-};
+}
 
 void ArvoreB::insere(ProductReview* pr){
 
@@ -98,6 +98,7 @@ long ArvoreB::getDepth(){
         addComp();
     return d-1;
     }
+    return -1;
 }
 
 void ArvoreB::print(){
