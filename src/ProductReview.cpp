@@ -27,6 +27,14 @@ ProductReview::ProductReview(ProductReview* pr)
     setTime(pr->getTime());
 }
 
+ProductReview::ProductReview(){
+    setBinaryPosition(-1);
+    setUserId("");
+    setProductId("");
+    setTime("");
+    setRating("");
+}
+
 ProductReview::~ProductReview()
 {
     //delete(this);
@@ -56,7 +64,7 @@ void ProductReview::print(){
 
     std::cout<<"-------------\nReview:\n";
 
-    std::cout<<"\n UserId: "<<getUserId()<<"\n ProductId: "<<getProductId()<<"\n Rating: "<<getRating()<<"\n Timestamp: "<<getTime()<<"\n Bin.Position: "<<getBinaryPosition();
+    std::cout<<"\n UserId: "<<getUserId()<<"\n ProductId: "<<getProductId()<<"\n Rating: "<<getRating()<<"\n Timestamp: "<<getTime()<<"\n Bin.Position: "<<getBinaryPosition()   ;
 
     std::cout<<"\n-------------\n";
 }

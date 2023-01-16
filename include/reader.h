@@ -31,7 +31,8 @@ public:
 
     int getnLines();
 
-    std::string getReview(int i);
+    void getReview(int i);
+    std::string getReviewString(int i);
     std::string getBinReview(int i);
     void createBinary(std::string path);
     void readBinary();

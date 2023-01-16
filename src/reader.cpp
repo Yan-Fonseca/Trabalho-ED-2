@@ -1,6 +1,25 @@
 #include "../include/reader.h"
 
-Reader::Reader(std::string& p,int m_size){path=p;mediumLineSize=m_size;};
+Reader::Reader(std::string& p,int m_size)
+    {path=p;
+    mediumLineSize=m_size;
+
+    std::ifstream test(path+"ratings_Electronics.bin");
+
+    if(test.good()){
+
+        std::cout<<"Binario ja existe\n";
+        test.close();
+
+        readBinary();
+    }
+    else{
+        std::cout<<"Binario nao encontrado\n\nCriando Binario...";
+        createBinary(path);
+        std::cout<<"Criação concluida\n";
+    }
+
+};
 
 void Reader::setPath(std::string& p) {path = p;}
 std::string Reader::getPath() {return path;}
@@ -10,7 +29,45 @@ std::unordered_map<int, int> Reader::getOffsetMap() {return offsetMap;}
 
 int Reader::getnLines(){return nLines;}
 
-std::string Reader::getReview(int lineNumber)
+void Reader::getReview(int lineNumber)
+{
+    std::ifstream infile(path+"ratings_Electronics.bin", std::ios::binary);
+    std::string line;
+    int offset = 0;
+    int lineSize = mediumLineSize;
+    int position = lineSize * lineNumber;
+    for(auto& [line, offsetValue] : offsetMap)
+    {
+        if(line < lineNumber)
+        {
+            offset += offsetValue;
+        }
+    }
+    position += offset;
+    infile.seekg(position);
+
+    if (offsetMap.find(lineNumber) != offsetMap.end()) {
+        lineSize+=offsetMap.at(lineNumber);
+    }
+
+    char c;
+    while (infile.get(c) && c != '\n') {
+    line += c;
+    }
+    
+    line = line + "$";
+    line.append(std::to_string(position)) ;
+
+    infile.close();
+
+    //std::cout<<"pos:"<<position<<" os:"<<offset<<"\n";
+
+    ProductReview* pr = new ProductReview(line);
+
+    pr->print();
+}
+
+std::string Reader::getReviewString(int lineNumber)
 {
     std::ifstream infile(path+"ratings_Electronics.bin", std::ios::binary);
     std::string line;
@@ -193,14 +250,14 @@ void Reader::createBinary(std::string path)
             srand(i*time(0));
             rnd=rand()% nLines;
             if(HashList::insertInHash(table, rnd)) {
-                std::string info = getReview(rnd);
+                std::string info = getReviewString(rnd);
                 b[i].setData(info);
             } else {
                 i--;
             }
             
         }
-        
+
     return b;
 } 
 

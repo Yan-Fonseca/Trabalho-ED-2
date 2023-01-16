@@ -22,7 +22,7 @@ class ProductReview {
 
     ProductReview(std::string info);
     ProductReview(ProductReview* pr);
-    ProductReview(){};
+    ProductReview();
     ~ProductReview();
 
     //Getters

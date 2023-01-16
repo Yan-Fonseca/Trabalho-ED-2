@@ -113,8 +113,6 @@ int main(int argc, char *argv[])
         // PELO USUÁRIO COMO ARGUMENTO DA LINHA DE COMANDO
         std::string path(argv[1]);
         Reader reader(path , 41);
-
-        reader.createBinary(path);
         
         int registerIdx;
         std::cout << "Digite um indice de registro (-1 para sair): ";
