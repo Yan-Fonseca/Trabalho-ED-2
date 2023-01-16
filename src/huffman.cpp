@@ -386,13 +386,13 @@ namespace huffman {
     std::string Operator::compress(std::string str, huffmanTree* tree) {
         std::string *dictionary = tree->generateDictionary();
 
-        std::cout << "---------------------------------------\n";
+        /*std::cout << "---------------------------------------\n";
         std::cout << "Dicionário de códigos para cada caractere:\n";
         for(int i=0; i<ASCII; i++) {
             if(dictionary[i].length()!=0)
                 std::cout << i << ": " << dictionary[i] << "\n";
         }
-        std::cout << "---------------------------------------\n";
+        std::cout << "---------------------------------------\n";*/
 
         std::string *cipher = encode(dictionary, str);
 
@@ -429,7 +429,7 @@ namespace huffman {
         if(binary) {
             for(int i=0; i<ASCII; i++) {
                 if(table[i]>0) {
-                    std::cout << i << ": " << table[i] << "\n";
+                    //std::cout << i << ": " << table[i] << "\n";
                     binary.write(reinterpret_cast<const char*>(&i),1);
                     binary.write(reinterpret_cast<const char*>(&table[i]),sizeof(int));
                 }
@@ -470,8 +470,6 @@ namespace huffman {
 
         shift = shift-7;
         binary.write(reinterpret_cast<const char*>(&shift),1);
-
-        std::cout << "Bits sobrando no final: " << shift << "\n";
 
         binary.close();
     }
@@ -559,14 +557,12 @@ namespace huffman {
             exit(1);
         }
 
-        std::cout << "Parte 1 concluída\n";
         // Parte 2:
         // Gerando a árvore de huffman
         heap::minHeap *priority_queue = new heap::minHeap(table);
         huffmanTree *tree = new huffmanTree(priority_queue);
         Node::node *n = tree->getRoot();
 
-        std::cout << "Parte 2 concluída\n";
 
         // Parte 3:
         // Lendo o arquivo e transformando o código em binário para string.
@@ -584,10 +580,8 @@ namespace huffman {
 
         cipher = decode(cipher);
         final_bits = getFinalBits(cipher);
-        std::cout << "Bits no final: " << final_bits << "\n";
         text = decompress(cipher,tree,final_bits);
 
-        std::cout << "Parte 3 concluída\n";
         // Parte 4:
         // Salvando resultado da descompressão no arquivo reviewsDesc.txt
         std::ofstream eraser(path+"reviewsDesc.txt", std::ios::out);
@@ -597,7 +591,7 @@ namespace huffman {
         descompressed << text;
         descompressed.close();
 
-        std::cout << "Parte 4 concluída\n";
+        
     }
 
     float Operator::compressionTax(std::string text, std::string code) {

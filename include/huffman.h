@@ -91,16 +91,16 @@ namespace huffman {
 
             Reader* getReader() { return this->reader;}
 
-            void createFrequencyTable(std::string str, int *table);
-            huffmanTree* makeHuffmanTree(std::string str);
-            std::string *encode(std::string *dict, std::string text);
+            void createFrequencyTable(std::string str, int *table); //Tabela de frequência de caracteres
+            huffmanTree* makeHuffmanTree(std::string str);          // Função que cria a árvore de huffman
+            std::string *encode(std::string *dict, std::string text); // Codifica a mensagem usando o dicionário
 
-            std::string encodeFrequencyTable(int *table);
-            std::string compressStr(std::string text);
-            std::string decompress(std::string cipher, huffmanTree *tree, int final_bits);
+            std::string encodeFrequencyTable(int *table); // Transforma a tabela de frequência em um código para ser usado na compressão da string
+            std::string compressStr(std::string text); // Comprime a string dada e retorna o código
+            std::string decompress(std::string cipher, huffmanTree *tree, int final_bits); // descomprimi o código isolado(somente o código codificado pela árvore de Huffman) do arquivo binário
 
-            std::string decompressStr(std::string code);
-            std::string compress(std::string str, huffmanTree* tree);
+            std::string decompressStr(std::string code); // Descomprimi string e retorna o resultado
+            std::string compress(std::string str, huffmanTree* tree); // Comprime um texto passado como parâmetro. É usado pela função de compressão abaixo.
             void compress(); // Comprime o arquivo
 
             int bit(char byte, int shift);
@@ -108,8 +108,10 @@ namespace huffman {
             int getFinalBits(std::string text);
 
             void descompress(); //descomprime o binário
-            float compressionTax(std::string text, std::string code);
-            void performanceMetrics(int n, int m);
+            float compressionTax(std::string text, std::string code); // Função que gera as taxas de compressão
+            void performanceMetrics(int n, int m); // Função que realiza as métricas de performance. 
+            // n é a quantidade de registros a serem importados
+            // m é a quantidade de iterações/compressões a serem testadas
     };
 }
 
