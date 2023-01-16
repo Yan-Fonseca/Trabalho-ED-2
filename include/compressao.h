@@ -26,9 +26,8 @@ std::string descomprime(std::string str, int metodo) {
 void comprime(int metodo) {
     switch(metodo) {
         case 0:{
-            huffman::Operator* ope = new huffman::Operator();
+            huffman::Operator *ope = new huffman::Operator();
             ope->compress();
-            break;
             }
         default:
             std::cout << "Membro não implementou\n";
