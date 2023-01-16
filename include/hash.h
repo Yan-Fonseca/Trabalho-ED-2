@@ -121,7 +121,7 @@ void StartQuickSort(RegistroHash array[], int lo, int hi)
 
 
 //finds the smallest prime number larger than num
-/* int eratostenes(int num)
+ int eratostenes(int num)
 {
     if(num<3)  
         return 3;
