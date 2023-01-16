@@ -67,7 +67,7 @@ ProductReview* ArvoreB::busca(std::string userId, std::string productId){
         else {
             addComp();
             if(i==depth-1)
-                std::cout<<"Error ArvoreB::insere\n";
+                std::cout<<"Error ArvoreB::busca\n";
         }   
             
     }

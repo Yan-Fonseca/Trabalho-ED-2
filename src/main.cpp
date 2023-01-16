@@ -80,7 +80,7 @@ void treeTest(T arv, ProductReview *vet, int n)
     }
 }
 
-void compressTest(int method)
+void compressTest(int method, Reader r)
 {
     switch(method)
     {
@@ -89,12 +89,14 @@ void compressTest(int method)
         case 2: std::cout << "=== Teste LZW ===" << std::endl << std::endl; break;
         default: std::cout << "Metodo de compressao nao suportado" << std::endl << std::endl; break;
     }
+
+    huffman::Operator ope*;
     
     std::cout << "Testando strings..." << std::endl;
 
     std::string str = "std::string qualquer";
-    std::string comp = comprime(str, method);
-    std::string orig = descomprime(comp, method);
+    std::string comp = r.comprime(str, method);
+    std::string orig = r.descomprime(comp, method);
 
     std::cout << "String comprimida: " << comp << std::endl;
     std::cout << "String descomprimida: " << orig << std::endl << std::endl;
@@ -134,8 +136,8 @@ int main(int argc, char *argv[])
                 << "[3] Arvore vermelho-preto" << std::endl
                 << "[4] Arvore B" << std::endl
                 << "[5] Huffman" << std::endl
-                << "[6] LZ77" << std::endl
-                << "[7] LZW" << std::endl
+                << "[6] LZ77 (NÂO DESENVOLVIDO)" << std::endl
+                << "[7] LZW  (NÂO DESENVOLVIDO)"<< std::endl
                 << "[0] Sair" << std::endl;
 
             std::cout << "Digite uma opcao de menu: ";
@@ -148,13 +150,13 @@ int main(int argc, char *argv[])
                     vet = randomTest(n);
                     printPrompt(vet, n);
                     break;
-                case 2:
+                case 2:{
                     std::cout << "Quantos registros deseja importar? ";
                     std::cin >> n;
                     delete [] vet;
                     vet = reader.import(n);
                     printPrompt(vet, n);
-                    break;
+                    break;}
                 case 3:
                     delete arv_vp;
                     arv_vp = new ArvoreVP();
@@ -166,7 +168,7 @@ int main(int argc, char *argv[])
                     treeTest(arv_b, vet, n);
                     break;
                 case 5:
-                    compressTest(0);
+                    compressTest(0,reader);
                     break;
                 case 6:
                     compressTest(1);

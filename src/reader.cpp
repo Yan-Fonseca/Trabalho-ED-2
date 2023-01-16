@@ -8,7 +8,7 @@ Reader::Reader(std::string& p,int m_size)
 
     if(test.good()){
 
-        std::cout<<"Binario ja existe\n";
+        std::cout<<"Binario ja existe\n\n";
         test.close();
 
         readBinary();
@@ -280,4 +280,51 @@ void Reader::saveFile()
     // Read the entire contents of the file into memory
     file.read(bin_data, size);
     file.close();
+}
+
+std::string Reader::comprime(std::string str, int metodo) {
+    switch(metodo) {
+        case 0:{
+            huffman::Operator* ope = new huffman::Operator();
+            return ope->compressStr(str);
+            }
+        default:
+            return "";
+    }
+}
+
+std::string Reader::descomprime(std::string str, int metodo) {
+    switch(metodo) {
+        case 0:{
+            huffman::Operator* ope = new huffman::Operator();
+            return ope->decompressStr(str);
+            }
+        default:
+            return "";
+    }
+}
+
+void Reader::comprime(int metodo) {
+    switch(metodo) {
+        case 0:{
+            huffman::Operator *ope = new huffman::Operator();
+            ope->compress(this);
+            }
+        default:
+            std::cout << "Membro não implementou\n";
+            break;
+    }
+}
+
+void Reader::descomprime(int metodo) {
+    switch(metodo) {
+        case 0:{
+            huffman::Operator* ope = new huffman::Operator();
+            ope->descompress(this);
+            break;
+        }
+        default:
+            std::cout << "Membro não implementou\n";
+            break;
+    }
 }

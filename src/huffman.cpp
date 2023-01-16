@@ -251,17 +251,17 @@ namespace huffman {
         createFrequencyTable(str, frequencyTable);
         heap::minHeap *priority_queue = new heap::minHeap(frequencyTable);
 
-        std::cout << "---------------------------------------\n";
-        std::cout << "Fila de prioridade mínima:\n";
+        /* std::cout << "---------------------------------------\n";
+        std::cout << "Fila de prioridade minima:\n"; 
         for(int i=0; i<priority_queue->getHeapSize(); i++) {
             std::cout << priority_queue->getVet()[i]->getCharacter() << ": " << priority_queue->getVet()[i]->getFrequency() << "\n";
         }
-        std::cout << "---------------------------------------\n";
+         std::cout << "---------------------------------------\n";*/
 
         huffmanTree *tree = new huffmanTree(priority_queue);
 
-        std::cout << "Árvore de Huffman:\n";
-        tree->print(tree->getRoot());
+        /*std::cout << "Arvore de Huffman:\n"; 
+        tree->print(tree->getRoot());*/
 
         return tree;
     }
@@ -290,7 +290,7 @@ namespace huffman {
             }
         }
 
-        std::cout << encodedTable << std::endl;
+        //std::cout << encodedTable << std::endl;
 
         return encodedTable;
     }
@@ -311,7 +311,7 @@ namespace huffman {
         finalString += "&";
         finalString += tableEncoded;
 
-        std::cout << finalString << "\n";
+        //std::cout << finalString << "\n";
 
         return finalString;
     }
@@ -534,10 +534,10 @@ namespace huffman {
 
 
     // Função geral para descomprimir o arquivo
-    void Operator::descompress() {
+    void Operator::descompress(Reader* r) {
         // Parte 1:
         // Fazendo a leitura da árvore de huffman.
-        std::string path = getReader()->getPath();
+        std::string path = r->getPath();
         int table[ASCII] = {0};
         char i;
         int j=0;

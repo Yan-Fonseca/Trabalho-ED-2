@@ -13,8 +13,8 @@ public:
     No(){id="null";binary_position=-1;};
     No(ProductReview* pr){
         if(pr==nullptr){
-        std::cerr<<"No Constructor Error: Null Pointer .\n";
-        return;
+            std::cerr<<"No Constructor Error: Null Pointer .\n";
+            return;
         }
         id = pr->getUserId()+""+pr->getProductId();
         base = pr;

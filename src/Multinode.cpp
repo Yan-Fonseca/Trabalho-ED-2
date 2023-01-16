@@ -43,17 +43,15 @@ void Multinode::setSon(Multinode* mn, int index){
 }
 
 Multinode::~Multinode() {
-    std::stack<Multinode*> stack;
-    stack.push(this);
-    while (!stack.empty()) {
-        Multinode* node = stack.top();
-        stack.pop();
-        for (int i = 0; i < node->sons.size(); i++) {
-            if (node->sons[i] != nullptr) {
-                stack.push(node->sons[i]);
-            }
+    for(auto son : sons) {
+        if (son != nullptr) {
+            delete son;
         }
-        delete node;
+    }
+    for(auto node : nodes) {
+        if (node != nullptr) {
+            delete node;
+        }
     }
 }
 

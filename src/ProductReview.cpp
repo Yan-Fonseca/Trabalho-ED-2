@@ -25,6 +25,7 @@ ProductReview::ProductReview(ProductReview* pr)
     setProductId(pr->getProductId());
     setRating(pr->getRating());
     setTime(pr->getTime());
+    setBinaryPosition(pr->getBinaryPosition());
 }
 
 ProductReview::ProductReview(){

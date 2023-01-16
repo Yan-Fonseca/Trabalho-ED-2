@@ -48,8 +48,6 @@ public:
     }
 
     ~NoVP(){}; //destrutor
-
-    int getPosition();
 };
 
 #endif
