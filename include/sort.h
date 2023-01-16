@@ -1,4 +1,4 @@
-#ifndef SORT_H
+/* #ifndef SORT_H
 #define SORT_H
 
 #include "func.h"
@@ -352,4 +352,4 @@ void preSort()
     }
 }
 
-#endif
+#endif */

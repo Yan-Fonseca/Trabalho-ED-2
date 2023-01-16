@@ -1,4 +1,4 @@
-#ifndef HASH_H
+/* #ifndef HASH_H
 #define HASH_H
 
 #include "sort.h"
@@ -12,6 +12,59 @@ typedef struct
     int qtdReviews=0;
 
 }RegistroHash;
+
+const long long MAX_SIZE = 1000001;
+
+std::vector<int >isprime(MAX_SIZE , true);
+std::vector<int >prime;
+std::vector<int>SPF(MAX_SIZE);
+ 
+// function generate all prime number less than N in O(n)
+int manipulated_seive(int N)
+{
+    // 0 and 1 are not prime
+    isprime[0] = isprime[1] = false ;
+
+    N=N+5000;
+ 
+    // Fill rest of the entries
+    for (long long int i=2; i<N ; i++)
+    {
+        // If isPrime[i] == True then i is
+        // prime number
+        if (isprime[i])
+        {
+            // put i into prime[] vector
+            prime.push_back(i);
+ 
+            // A prime number is its own smallest
+            // prime factor
+            SPF[i] = i;
+        }
+ 
+        // Remove all multiples of  i*prime[j] which are
+        // not prime by making isPrime[i*prime[j]] = false
+        // and put smallest prime factor of i*Prime[j] as prime[j]
+        // [ for exp :let  i = 5 , j = 0 , prime[j] = 2 [ i*prime[j] = 10 ]
+        // so smallest prime factor of '10' is '2' that is prime[j] ]
+        // this loop run only one time for number which are not prime
+        for (long long int j=0;
+             j < (int)prime.size() &&
+             i*prime[j] < N && prime[j] <= SPF[i];
+             j++)
+        {
+            isprime[i*prime[j]]=false;
+ 
+            // put smallest prime factor of i*prime[j]
+            SPF[i*prime[j]] = prime[j] ;
+        }
+    }
+    for(int i=0;i<(int)prime.size();i++)
+        if(prime[i]>(N-5000)*2)
+            return prime[i];
+    
+    return -1;
+}
 
  int median_of_3(RegistroHash array[], int lo, int hi)
  {
@@ -68,7 +121,7 @@ void StartQuickSort(RegistroHash array[], int lo, int hi)
 
 
 //finds the smallest prime number larger than num
-int eratostenes(int num)
+ int eratostenes(int num)
 {
     if(num<3)  
         return 3;
@@ -117,7 +170,7 @@ int eratostenes(int num)
             break;
     }
     return -1;
-}
+} 
 
 //Assigns a numerical value to a string
  double valueString(std::string s)
@@ -135,7 +188,7 @@ int eratostenes(int num)
 //Hash function
 int hash(std::string d, int colisions,int h1,int h2)
 {
-    long a=valueString(d);
+    long int a=valueString(d);
 
     int n = fmod(a,100000);
 
@@ -152,7 +205,7 @@ RegistroHash* createTable(int n)
 {
     int ccounter=0;
     int nproducts=0;
-    int size= eratostenes(n);
+    int size= manipulated_seive(n);
 
     RegistroHash* table = new RegistroHash[size];
     RegistroHash* importsRH = new RegistroHash[n];
@@ -167,7 +220,7 @@ RegistroHash* createTable(int n)
     {
         importsRH[q].productId=importsPR[q].getProductId();
     }
-    
+
     std::cout<<"\n";
     
     int h2 = 2*size/3;
@@ -200,6 +253,15 @@ RegistroHash* createTable(int n)
             else
             {
                 ccounter++;
+                
+                //std::cout<<i<<" "<<importsRH[i].productId<<" "<<index<<" "<<c<<"\n";
+
+                if(c>12){
+                    std::cout<<"\nERROR\n";
+                    //std::cout<<"size:"<<size<<" h2:"<<h2<<"\n";
+                    return nullptr;
+                }
+                    
             }
             
         } 
@@ -248,14 +310,24 @@ void preHash()
     for(int i = 0;i<tablesize;i++)
         copy[i]=table[i];
 
+    std::cout<<"\nbefore:";
+    for(int i=0;i<tablesize;i++)
+        std::cout<<copy[i].productId<<" ";
+
     StartQuickSort(copy,0,tablesize-1);
+
+    std::cout<<"\nafter:";
+    for(int i=0;i<tablesize;i++)
+        std::cout<<copy[i].productId<<" ";
+
+
 
     std::cout<<"\n Produtos com mais reviews:\n";
     for(int j=0;j<P;j++)
     {
-        std::cout<<j+1<<" - "<<copy[tablesize-j-1].productId<<" : "<<copy[tablesize-j-1].qtdReviews<<"\n";
+        std::cout<<j+1<<" - "<<copy[tablesize-j-1].productId<<" - "<<copy[tablesize-j-1].qtdReviews<<"\n";
     }
 
 }
 
-#endif
+#endif */

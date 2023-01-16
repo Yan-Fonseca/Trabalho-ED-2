@@ -1,8 +1,11 @@
+#ifndef PRODUCTREVIEW
+#define PRODUCTREVIEW
+
 #include <iostream>
 #include <vector>
 #include <string>
 
-class ProductReview{
+class ProductReview {
 
     private:
 
@@ -11,12 +14,15 @@ class ProductReview{
     std::string rating;
     std::string timestamp;
 
+    long int binary_position;
+
     std::vector<std::string> splitString(std::string str);
 
     public:
 
     ProductReview(std::string info);
-    ProductReview(){};
+    ProductReview(ProductReview* pr);
+    ProductReview();
     ~ProductReview();
 
     //Getters
@@ -26,15 +32,18 @@ class ProductReview{
     std::string getTime(){return timestamp;};
     void print();
 
+    long int getBinaryPosition(){return binary_position;};
+
     //Setters
     void setUserId(std::string id){userId=id;};
     void setProductId(std::string id){productId=id;};
     void setRating(std::string rate){rating=rate;};
     void setTime(std::string time){timestamp=time;};
 
+    void setBinaryPosition(long int bp){binary_position=bp;};
+
     void setData(std::string info);
     void setNull();
-
-    
-
 };
+
+#endif
