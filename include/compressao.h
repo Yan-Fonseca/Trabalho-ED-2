@@ -1,5 +1,6 @@
 #include <iostream>
 #include "huffman.h"
+#include "reader.h"
 
 std::string comprime(std::string str, int metodo) {
     switch(metodo) {
@@ -23,10 +24,10 @@ std::string descomprime(std::string str, int metodo) {
     }
 }
 
-void comprime(int metodo) {
+void comprime(int metodo, Reader *r) {
     switch(metodo) {
         case 0:{
-            huffman::Operator *ope = new huffman::Operator();
+            huffman::Operator *ope = new huffman::Operator(r);
             ope->compress();
             }
         default:
@@ -35,10 +36,10 @@ void comprime(int metodo) {
     }
 }
 
-void descomprime(int metodo) {
+void descomprime(int metodo, Reader *r) {
     switch(metodo) {
         case 0:{
-            huffman::Operator* ope = new huffman::Operator();
+            huffman::Operator* ope = new huffman::Operator(r);
             ope->descompress();
             break;
         }

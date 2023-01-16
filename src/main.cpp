@@ -80,7 +80,7 @@ void treeTest(T arv, ProductReview *vet, int n)
     }
 }
 
-void compressTest(int method, Reader r)
+void compressTest(int method, Reader* r)
 {
     switch(method)
     {
@@ -90,21 +90,21 @@ void compressTest(int method, Reader r)
         default: std::cout << "Metodo de compressao nao suportado" << std::endl << std::endl; break;
     }
 
-    huffman::Operator ope*;
+    huffman::Operator *ope = new huffman::Operator(r);
     
     std::cout << "Testando strings..." << std::endl;
 
     std::string str = "std::string qualquer";
-    std::string comp = r.comprime(str, method);
-    std::string orig = r.descomprime(comp, method);
+    std::string comp = ope->compressStr(str);
+    std::string orig = ope->decompressStr(comp);
 
     std::cout << "String comprimida: " << comp << std::endl;
     std::cout << "String descomprimida: " << orig << std::endl << std::endl;
 
     std::cout << "Testando arquivos..." << std::endl;
 
-    comprime(method); // essa função deve comprimir um texto qualquer armazenado em '/diretorio/contendo/arquivos/reviewsOrig.txt'
-    descomprime(method); // essa função deve descomprimir um texto qualquer armazenado em '/diretorio/contendo/arquivos/reviewsComp.bin'
+    comprime(method, r); // essa função deve comprimir um texto qualquer armazenado em '/diretorio/contendo/arquivos/reviewsOrig.txt'
+    descomprime(method, r); // essa função deve descomprimir um texto qualquer armazenado em '/diretorio/contendo/arquivos/reviewsComp.bin'
 }
 
 int main(int argc, char *argv[])
@@ -168,13 +168,13 @@ int main(int argc, char *argv[])
                     treeTest(arv_b, vet, n);
                     break;
                 case 5:
-                    compressTest(0,reader);
+                    compressTest(0,&reader);
                     break;
                 case 6:
-                    compressTest(1);
+                    compressTest(1,&reader);
                     break;
                 case 7:
-                    compressTest(2);
+                    compressTest(2,&reader);
                     break;
                 default:
                     break;

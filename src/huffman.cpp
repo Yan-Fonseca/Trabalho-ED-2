@@ -534,10 +534,10 @@ namespace huffman {
 
 
     // Função geral para descomprimir o arquivo
-    void Operator::descompress(Reader* r) {
+    void Operator::descompress() {
         // Parte 1:
         // Fazendo a leitura da árvore de huffman.
-        std::string path = r->getPath();
+        std::string path = this->getReader()->getPath();
         int table[ASCII] = {0};
         char i;
         int j=0;

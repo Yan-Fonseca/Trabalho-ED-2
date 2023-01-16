@@ -9,7 +9,6 @@
 #include <time.h>
 #include <chrono>
 
-#include "huffman.h"
 #include "ProductReview.h"
 #include "List.h"
 
@@ -41,12 +40,6 @@ public:
 
     void saveFile();
     void deleteBinFile(){delete[] bin_data;};
-
-    void comprime(std::string str, int metodo);
-    void descomprime(std::string str, int metodo);
-
-    std::string comprime(int metodo);
-    std::string descomprime(int metodo);
 };
 
 #endif
