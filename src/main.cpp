@@ -114,6 +114,7 @@ int main(int argc, char *argv[])
         // OBS.: TODOS OS ARQUIVOS USADOS NO PROGRAMA (TANTO DE ENTRADA QUANTO DE SAÍDA) DEVEM ESTAR LOCALIZADOS NO DIRETÓRIO FORNECIDO
         // PELO USUÁRIO COMO ARGUMENTO DA LINHA DE COMANDO
         std::string path(argv[1]);
+        
         Reader reader(path , 41);
         
         int registerIdx;
@@ -138,6 +139,7 @@ int main(int argc, char *argv[])
                 << "[5] Huffman" << std::endl
                 << "[6] LZ77 (NÂO DESENVOLVIDO)" << std::endl
                 << "[7] LZW  (NÂO DESENVOLVIDO)"<< std::endl
+                << "[8] Gerar Estatísticas das Arvores" << std::endl
                 << "[0] Sair" << std::endl;
 
             std::cout << "Digite uma opcao de menu: ";
@@ -175,6 +177,9 @@ int main(int argc, char *argv[])
                     break;
                 case 7:
                     compressTest(2,&reader);
+                    break;
+                case 8:
+                    preArvore(reader);
                     break;
                 default:
                     break;

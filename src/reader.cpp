@@ -29,6 +29,7 @@ std::unordered_map<int, int> Reader::getOffsetMap() {return offsetMap;}
 
 int Reader::getnLines(){return nLines;}
 
+//printa o que esta presente na lineNumber ° linha do arquivo binário
 void Reader::getReview(int lineNumber)
 {
     std::ifstream infile(path+"ratings_Electronics.bin", std::ios::binary);
@@ -67,6 +68,7 @@ void Reader::getReview(int lineNumber)
     pr->print();
 }
 
+//Retorna ua string que possui os conteusdos da lineNumber ° linha do arquivo binário
 std::string Reader::getReviewString(int lineNumber)
 {
     std::ifstream infile(path+"ratings_Electronics.bin", std::ios::binary);
@@ -103,6 +105,7 @@ std::string Reader::getReviewString(int lineNumber)
     return line;
 }
 
+//usa o arquivo binário salvo na memória e retorna a lineNumber ° reviews presente nele
 std::string Reader::getBinReview(int lineNumber)
 {
     std::string line;
@@ -126,6 +129,7 @@ std::string Reader::getBinReview(int lineNumber)
     return line;
 }
 
+//Lê o arquivo binário e constroi o offsetMap
 void Reader::readBinary() {
 
     std::ifstream file(path+"ratings_Electronics.bin", std::ios::binary);
@@ -134,16 +138,15 @@ void Reader::readBinary() {
 
     while (std::getline(file, line)) {
         if (line[0] == '#') {
-            // This line contains the key-value pairs
             int key = 0;
             int value = 0;
             bool readingKey = true;
             for (unsigned int i = 1; i < line.length(); i++) {
                 if (line[i] == '!') {
-                    // Switch from reading key to reading value
+                    // Troca entre ler chave para ler valor
                     readingKey = false;
                 } else if (line[i] == '?') {
-                    // Save the key-value pair and reset for next pair
+                    // Sava o par e reseta 
                     offsetMap[key] = value;
                     key = 0;
                     value = 0;
@@ -152,7 +155,6 @@ void Reader::readBinary() {
                     offsetMap[key] = value;
                     readingKey = false;
                 } else {
-                    // Add the digit to the key or value
                     if (readingKey) {
                         key = key * 10 + (line[i] - '0');
                     } else {
@@ -160,12 +162,12 @@ void Reader::readBinary() {
                     }
                 }
             }
-            // Save the last key-value pair
             nLines=value;
         }
     }
 }
 
+//Le o arquivo csv, e o armazena em binário, assim como salva as informações do offsetMap no fi do arquivo 
 void Reader::createBinary(std::string path)
 {
     std::ifstream file(path+"ratings_Electronics.csv");
@@ -210,6 +212,7 @@ void Reader::createBinary(std::string path)
     outfile.close();
 }
 
+//Recebe um inteiro n e retorna um vetro de ProductReviews contendo n elementos aleatórios não repetidos
  ProductReview* Reader::import(int n)
 {
     bool save = false;
@@ -261,6 +264,7 @@ void Reader::createBinary(std::string path)
     return b;
 } 
 
+//Salva o arquivo binário na memória
 void Reader::saveFile()
 {
     std::ifstream file(path+"ratings_Electronics.bin", std::ios::binary);

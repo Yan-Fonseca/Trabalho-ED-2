@@ -7,7 +7,7 @@
 
 std::vector<long double > execArvoreB(int order, int n, int b, ProductReview* imports, ProductReview* search)
 {
-    std::cout<<"execArvoreB()\n\n";
+    
 
     std::vector<long double > stats;
 
@@ -19,7 +19,7 @@ std::vector<long double > execArvoreB(int order, int n, int b, ProductReview* im
     }        
     std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
     long double timeN=std::chrono::duration_cast<std::chrono::duration<long double >>(fim - inicio).count(); 
-    std::cout<<timeN<<"    ";
+    
     stats.push_back(timeN);
     int comp = arvoreb->getComp();
     stats.push_back(comp);
@@ -32,7 +32,7 @@ std::vector<long double > execArvoreB(int order, int n, int b, ProductReview* im
     } 
     fim = std::chrono::high_resolution_clock::now();
     long double timeB=std::chrono::duration_cast<std::chrono::duration<long double >>(fim - inicio).count();
-    std::cout<<timeB;
+    
     stats.push_back(timeB);
     int com = arvoreb->getComp();
     stats.push_back(com);
@@ -46,7 +46,7 @@ std::vector<long double > execArvoreB(int order, int n, int b, ProductReview* im
 
 std::vector<long double > execArvoreVP( int n, int b, ProductReview* imports, ProductReview* search)
 {
-    std::cout<<"execArvoreVP()\n\n";
+    
 
     std::vector<long double > stats;
 
@@ -58,7 +58,7 @@ std::vector<long double > execArvoreVP( int n, int b, ProductReview* imports, Pr
     }        
     std::chrono::high_resolution_clock::time_point fim = std::chrono::high_resolution_clock::now();
     long double timeN=std::chrono::duration_cast<std::chrono::duration<long double >>(fim - inicio).count(); 
-    std::cout<<timeN;
+    
 
     stats.push_back(timeN);
 
@@ -73,7 +73,7 @@ std::vector<long double > execArvoreVP( int n, int b, ProductReview* imports, Pr
     } 
     fim = std::chrono::high_resolution_clock::now();
     long double timeB=std::chrono::duration_cast<std::chrono::duration<long double >>(fim - inicio).count();
-    std::cout<<timeB;
+    
     
     stats.push_back(timeB);
     int com = arvorevp->getComp();
@@ -88,7 +88,7 @@ std::vector<long double > execArvoreVP( int n, int b, ProductReview* imports, Pr
 
 void preArvore(Reader reader)
 {
-    std::cout<<"\npreArvore()\n\n";
+
     int orders[3]={20,200};
     int n = 1000000;
     int b = 100;
@@ -101,10 +101,9 @@ void preArvore(Reader reader)
         std::cout<<"Não foi possivel abrir";
     }
 
-    int reps = 1;
+    int reps = 3;
 
     file<<"\nArvore B: \n";
-    if(1==1){
     for(int k = 0 ; k<2 ; k++){//itera orders
 
         std::vector<std::vector<long double>> stats;
@@ -119,7 +118,7 @@ void preArvore(Reader reader)
             stat = execArvoreB(orders[k],n,b,imports,search);
             stats.push_back(stat);
 
-            std::cout<<"test B1\n";
+
 
             file<<i<<": ti - ";
             file<<stats[i][0];
@@ -130,7 +129,7 @@ void preArvore(Reader reader)
             file<<" cb - ";
             file<<std::setprecision(std::numeric_limits<long double>::digits10 + 1) <<stats[i][3]<<"\n";
 
-            std::cout<<"test B2\n";
+
         }   
 
         std::vector<long double > medias = {0,0,0,0};
@@ -152,7 +151,6 @@ void preArvore(Reader reader)
         file<<"Time busca: " << medias[2] <<"\n";
         file<<"Comp busca: " <<std::setprecision(std::numeric_limits<long double>::digits10 + 1) << medias[3] <<"\n";
     }
-    }
 //------
 
     file<<"\nArvore VP: \n";
@@ -167,7 +165,7 @@ void preArvore(Reader reader)
             stat = execArvoreVP(n,b,imports,search);
             stats.push_back(stat);
 
-            std::cout<<"test VP1\n";
+
 
             file<<i<<": ti - ";
             file<<stats[i][0];
@@ -178,7 +176,7 @@ void preArvore(Reader reader)
             file<<" cb - ";
             file<<std::setprecision(std::numeric_limits<long double>::digits10 + 1) <<stats[i][3]<<"\n";
 
-            std::cout<<"test VP2\n";
+
         }
 
         std::vector<long double > medias = {0,0,0,0};
