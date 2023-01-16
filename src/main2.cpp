@@ -1,4 +1,5 @@
-/* #include "../include/hash.h"
+// #include "../include/hash.h"
+#include "../include/compressao.h"
 #include "../include/huffman.h"
 #include "../include/preArvore.h"
 
@@ -92,8 +93,8 @@ void compressTest(int method)
     std::cout << "Testando strings..." << std::endl;
 
     std::string str = "std::string qualquer";
-    std::string comp = ope->comprime(str, method);
-    std::string orig = ope->descomprime(comp, method);
+    std::string comp = comprime(str, method);
+    std::string orig = descomprime(comp, method);
 
     std::cout << "String comprimida: " << comp << std::endl;
     std::cout << "String descomprimida: " << orig << std::endl << std::endl;
@@ -186,4 +187,4 @@ int main(int argc, char *argv[])
     }
 
     return 0;
-}  */
+}  

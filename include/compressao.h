@@ -1,5 +1,5 @@
-#ifdef COMPRESSAO_H
-#define COMPRESSAO_H
+//#ifdef COMPRESSAO_H
+//#define COMPRESSAO_H
 
 #include <iostream>
 #include "huffman.h"
@@ -7,7 +7,7 @@
 std::string comprime(std::string str, int metodo) {
     switch(metodo) {
         case 0:
-            huffman::Operator ope = new huffman::Operator();
+            huffman::Operator *ope = new huffman::Operator();
             return ope->compressStr(str);
         default:
             return "";
@@ -17,7 +17,7 @@ std::string comprime(std::string str, int metodo) {
 std::string descomprime(std::string str, int metodo) {
     switch(metodo) {
         case 0:
-            huffman::Operator ope = new huffman::Operator();
+            huffman::Operator *ope = new huffman::Operator();
             return ope->decompressStr(str);
         default:
             return "";
@@ -27,7 +27,7 @@ std::string descomprime(std::string str, int metodo) {
 void comprime(int metodo) {
     switch(metodo) {
         case 0:
-            huffman::Operator ope = new huffman::Operator();
+            huffman::Operator *ope = new huffman::Operator();
             ope->compress();
             break;
         default:
@@ -39,7 +39,7 @@ void comprime(int metodo) {
 void descomprime(int metodo) {
     switch(metodo) {
         case 0:
-            huffman::Operator ope = new huffman::Operator();
+            huffman::Operator *ope = new huffman::Operator();
             ope->descompress();
             break;
         default:
@@ -48,4 +48,4 @@ void descomprime(int metodo) {
     }
 }
 
-#endif
+//#endif
